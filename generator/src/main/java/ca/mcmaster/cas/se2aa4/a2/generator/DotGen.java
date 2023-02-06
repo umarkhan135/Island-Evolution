@@ -7,6 +7,7 @@ import java.util.Random;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 
 public class DotGen {
@@ -37,6 +38,14 @@ public class DotGen {
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
             Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
             verticesWithColors.add(colored);
+        }
+
+        Set<Segment> segments = new HashSet<>();
+        for(int x = 0; x < width; x += square_size){
+            for(int y = 0; y < height; y += square_size){
+                Segment horizontal = Segment.newBuilder().setV1Idx(x).setV2Idx(y).build();
+                segments.add(horizontal);
+            }
         }
 
         return Mesh.newBuilder().addAllVertices(verticesWithColors).build();

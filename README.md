@@ -1,6 +1,6 @@
 # Assignment A2: Mesh Generator
 
-  - Author #1 [email@mcmaster.ca]
+  - Pedro Henrique Azevedo [azevedp@mcmaster.ca]
   - Author #2 [email@mcmaster.ca]
   - Author #3 [email@mcmaster.ca]
 
@@ -59,7 +59,7 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Definition of Done
 
--- Insert here your definition of done for your features --
+Basic functionality implemented for the feature, a working version of what the feature  
 
 ### Product Backlog
 
