@@ -60,11 +60,12 @@ When you develop features and enrich the product, remember that you have first t
 ### Definition of Done
 
 -- Insert here your definition of done for your features --
+Add conditions for the feature 
 
 ### Product Backlog
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-|    |               |      |       |     |        |
+|  F01  |  |      |       |     |        |
 
 
