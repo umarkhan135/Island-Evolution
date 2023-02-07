@@ -23,6 +23,9 @@ public class DotGen {
     public Mesh generate() {
         
         ArrayList<Vertex> vertices = new ArrayList<>();
+        ArrayList<Segment> segments = new ArrayList<>();
+        ArrayList<Vertex> verticesWithColors = new ArrayList<>();
+
         // Create all the vertices
         for(int x = 0; x < width; x += square_size) {
             for(int y = 0; y < height; y += square_size) {
@@ -32,8 +35,8 @@ public class DotGen {
                 vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y+square_size).build());
             }
         }
+
         // Distribute colors randomly. Vertices are immutable, need to enrich them
-        ArrayList<Vertex> verticesWithColors = new ArrayList<>();
         Random bag = new Random();
         for(Vertex v: vertices){
             int red = bag.nextInt(255);
@@ -45,21 +48,26 @@ public class DotGen {
             verticesWithColors.add(colored);
         }
 
-        HashSet<Segment> segments = new HashSet<>();
-        for(int i = 0; i < 25; i++) {
+        /*for(int i = 0; i < 25; i++) {
             for(int j = 0; j < 25; j++){
+                int pos1 = 4*j + (i*100);
+                int pos2 = pos1 + 1;
+                int pos3 = pos1 + 2;
                 if(j != 24){
-                    Property c = avgColor(verticesWithColors.get(j + (i*25)).getPropertiesList(), verticesWithColors.get(j+1).getPropertiesList());
-                    Segment s = Segment.newBuilder().setV1Idx(j + (i*25)).setV2Idx(j+1).addProperties(c).build();
+                    Property c = avgColor(verticesWithColors.get(pos1).getPropertiesList(), verticesWithColors.get(pos2).getPropertiesList());
+                    Segment s = Segment.newBuilder().setV1Idx(pos1).setV2Idx(pos2).addProperties(c).build();
                     segments.add(s);
                 }
                 if(i != 24){
-                    Segment s = Segment.newBuilder().setV1Idx(j+(i*25)).setV2Idx(j+25).build();
-                    
+                    Property c = avgColor(verticesWithColors.get(pos1).getPropertiesList(), verticesWithColors.get(pos3).getPropertiesList());
+                    Segment s = Segment.newBuilder().setV1Idx(pos1).setV2Idx(pos3).addProperties(c).build();
                     segments.add(s);
                 }
             }
-        }
+        }*/
+        Segment s = Segment.newBuilder().setV1Idx(40).setV2Idx(4).build();
+        segments.add(s);
+
 
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
 
