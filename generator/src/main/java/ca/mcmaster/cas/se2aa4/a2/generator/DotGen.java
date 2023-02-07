@@ -1,6 +1,11 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import java.io.IOException;
+<<<<<<< HEAD
+import java.util.*;
+
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
+=======
 import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.Set;
@@ -9,10 +14,13 @@ import java.util.Random;
 import java.awt.Color;
 import java.util.List;
 
+>>>>>>> 5c79daeb0113a1e27cbf668dbee23edf1cc86597
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
+
+
 
 public class DotGen {
 
@@ -21,21 +29,54 @@ public class DotGen {
     private final int square_size = 20;
 
     public Mesh generate() {
+<<<<<<< HEAD
+        ArrayList<Vertex> vertices = new ArrayList<>();
+        ArrayList<Segment> line = new ArrayList<>();
+=======
         
         ArrayList<Vertex> vertices = new ArrayList<>();
+<<<<<<< HEAD
         ArrayList<Segment> segments = new ArrayList<>();
         ArrayList<Vertex> verticesWithColors = new ArrayList<>();
 
+=======
+>>>>>>> 5c79daeb0113a1e27cbf668dbee23edf1cc86597
+>>>>>>> 1467357acf0874aeab929c969a74a4e6d8a28b1e
         // Create all the vertices
-        for(int x = 0; x < width; x += square_size) {
-            for(int y = 0; y < height; y += square_size) {
-                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());
-                vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y).build());
-                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y+square_size).build());
-                vertices.add(Vertex.newBuilder().setX((double) x+square_size).setY((double) y+square_size).build());
+        int testing = 0;
+        int counter = 0;
+
+        for (int x = 0; x < width; x += square_size) {
+            for (int y = 0; y < height; y += square_size) {
+                vertices.add(counter, Vertex.newBuilder().setX((double) x).setY((double) y).build());
+                counter++;
+                vertices.add(counter, Vertex.newBuilder().setX((double) x + square_size).setY((double) y).build());
+                counter++;
+                vertices.add(counter, Vertex.newBuilder().setX((double) x).setY((double) y + square_size).build());
+                counter++;
+                vertices.add(counter, Vertex.newBuilder().setX((double) x + square_size).setY((double) y + square_size).build());
+                counter++;
+
+                line.add(Segment.newBuilder().setV1Idx(testing).setV2Idx(testing + 1).build());
+                line.add(Segment.newBuilder().setV1Idx(testing).setV2Idx(testing + 2).build());
+
+                if (x + square_size == width){
+                    line.add(Segment.newBuilder().setV1Idx(testing + 1).setV2Idx(testing + 3).build());
+                }
+
+                if (y + square_size == height){
+                    line.add(Segment.newBuilder().setV1Idx(testing + 2).setV2Idx(testing + 3).build());
+                }
+                testing += 4;
             }
         }
 
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 1467357acf0874aeab929c969a74a4e6d8a28b1e
         // Distribute colors randomly. Vertices are immutable, need to enrich them
         Random bag = new Random();
         for(Vertex v: vertices){
@@ -48,7 +89,17 @@ public class DotGen {
             verticesWithColors.add(colored);
         }
 
+<<<<<<< HEAD
         /*for(int i = 0; i < 25; i++) {
+=======
+<<<<<<< HEAD
+
+
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(line).build();
+=======
+        HashSet<Segment> segments = new HashSet<>();
+        for(int i = 0; i < 25; i++) {
+>>>>>>> 1467357acf0874aeab929c969a74a4e6d8a28b1e
             for(int j = 0; j < 25; j++){
                 int pos1 = 4*j + (i*100);
                 int pos2 = pos1 + 1;
@@ -97,6 +148,7 @@ public class DotGen {
         String colorCode = red + "," + green + "," + blue;
         Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
         return color;
+>>>>>>> 5c79daeb0113a1e27cbf668dbee23edf1cc86597
     }
 
 }
