@@ -44,10 +44,6 @@ public class DotGen {
                 if (y + square_size == height){
                     line.add(Segment.newBuilder().setV1Idx(testing + 2).setV2Idx(testing + 3).build());
                 }
-
-
-
-
                 testing += 4;
             }
         }
