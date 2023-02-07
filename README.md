@@ -60,7 +60,7 @@ When you develop features and enrich the product, remember that you have first t
 ### Definition of Done
 
 -- Insert here your definition of done for your features --
-Add conditions for the feature 
+Add conditions for the feature have been met.
 
 ### Product Backlog
 

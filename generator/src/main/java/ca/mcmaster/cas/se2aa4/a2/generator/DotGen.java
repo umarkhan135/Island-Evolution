@@ -6,6 +6,9 @@ import java.util.ArrayList;
 import java.util.Set;
 import java.util.Random;
 
+import java.awt.Color;
+import java.util.List;
+
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
@@ -46,11 +49,13 @@ public class DotGen {
         for(int i = 0; i < 25; i++) {
             for(int j = 0; j < 25; j++){
                 if(j != 24){
-                    Segment s = Segment.newBuilder().setV1Idx(j + (i*25)).setV2Idx(j+1).build();
+                    Property c = avgColor(verticesWithColors.get(j + (i*25)).getPropertiesList(), verticesWithColors.get(j+1).getPropertiesList());
+                    Segment s = Segment.newBuilder().setV1Idx(j + (i*25)).setV2Idx(j+1).addProperties(c).build();
                     segments.add(s);
                 }
                 if(i != 24){
                     Segment s = Segment.newBuilder().setV1Idx(j+(i*25)).setV2Idx(j+25).build();
+                    
                     segments.add(s);
                 }
             }
@@ -58,6 +63,32 @@ public class DotGen {
 
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
 
+    }
+
+    private Property avgColor(List<Property> prop1, List<Property> prop2) {
+    
+        String val1 = null;
+        String val2 = null;
+        for(Property p: prop1) {
+            if (p.getKey().equals("rgb_color")) {
+                System.out.println(p.getValue());
+                val1 = p.getValue();
+            }
+        }
+        for(Property p: prop2) {
+            if (p.getKey().equals("rgb_color")) {
+                System.out.println(p.getValue());
+                val2 = p.getValue();
+            }
+        }
+        String[] raw1 = val1.split(",");
+        String[] raw2 = val2.split(",");
+        int red = (Integer.parseInt(raw1[0]) + Integer.parseInt(raw2[0]))/2;
+        int green = (Integer.parseInt(raw1[1]) + Integer.parseInt(raw2[1]))/2;
+        int blue = (Integer.parseInt(raw1[2]) + Integer.parseInt(raw2[2]))/2;
+        String colorCode = red + "," + green + "," + blue;
+        Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
+        return color;
     }
 
 }
