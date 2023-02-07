@@ -1,20 +1,9 @@
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import java.io.IOException;
-<<<<<<< HEAD
 import java.util.*;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
-=======
-import java.util.HashSet;
-import java.util.ArrayList;
-import java.util.Set;
-import java.util.Random;
-
-import java.awt.Color;
-import java.util.List;
-
->>>>>>> 5c79daeb0113a1e27cbf668dbee23edf1cc86597
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
@@ -29,19 +18,12 @@ public class DotGen {
     private final int square_size = 20;
 
     public Mesh generate() {
-<<<<<<< HEAD
         ArrayList<Vertex> vertices = new ArrayList<>();
-        ArrayList<Segment> line = new ArrayList<>();
-=======
-        
-        ArrayList<Vertex> vertices = new ArrayList<>();
-<<<<<<< HEAD
-        ArrayList<Segment> segments = new ArrayList<>();
         ArrayList<Vertex> verticesWithColors = new ArrayList<>();
+        ArrayList<Segment> segments = new ArrayList<>();
+        ArrayList<Segment> segmentsWithColors = new ArrayList<>();
 
-=======
->>>>>>> 5c79daeb0113a1e27cbf668dbee23edf1cc86597
->>>>>>> 1467357acf0874aeab929c969a74a4e6d8a28b1e
+
         // Create all the vertices
         int testing = 0;
         int counter = 0;
@@ -57,26 +39,20 @@ public class DotGen {
                 vertices.add(counter, Vertex.newBuilder().setX((double) x + square_size).setY((double) y + square_size).build());
                 counter++;
 
-                line.add(Segment.newBuilder().setV1Idx(testing).setV2Idx(testing + 1).build());
-                line.add(Segment.newBuilder().setV1Idx(testing).setV2Idx(testing + 2).build());
+                segments.add(Segment.newBuilder().setV1Idx(testing).setV2Idx(testing + 1).build());
+                segments.add(Segment.newBuilder().setV1Idx(testing).setV2Idx(testing + 2).build());
 
                 if (x + square_size == width){
-                    line.add(Segment.newBuilder().setV1Idx(testing + 1).setV2Idx(testing + 3).build());
+                    segments.add(Segment.newBuilder().setV1Idx(testing + 1).setV2Idx(testing + 3).build());
                 }
 
                 if (y + square_size == height){
-                    line.add(Segment.newBuilder().setV1Idx(testing + 2).setV2Idx(testing + 3).build());
+                    segments.add(Segment.newBuilder().setV1Idx(testing + 2).setV2Idx(testing + 3).build());
                 }
                 testing += 4;
             }
         }
 
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 1467357acf0874aeab929c969a74a4e6d8a28b1e
         // Distribute colors randomly. Vertices are immutable, need to enrich them
         Random bag = new Random();
         for(Vertex v: vertices){
@@ -88,39 +64,12 @@ public class DotGen {
             Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
             verticesWithColors.add(colored);
         }
-
-<<<<<<< HEAD
-        /*for(int i = 0; i < 25; i++) {
-=======
-<<<<<<< HEAD
-
-
-        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(line).build();
-=======
-        HashSet<Segment> segments = new HashSet<>();
-        for(int i = 0; i < 25; i++) {
->>>>>>> 1467357acf0874aeab929c969a74a4e6d8a28b1e
-            for(int j = 0; j < 25; j++){
-                int pos1 = 4*j + (i*100);
-                int pos2 = pos1 + 1;
-                int pos3 = pos1 + 2;
-                if(j != 24){
-                    Property c = avgColor(verticesWithColors.get(pos1).getPropertiesList(), verticesWithColors.get(pos2).getPropertiesList());
-                    Segment s = Segment.newBuilder().setV1Idx(pos1).setV2Idx(pos2).addProperties(c).build();
-                    segments.add(s);
-                }
-                if(i != 24){
-                    Property c = avgColor(verticesWithColors.get(pos1).getPropertiesList(), verticesWithColors.get(pos3).getPropertiesList());
-                    Segment s = Segment.newBuilder().setV1Idx(pos1).setV2Idx(pos3).addProperties(c).build();
-                    segments.add(s);
-                }
-            }
-        }*/
-        Segment s = Segment.newBuilder().setV1Idx(40).setV2Idx(4).build();
-        segments.add(s);
-
-
-        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segments).build();
+        for(Segment s: segments){
+            Property color = avgColor(verticesWithColors.get(s.getV1Idx()).getPropertiesList(), verticesWithColors.get(s.getV2Idx()).getPropertiesList());
+            Segment colored = Segment.newBuilder(s).addProperties(color).build();
+            segmentsWithColors.add(colored);
+        }
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segmentsWithColors).build();
 
     }
 
@@ -148,7 +97,7 @@ public class DotGen {
         String colorCode = red + "," + green + "," + blue;
         Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
         return color;
->>>>>>> 5c79daeb0113a1e27cbf668dbee23edf1cc86597
+
     }
 
 }

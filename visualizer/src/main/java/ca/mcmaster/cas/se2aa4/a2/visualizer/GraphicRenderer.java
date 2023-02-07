@@ -34,7 +34,7 @@ public class GraphicRenderer {
             double y2 = points.get(segment.getV2Idx()).getY();
             Line2D lines = new Line2D.Double(x1,y1,x2,y2);
             Color old = canvas.getColor();
-            //canvas.setColor(extractColor(v.getPropertiesList()));
+            canvas.setColor(extractColor(segment.getPropertiesList()));
             canvas.draw(lines);
 
             canvas.setColor(old);
