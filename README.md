@@ -1,7 +1,7 @@
 # Assignment A2: Mesh Generator
 
   - Pedro Henrique Azevedo [azevedp@mcmaster.ca]
-  - Author #2 [email@mcmaster.ca]
+  - Muhammad Umar Khan [khanm417@mcmaster.ca]
   - Author #3 [email@mcmaster.ca]
 
 ## How to run the product
@@ -65,6 +65,8 @@ Basic functionality implemented for the feature, a working version of what the f
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-|    |               |      |       |     |        |
-
+| F01 | Generate missing segments in DotGen |      | 02/05/2023 |     |        |
+| F02 | Get average colour |   | 02/05/2023 |   |   |
+| F03 | Apply average colour to segment |   | 02/05/2023 |   |   | 
+| F04 | Edit GraphicRenderer to draw out segments |   | 02/05/2023 |   |   | 
 
