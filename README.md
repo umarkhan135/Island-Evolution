@@ -69,7 +69,7 @@ Add conditions for the feature have been met.
 | F02 | Get average colour | Pedro  | 02/05/2023 | 02/07/2023  | D |
 | F03 | Apply average colour to segment | Pedro  | 02/05/2023 | 02/07/2023  | D  | 
 | F04 | Edit GraphicRenderer to draw out segments | Everyone  | 02/05/2023 | 02/07/2023  | D  |
-| F05 | Mesh ADT: Precision model | | | | P |
+| F05 | Mesh ADT: Precision model | | 02/08/2023 | | P |
 | F06 | Mesh ADT: Polygon implementation | | | | P |
 | F07 | Mesh ADT: Allow only new vertices, segments and polygons | | | | P |
 | F08 | Producing full meshes | | | | P |
