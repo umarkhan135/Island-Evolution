@@ -65,9 +65,9 @@ Add conditions for the feature have been met.
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-| F01 | Generate missing segments in DotGen |      | 02/05/2023 |     |        |
-| F02 | Get average colour |   | 02/05/2023 |   |   |
-| F03 | Apply average colour to segment |   | 02/05/2023 |   |   | 
-| F04 | Edit GraphicRenderer to draw out segments |   | 02/05/2023 |   |   | 
+| F01 | Generate missing segments in DotGen |   Omar   | 02/05/2023 |  02/07/2023   |   D    |
+| F02 | Get average colour | Pedro  | 02/05/2023 | 02/07/2023  | D |
+| F03 | Apply average colour to segment | Pedro  | 02/05/2023 | 02/07/2023  | D  | 
+| F04 | Edit GraphicRenderer to draw out segments | Everyone  | 02/05/2023 | 02/07/2023  | D  | 
 
 
