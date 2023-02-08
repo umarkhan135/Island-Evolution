@@ -1,7 +1,7 @@
 # Assignment A2: Mesh Generator
 
-  - Author #1 [email@mcmaster.ca]
-  - Author #2 [email@mcmaster.ca]
+  - Pedro Henrique Azevedo [azevedp@mcmaster.ca]
+  - Muhammad Umar Khan [khanm417@mcmaster.ca]
   - Author #3 [email@mcmaster.ca]
 
 ## How to run the product
@@ -59,13 +59,15 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Definition of Done
 
--- Insert here your definition of done for your features --
 Add conditions for the feature have been met.
 
 ### Product Backlog
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-|  F01  |  |      |       |     |        |
+| F01 | Generate missing segments in DotGen |      | 02/05/2023 |     |        |
+| F02 | Get average colour |   | 02/05/2023 |   |   |
+| F03 | Apply average colour to segment |   | 02/05/2023 |   |   | 
+| F04 | Edit GraphicRenderer to draw out segments |   | 02/05/2023 |   |   | 
 
 
