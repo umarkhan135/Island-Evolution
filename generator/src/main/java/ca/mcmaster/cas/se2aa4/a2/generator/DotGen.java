@@ -6,8 +6,8 @@ import java.util.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
 
 
@@ -25,31 +25,28 @@ public class DotGen {
 
 
         // Create all the vertices
-        int testing = 0;
-        int counter = 0;
+        int index = 0;
 
         for (int x = 0; x < width; x += square_size) {
             for (int y = 0; y < height; y += square_size) {
-                vertices.add(counter, Vertex.newBuilder().setX((double) x).setY((double) y).build());
-                counter++;
-                vertices.add(counter, Vertex.newBuilder().setX((double) x + square_size).setY((double) y).build());
-                counter++;
-                vertices.add(counter, Vertex.newBuilder().setX((double) x).setY((double) y + square_size).build());
-                counter++;
-                vertices.add(counter, Vertex.newBuilder().setX((double) x + square_size).setY((double) y + square_size).build());
-                counter++;
 
-                segments.add(Segment.newBuilder().setV1Idx(testing).setV2Idx(testing + 1).build());
-                segments.add(Segment.newBuilder().setV1Idx(testing).setV2Idx(testing + 2).build());
+                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());
+                vertices.add(Vertex.newBuilder().setX((double) x + square_size).setY((double) y).build());
+                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y + square_size).build());
+                vertices.add(Vertex.newBuilder().setX((double) x + square_size).setY((double) y + square_size).build());
+                
+
+                segments.add(Segment.newBuilder().setV1Idx(index).setV2Idx(index + 1).build());
+                segments.add(Segment.newBuilder().setV1Idx(index).setV2Idx(index + 2).build());
 
                 if (x + square_size == width){
-                    segments.add(Segment.newBuilder().setV1Idx(testing + 1).setV2Idx(testing + 3).build());
+                    segments.add(Segment.newBuilder().setV1Idx(index + 1).setV2Idx(index + 3).build());
                 }
 
                 if (y + square_size == height){
-                    segments.add(Segment.newBuilder().setV1Idx(testing + 2).setV2Idx(testing + 3).build());
+                    segments.add(Segment.newBuilder().setV1Idx(index + 2).setV2Idx(index + 3).build());
                 }
-                testing += 4;
+                index += 4;
             }
         }
 
@@ -89,6 +86,7 @@ public class DotGen {
                 val2 = p.getValue();
             }
         }
+
         String[] raw1 = val1.split(",");
         String[] raw2 = val2.split(",");
         int red = (Integer.parseInt(raw1[0]) + Integer.parseInt(raw2[0]))/2;
