@@ -59,7 +59,7 @@ When you develop features and enrich the product, remember that you have first t
 
 ### Definition of Done
 
-Basic functionality implemented for the feature, a working version of what the feature  
+Add conditions for the feature have been met.
 
 ### Product Backlog
 
@@ -69,4 +69,5 @@ Basic functionality implemented for the feature, a working version of what the f
 | F02 | Get average colour |   | 02/05/2023 |   |   |
 | F03 | Apply average colour to segment |   | 02/05/2023 |   |   | 
 | F04 | Edit GraphicRenderer to draw out segments |   | 02/05/2023 |   |   | 
+
 
