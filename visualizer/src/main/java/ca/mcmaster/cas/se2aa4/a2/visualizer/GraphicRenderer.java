@@ -49,8 +49,6 @@ public class GraphicRenderer {
             Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
             canvas.fill(point);
             canvas.setColor(old);
-
-
         }
     }
 

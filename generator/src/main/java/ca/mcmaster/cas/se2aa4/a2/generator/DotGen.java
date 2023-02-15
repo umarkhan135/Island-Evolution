@@ -22,31 +22,18 @@ public class DotGen {
         ArrayList<Vertex> verticesWithColors = new ArrayList<>();
         ArrayList<Segment> segments = new ArrayList<>();
         ArrayList<Segment> segmentsWithColors = new ArrayList<>();
+        ArrayList<Vertex> centroids = new ArrayList<>();
 
-
-        // Create all the vertices
-        int index = 0;
-
-        for (int x = 0; x < width; x += square_size) {
-            for (int y = 0; y < height; y += square_size) {
-
+        // Generate vertices
+        for (int y = 0; y < height; y += square_size) {
+            for (int x = 0; x < width; x += square_size) {
                 vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());
-                vertices.add(Vertex.newBuilder().setX((double) x + square_size).setY((double) y).build());
-                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y + square_size).build());
-                vertices.add(Vertex.newBuilder().setX((double) x + square_size).setY((double) y + square_size).build());
-                
-
-                segments.add(Segment.newBuilder().setV1Idx(index).setV2Idx(index + 1).build());
-                segments.add(Segment.newBuilder().setV1Idx(index).setV2Idx(index + 2).build());
-
-                if (x + square_size == width){
-                    segments.add(Segment.newBuilder().setV1Idx(index + 1).setV2Idx(index + 3).build());
-                }
-
-                if (y + square_size == height){
-                    segments.add(Segment.newBuilder().setV1Idx(index + 2).setV2Idx(index + 3).build());
-                }
-                index += 4;
+            }
+        }
+        for (int y = 10; y < height-10; y += square_size) {
+            for (int x = 10; x < width-10; x += square_size) {
+                Property color = Property.newBuilder().setKey("rgb_color").setValue("255,0,0").build();
+                centroids.add(Vertex.newBuilder().setX((double) x).setY((double) y).addProperties(color).build());
             }
         }
 
@@ -61,14 +48,27 @@ public class DotGen {
             Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
             verticesWithColors.add(colored);
         }
+
+        for(Vertex v: vertices){
+            if((vertices.indexOf(v)+1)%25 != 0){
+                Segment s = Segment.newBuilder().setV1Idx(vertices.indexOf(v)).setV2Idx(vertices.indexOf(v)+1).build();
+                segments.add(s);
+            }
+            if((vertices.indexOf(v)+25) < vertices.size()){
+                Segment s = Segment.newBuilder().setV1Idx(vertices.indexOf(v)).setV2Idx(vertices.indexOf(v)+25).build();
+                segments.add(s);
+            }
+        }
+
         for(Segment s: segments){
             Property color = avgColor(verticesWithColors.get(s.getV1Idx()).getPropertiesList(), verticesWithColors.get(s.getV2Idx()).getPropertiesList());
             Segment colored = Segment.newBuilder(s).addProperties(color).build();
             segmentsWithColors.add(colored);
         }
-        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segmentsWithColors).build();
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllVertices(centroids).addAllSegments(segmentsWithColors).build();
 
     }
+
 
     private Property avgColor(List<Property> prop1, List<Property> prop2) {
     
@@ -96,6 +96,16 @@ public class DotGen {
         Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
         return color;
 
+    }
+
+    public class newMesh{
+        public newMesh(ArrayList<Vertex> vertices, ArrayList<Vertex> centroids, ArrayList<Segment> segmentsWithColors){
+            ArrayList<Polygon> polygons = new ArrayList<>();
+            for(Vertex c: centroids){
+                Polygon p = Polygon.newBuilder().setCentroidIdx(centroids.indexOf(c)).setNeighborIdxs(centroids.indexOf(c)+1, centroids.indexOf(c)+24).build();
+                polygons.add(p);
+            }
+        }
     }
 
 }
