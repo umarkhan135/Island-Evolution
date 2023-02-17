@@ -73,8 +73,8 @@ Add conditions for the feature have been met.
 | F06 | Mesh ADT: Polygon implementation | | | | P |
 | F07 | Mesh ADT: Allow only new vertices, segments and polygons | | | | P |
 | F08 | Producing full meshes | | | | P |
-| F09 | Add alpha value to colours to support transparency | | | | P |
-| F10 | Add thinkness information/properties to vertices, segments and polygons | | | | P |
+| F09 | Add alpha value to colours to support transparency | Mason | 02/15/2023| | s |
+| F10 | Add thinkness information/properties to vertices, segments and polygons | Mason | 02/15/2023| | S |
 | F11 | Visualization mode, debugging | | | | P |
 
 
