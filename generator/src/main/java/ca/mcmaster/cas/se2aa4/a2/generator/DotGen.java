@@ -149,6 +149,7 @@ public class newMesh extends DotGen{
             polygons.add(p);
 
 
+
             System.out.println(polygons);
             System.out.println(segments.size());
 
