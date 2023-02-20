@@ -82,13 +82,13 @@ public class DotGen {
         String val2 = null;
         for(Property p: prop1) {
             if (p.getKey().equals("rgb_color")) {
-                //System.out.println(p.getValue());
+                System.out.println(p.getValue());
                 val1 = p.getValue();
             }
         }
         for(Property p: prop2) {
             if (p.getKey().equals("rgb_color")) {
-                //System.out.println(p.getValue());
+                System.out.println(p.getValue());
                 val2 = p.getValue();
             }
         }
@@ -105,8 +105,9 @@ public class DotGen {
     }
 
 public class newMesh extends DotGen{
+    ArrayList<Polygon> polygons = new ArrayList<>();
         public newMesh(){
-            ArrayList<Polygon> polygons = new ArrayList<>();
+
             int counter = 0;
             int j = 0;
             for (int rows = 0; rows < 23; rows++) {
@@ -149,9 +150,6 @@ public class newMesh extends DotGen{
             polygons.add(p);
 
 
-
-            System.out.println(polygons);
-            System.out.println(segments.size());
 
         }
     }
