@@ -69,12 +69,12 @@ Add conditions for the feature have been met.
 | F02 | Get average colour | Pedro  | 02/05/2023 | 02/07/2023  | D |
 | F03 | Apply average colour to segment | Pedro  | 02/05/2023 | 02/07/2023  | D  | 
 | F04 | Edit GraphicRenderer to draw out segments | Everyone  | 02/05/2023 | 02/07/2023  | D  |
-| F05 | Mesh ADT: Precision model | | 02/08/2023 | | P |
-| F06 | Mesh ADT: Polygon implementation | | | | P |
-| F07 | Mesh ADT: Allow only new vertices, segments and polygons | | | | P |
-| F08 | Producing full meshes | | | | P |
-| F09 | Add alpha value to colours to support transparency | Mason | 02/15/2023| | s |
-| F10 | Add thinkness information/properties to vertices, segments and polygons | Mason | 02/15/2023| | S |
+| F05 | Mesh ADT: Precision model | Omar and Umar | 02/19/2023 | 02/20/2023 | D |
+| F06 | Mesh ADT: Polygon implementation | Omar | 02/19/2023 | 02/20/2023 | D |
+| F07 | Mesh ADT: Allow only new vertices, segments and polygons | Omar | 02/19/2023 | 02/20/2023 | D |
+| F08 | Producing full meshes | Omar and Umar | 02/20/2023 | | S |
+| F09 | Add alpha value to colours to support transparency | Mason | 02/15/2023| | S |
+| F10 | Add thickness information/properties to vertices, segments and polygons | Mason | 02/15/2023| | S |
 | F11 | Visualization mode, debugging | | | | P |
 
 
