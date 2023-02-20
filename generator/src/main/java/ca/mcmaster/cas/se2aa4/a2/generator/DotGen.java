@@ -13,27 +13,33 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
 public class DotGen {
 
-    private final int width = 500;
-    private final int height = 500;
-    private final int square_size = 20;
+    public final double width = 500;
+    private final double height = 500;
+    public final double square_size = 20;
+
+    ArrayList<Vertex> vertices = new ArrayList<>();
+    ArrayList<Vertex> verticesWithColors = new ArrayList<>();
+    ArrayList<Segment> segments = new ArrayList<>();
+    ArrayList<Segment> segmentsWithColors = new ArrayList<>();
+    ArrayList<Vertex> centroids = new ArrayList<>();
 
     public Mesh generate() {
-        ArrayList<Vertex> vertices = new ArrayList<>();
-        ArrayList<Vertex> verticesWithColors = new ArrayList<>();
-        ArrayList<Segment> segments = new ArrayList<>();
-        ArrayList<Segment> segmentsWithColors = new ArrayList<>();
-        ArrayList<Vertex> centroids = new ArrayList<>();
+//        ArrayList<Vertex> vertices = new ArrayList<>();
+//        ArrayList<Vertex> verticesWithColors = new ArrayList<>();
+//        ArrayList<Segment> segments = new ArrayList<>();
+//        ArrayList<Segment> segmentsWithColors = new ArrayList<>();
+//        ArrayList<Vertex> centroids = new ArrayList<>();
 
         // Generate vertices
         for (int y = 0; y < height; y += square_size) {
             for (int x = 0; x < width; x += square_size) {
-                vertices.add(Vertex.newBuilder().setX((double) x).setY((double) y).build());
+                vertices.add(Vertex.newBuilder().setX(Math.round( x * 100)/100).setY(Math.round( y * 100)/100).build());
             }
         }
         for (int y = 10; y < height-10; y += square_size) {
             for (int x = 10; x < width-10; x += square_size) {
                 Property color = Property.newBuilder().setKey("rgb_color").setValue("255,0,0").build();
-                centroids.add(Vertex.newBuilder().setX((double) x).setY((double) y).addProperties(color).build());
+                centroids.add(Vertex.newBuilder().setX(Math.round( x * 100)/100).setY(Math.round( y * 100)/100).addProperties(color).build());
             }
         }
 
@@ -65,6 +71,62 @@ public class DotGen {
             Segment colored = Segment.newBuilder(s).addProperties(color).build();
             segmentsWithColors.add(colored);
         }
+
+
+//        Polygon p = Polygon.newBuilder().addSegmentIdxs(9).addSegmentIdxs(2).build();
+//        System.out.println(p);
+
+        ArrayList<Polygon> polygons = new ArrayList<>();
+
+
+        int counter = 0;
+        int j = 0;
+        for (int rows = 0; rows < 23; rows++) {
+            if (counter % 2 == 0) {
+                for (int i = counter * 49; i < ((counter + 1) * 49); i += 2) {
+                    if (i == (46+(49*counter))){
+                        Polygon p = Polygon.newBuilder().addSegmentIdxs(i).addSegmentIdxs(i+2).addSegmentIdxs(i+49).addSegmentIdxs(i+1).build();
+                        polygons.add(p);
+                    }else if(i == (48+(49*counter))){
+                        continue;
+                    }else {
+                        Polygon p = Polygon.newBuilder().addSegmentIdxs(i).addSegmentIdxs(i + 3).addSegmentIdxs(i + 49).addSegmentIdxs(i + 1).build();
+                        polygons.add(p);
+                    }
+                }
+            } else if (counter % 2 == 1) {
+                for (int i = counter * 49; i < ((counter + 1) * 49); i += 2) {
+                    if (i == (46+(49*counter))){
+                        Polygon p = Polygon.newBuilder().addSegmentIdxs(i).addSegmentIdxs(i+2).addSegmentIdxs(i+49).addSegmentIdxs(i+1).build();
+                        polygons.add(p);
+                    }else if(i == (48+(49*counter))){
+                        continue;
+                    }else{
+                        Polygon p = Polygon.newBuilder().addSegmentIdxs(i).addSegmentIdxs(i + 3).addSegmentIdxs(i + 49).addSegmentIdxs(i + 1).build();
+                        polygons.add(p);
+                    }
+                }
+            }
+            counter++;
+        }
+
+        int otherCounter = 0;
+        for (int x = 1127; x < 1173; x += 2){
+            Polygon p = Polygon.newBuilder().addSegmentIdxs(x).addSegmentIdxs(x + 3).addSegmentIdxs(x + 49 - otherCounter).addSegmentIdxs(x + 1).build();
+            otherCounter++;
+            polygons.add(p);
+        }
+
+        Polygon p = Polygon.newBuilder().addSegmentIdxs(1173).addSegmentIdxs(1175).addSegmentIdxs(1199).addSegmentIdxs(1174).build();
+        polygons.add(p);
+
+
+        System.out.println(polygons);
+        System.out.println(segments.size());
+
+
+
+
         return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllVertices(centroids).addAllSegments(segmentsWithColors).build();
 
     }
@@ -76,13 +138,13 @@ public class DotGen {
         String val2 = null;
         for(Property p: prop1) {
             if (p.getKey().equals("rgb_color")) {
-                System.out.println(p.getValue());
+                //System.out.println(p.getValue());
                 val1 = p.getValue();
             }
         }
         for(Property p: prop2) {
             if (p.getKey().equals("rgb_color")) {
-                System.out.println(p.getValue());
+                //System.out.println(p.getValue());
                 val2 = p.getValue();
             }
         }
@@ -98,13 +160,39 @@ public class DotGen {
 
     }
 
-    public class newMesh{
-        public newMesh(ArrayList<Vertex> vertices, ArrayList<Vertex> centroids, ArrayList<Segment> segmentsWithColors){
+public class newMesh extends DotGen{
+
+
+        public newMesh(){
+
             ArrayList<Polygon> polygons = new ArrayList<>();
-            for(Vertex c: centroids){
-                Polygon p = Polygon.newBuilder().setCentroidIdx(centroids.indexOf(c)).setNeighborIdxs(centroids.indexOf(c)+1, centroids.indexOf(c)+24).build();
-                polygons.add(p);
+
+            int counter = 0;
+            int j = 0;
+            for (int rows = 0; rows < 24; rows++) {
+                if (counter % 2 == 0) {
+                    for (int i = counter * 49; i < ((counter + 1) * 49); i += 2) {
+                        Polygon p = Polygon.newBuilder().setSegmentIdxs(0,segments.indexOf(i)).setSegmentIdxs(1,segments.indexOf(i+3)).setSegmentIdxs(2,segments.indexOf(i+49)).setSegmentIdxs(3,segments.indexOf(i+1)).build();
+                        polygons.add(p);
+                    }
+                } else if (counter % 2 == 1) {
+                    for (int i = counter * 49; i < ((counter + 1) * 49); i += 2) {
+                        Polygon p = Polygon.newBuilder().setSegmentIdxs(0,segments.indexOf(i)).setSegmentIdxs(1,segments.indexOf(i+3)).setSegmentIdxs(2,segments.indexOf(i+49)).setSegmentIdxs(3,segments.indexOf(i+1)).build();
+                        polygons.add(p);
+                    }
+                }
+                counter++;
             }
+
+            System.out.println(polygons);
+
+
+
+
+
+//          Polygon p = Polygon.newBuilder().setCentroidIdx(centroids.indexOf(v)).setNeighborIdxs(centroids.indexOf(c)+1, centroids.indexOf(c)+24).build();
+//          polygons.add(p);
+
         }
     }
 
