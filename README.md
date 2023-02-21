@@ -2,7 +2,7 @@
 
   - Pedro Henrique Azevedo [azevedp@mcmaster.ca]
   - Muhammad Umar Khan [khanm417@mcmaster.ca]
-  - Author #3 [email@mcmaster.ca]
+  - Omar El Aref [elarefo@mcmaster.ca]
 
 ## How to run the product
 
