@@ -38,7 +38,7 @@ public class DotGen {
         }
         for (int y = 10; y < height-10; y += square_size) {
             for (int x = 10; x < width-10; x += square_size) {
-                Property color = Property.newBuilder().setKey("rgb_color").setValue("255,0,0").build();
+                Property color = Property.newBuilder().setKey("rgb_color").setValue("255,0,0,255").build();
                 centroids.add(Vertex.newBuilder().setX(Math.round( x * 100)/100).setY(Math.round( y * 100)/100).addProperties(color).build());
             }
         }
@@ -49,7 +49,8 @@ public class DotGen {
             int red = bag.nextInt(255);
             int green = bag.nextInt(255);
             int blue = bag.nextInt(255);
-            String colorCode = red + "," + green + "," + blue;
+            int alpha = 255;
+            String colorCode = red + "," + green + "," + blue + "," + alpha;
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
             Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
             verticesWithColors.add(colored);
@@ -103,10 +104,10 @@ public class DotGen {
         int red = (Integer.parseInt(raw1[0]) + Integer.parseInt(raw2[0]))/2;
         int green = (Integer.parseInt(raw1[1]) + Integer.parseInt(raw2[1]))/2;
         int blue = (Integer.parseInt(raw1[2]) + Integer.parseInt(raw2[2]))/2;
-        String colorCode = red + "," + green + "," + blue;
+        int alpha = (Integer.parseInt(raw1[3]) + Integer.parseInt(raw2[3]))/2;
+        String colorCode = red + "," + green + "," + blue + "," + alpha;
         Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
         return color;
-
     }
 
 public class newMesh extends DotGen{
