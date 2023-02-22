@@ -13,6 +13,7 @@ public class Main {
         // Extracting command line parameters
         String input = args[0];
         String output = args[1];
+        String input2 = args[2];
         // Getting width and height for the canvas
         Structs.Mesh aMesh = new MeshFactory().read(input);
         double max_x = Double.MIN_VALUE;
@@ -24,8 +25,17 @@ public class Main {
         // Creating the Canvas to draw the mesh
         Graphics2D canvas = SVGCanvas.build((int) Math.ceil(max_x), (int) Math.ceil(max_y));
         GraphicRenderer renderer = new GraphicRenderer();
+<<<<<<< HEAD
         //Painting the mesh on the canvas
         renderer.render(aMesh, canvas, 1);
+=======
+        // Painting the mesh on the canvas
+        if (input2 == "-X"){
+            renderer.render(aMesh, canvas, 1, "debug");
+        } else {
+            renderer.render(aMesh, canvas, 1, "null");
+        }
+>>>>>>> 85adceb253314da73e8a340fc34887a5522f672d
         // Storing the result in an SVG file
         SVGCanvas.write(canvas, output);
         // Dump the mesh to stdout
