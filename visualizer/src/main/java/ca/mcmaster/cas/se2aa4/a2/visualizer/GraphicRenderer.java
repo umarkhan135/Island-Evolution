@@ -27,8 +27,6 @@ public class GraphicRenderer {
 
     public void render(Mesh aMesh, Graphics2D canvas, float Thickness, String visualizerStatus) {
 
-        System.out.println(visualizerStatus);
-
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(Thickness);
         canvas.setStroke(stroke);

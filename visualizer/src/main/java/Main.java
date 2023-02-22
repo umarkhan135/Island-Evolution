@@ -6,6 +6,7 @@ import ca.mcmaster.cas.se2aa4.a2.visualizer.SVGCanvas;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
 
 public class Main {
 
@@ -31,9 +32,11 @@ public class Main {
         //renderer.render(aMesh, canvas, 1);
 
         // Painting the mesh on the canvas
-        if (input2 == "-X"){
+
+        if (Objects.equals(input2, "-X")){
             renderer.render(aMesh, canvas, 1, "debug");
-        } else {
+            System.out.println("debug on");
+        }else {
             renderer.render(aMesh, canvas, 1, "null");
         }
 
