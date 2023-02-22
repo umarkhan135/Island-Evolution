@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
+import org.apache.batik.apps.rasterizer.Main;
 
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -21,7 +22,8 @@ import java.awt.geom.Line2D;
 public class GraphicRenderer {
 
     private static final int THICKNESS = 3;
-    public void render(Mesh aMesh, Graphics2D canvas, float Thickness/*, int Transparency */) {
+    public void render(Mesh aMesh, Graphics2D canvas, float Thickness) {
+
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(Thickness);
         canvas.setStroke(stroke);
@@ -34,7 +36,9 @@ public class GraphicRenderer {
             double y2 = points.get(segment.getV2Idx()).getY();
             Line2D lines = new Line2D.Double(x1,y1,x2,y2);
             Color old = canvas.getColor();
+
             canvas.setColor(extractColor(segment.getPropertiesList()/*, Transparency */));
+
             canvas.draw(lines);
 
             canvas.setColor(old);
