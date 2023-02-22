@@ -22,12 +22,13 @@ import java.awt.geom.Line2D;
 public class GraphicRenderer {
 
     private static final int THICKNESS = 3;
-<<<<<<< HEAD
-    public void render(Mesh aMesh, Graphics2D canvas, float Thickness) {
 
-=======
+
+
     public void render(Mesh aMesh, Graphics2D canvas, float Thickness, String visualizerStatus) {
->>>>>>> 85adceb253314da73e8a340fc34887a5522f672d
+
+        System.out.println(visualizerStatus);
+
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(Thickness);
         canvas.setStroke(stroke);
@@ -39,22 +40,22 @@ public class GraphicRenderer {
             double x2 = points.get(segment.getV2Idx()).getX();
             double y2 = points.get(segment.getV2Idx()).getY();
             Line2D lines = new Line2D.Double(x1,y1,x2,y2);
-            Color old = canvas.getColor();
-<<<<<<< HEAD
+            //Color old = canvas.getColor();
+            //canvas.setColor(extractColor(segment.getPropertiesList()/*, Transparency */));
 
-            canvas.setColor(extractColor(segment.getPropertiesList()/*, Transparency */));
+//            Color black = new Color(60,60,60);
+//            canvas.setColor(black);
 
-=======
             if (visualizerStatus == "debug"){
                 Color black = new Color(60,60,60);
                 canvas.setColor(black);
             }else {
                 canvas.setColor(extractColor(segment.getPropertiesList()));
             }
->>>>>>> 85adceb253314da73e8a340fc34887a5522f672d
+
             canvas.draw(lines);
 
-            canvas.setColor(old);
+            //canvas.setColor(old);
         }
 
 

@@ -238,11 +238,13 @@ public class newMesh extends DotGen{
                 counter++;
             }
 
-            int otherCounter = 552;
+            int otherCounter = 0;
+            int centroidCounter2 = 552;
             for (int x = 1127; x < 1173; x += 2){
-                Polygon p = Polygon.newBuilder().addSegmentIdxs(x).addSegmentIdxs(x + 3).addSegmentIdxs(x + 49 - otherCounter).addSegmentIdxs(x + 1).setCentroidIdx(otherCounter).addAllNeighborIdxs(listOfNeighbors.get(otherCounter)).build();
+                Polygon p = Polygon.newBuilder().addSegmentIdxs(x).addSegmentIdxs(x + 3).addSegmentIdxs(x + 49 - otherCounter).addSegmentIdxs(x + 1).setCentroidIdx(centroidCounter2).addAllNeighborIdxs(listOfNeighbors.get(otherCounter)).build();
                 polygons.add(p);
                 otherCounter++;
+                centroidCounter2++;
             }
 
             Polygon p = Polygon.newBuilder().addSegmentIdxs(1173).addSegmentIdxs(1175).addSegmentIdxs(1199).addSegmentIdxs(1174).setCentroidIdx(575).addAllNeighborIdxs(listOfNeighbors.get(575)).build();

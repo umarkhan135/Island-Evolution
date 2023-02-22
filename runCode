@@ -1,8 +1,8 @@
 mvn install
 cd generator
-java -jar generator.jar sample.mesh
+java -jar generator.jar sample.mesh -X
 cd ..
 cd visualizer
-java -jar visualizer.jar ../generator/sample.mesh sample.svg debug -X
+java -jar visualizer.jar ../generator/sample.mesh sample.svg -X
 cd ..
 
