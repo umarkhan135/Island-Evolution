@@ -21,7 +21,7 @@ import java.awt.geom.Line2D;
 public class GraphicRenderer {
 
     private static final int THICKNESS = 3;
-    public void render(Mesh aMesh, Graphics2D canvas, float Thickness/*, int Transparency */) {
+    public void render(Mesh aMesh, Graphics2D canvas, float Thickness, String visualizerStatus) {
         canvas.setColor(Color.BLACK);
         Stroke stroke = new BasicStroke(Thickness);
         canvas.setStroke(stroke);
@@ -34,7 +34,12 @@ public class GraphicRenderer {
             double y2 = points.get(segment.getV2Idx()).getY();
             Line2D lines = new Line2D.Double(x1,y1,x2,y2);
             Color old = canvas.getColor();
-            canvas.setColor(extractColor(segment.getPropertiesList()/*, Transparency */));
+            if (visualizerStatus == "debug"){
+                Color black = new Color(60,60,60);
+                canvas.setColor(black);
+            }else {
+                canvas.setColor(extractColor(segment.getPropertiesList()));
+            }
             canvas.draw(lines);
 
             canvas.setColor(old);
@@ -45,14 +50,14 @@ public class GraphicRenderer {
             double centre_x = v.getX() - (THICKNESS/2.0d);
             double centre_y = v.getY() - (THICKNESS/2.0d);
             Color old = canvas.getColor();
-            canvas.setColor(extractColor(v.getPropertiesList()/*, Transparency */));
+            canvas.setColor(extractColor(v.getPropertiesList()));
             Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
             canvas.fill(point);
             canvas.setColor(old);
         }
     }
 
-    private Color extractColor(List<Property> properties/*, int Transparency */) {
+    private Color extractColor(List<Property> properties) {
         String val = null;
         for(Property p: properties) {
             if (p.getKey().equals("rgb_color")) {
@@ -67,6 +72,7 @@ public class GraphicRenderer {
         int green = Integer.parseInt(raw[1]);
         int blue = Integer.parseInt(raw[2]);
         int alpha = Integer.parseInt(raw[3]);
+
         return new Color(red, green, blue, alpha/*, Transparency*/);
     }
 
