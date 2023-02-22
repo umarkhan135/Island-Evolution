@@ -45,8 +45,8 @@ public class GraphicRenderer {
 //            canvas.setColor(black);
 
             if (visualizerStatus == "debug"){
-                Color black = new Color(60,60,60);
-                canvas.setColor(black);
+                Color lightGrey = new Color(100,100,100);
+                canvas.setColor(lightGrey);
             }else {
                 canvas.setColor(extractColor(segment.getPropertiesList()));
             }
@@ -60,11 +60,21 @@ public class GraphicRenderer {
         for (Vertex v: aMesh.getVerticesList()) {
             double centre_x = v.getX() - (THICKNESS/2.0d);
             double centre_y = v.getY() - (THICKNESS/2.0d);
-            Color old = canvas.getColor();
-            canvas.setColor(extractColor(v.getPropertiesList()));
+
+            //Color old = canvas.getColor();
+
+            if (visualizerStatus == "debug"){
+                Color black = new Color(0,0,0);
+                canvas.setColor(black);
+            } else {
+                canvas.setColor(extractColor(v.getPropertiesList()));
+            }
             Ellipse2D point = new Ellipse2D.Double(centre_x, centre_y, THICKNESS, THICKNESS);
             canvas.fill(point);
-            canvas.setColor(old);
+
+
+
+            //canvas.setColor(old);
         }
     }
 
