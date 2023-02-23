@@ -42,6 +42,7 @@ public class NewMesh {
         this.addAllSegments(segments);
         this.setWidth(w);
         this.setSquare_size(s_s);
+        this.createAllPolygons();
     }
 
     public void setWidth(double width) {
