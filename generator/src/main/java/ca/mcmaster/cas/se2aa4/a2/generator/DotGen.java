@@ -39,7 +39,7 @@ public class DotGen {
         }
         for (int y = 10; y < height-10; y += square_size) {
             for (int x = 10; x < width-10; x += square_size) {
-                Property color = Property.newBuilder().setKey("rgb_color").setValue("255,0,0,255").build();
+                Property color = Property.newBuilder().setKey("rgb_color").setValue("0,0,0,127").build();
                 centroids.add(Vertex.newBuilder().setX(Math.round( x * 100)/100).setY(Math.round( y * 100)/100).addProperties(color).build());
             }
         }
