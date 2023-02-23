@@ -78,7 +78,7 @@ public class DotGen {
         System.out.println(mesh.polygons);
 
 
-        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllVertices(centroids).addAllSegments(segmentsWithColors).build();
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllVertices(centroids).addAllSegments(segmentsWithColors).addAllPolygons(mesh.polygons).build();
 
     }
 
