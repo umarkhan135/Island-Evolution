@@ -36,7 +36,7 @@ public class DotGen {
         Coordinate temp;
         for (int y = 0; y < height-20; y += square_size) {
             for (int x = 0; x < width-20; x += square_size) {
-                temp = new Coordinate(bag.nextDouble(height), bag.nextDouble(width));
+                temp = new Coordinate(bag.nextDouble(width), bag.nextDouble(height));
                 PM.makePrecise(temp);
                 coords.add(temp);
             }
@@ -44,7 +44,8 @@ public class DotGen {
         VDB.setSites(coords);
         QuadEdgeSubdivision compModel = VDB.getSubdivision();
         edges = (ArrayList<QuadEdge>) compModel.getEdges();
-        edges.get(0).toLineSegment().minX();
+        edges.get(0).toLineSegment().getCoordinate(0);
+        return Mesh.newBuilder().build();
     }
     public Mesh generate() {
 //        ArrayList<Vertex> vertices = new ArrayList<>();
