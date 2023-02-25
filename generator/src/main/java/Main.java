@@ -8,7 +8,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         DotGen generator = new DotGen();
-        Mesh myMesh = generator.generate();
+        Mesh myMesh = generator.iGenerate();
         MeshFactory factory = new MeshFactory();
         factory.write(myMesh, args[0]);
     }

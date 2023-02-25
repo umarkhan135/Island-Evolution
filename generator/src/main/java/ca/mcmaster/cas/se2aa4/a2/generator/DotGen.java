@@ -16,11 +16,16 @@ import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.triangulate.quadedge.QuadEdge;
 import org.locationtech.jts.triangulate.quadedge.QuadEdgeSubdivision;
 
+import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.algorithm.Centroid;
+
+
 public class DotGen {
 
     public final double width = 500;
     private final double height = 500;
     public final double square_size = 20;
+
     Random bag = new Random();
     ArrayList<QuadEdge> edges = new ArrayList<>();
     ArrayList<Vertex> vertices = new ArrayList<>();
@@ -29,30 +34,49 @@ public class DotGen {
     ArrayList<Segment> segmentsWithColors = new ArrayList<>();
     ArrayList<Vertex> centroids = new ArrayList<>();
     ArrayList<Coordinate> coords = new ArrayList<>();
+
     PrecisionModel PM = new PrecisionModel();
     VoronoiDiagramBuilder VDB = new VoronoiDiagramBuilder();
+
     public Mesh iGenerate(){
+
         Coordinate temp;
+        double CX;
+        double CY;
         for (int y = 0; y < height-20; y += square_size) {
             for (int x = 0; x < width-20; x += square_size) {
-                temp = new Coordinate(bag.nextDouble(width), bag.nextDouble(height));
+                CX=bag.nextDouble(width);
+                CY=bag.nextDouble(height);
+                temp = new Coordinate(CX, CY);
+                Property color = Property.newBuilder().setKey("rgb_color").setValue("255,255,255,255").build();
+                centroids.add(Vertex.newBuilder().setX(Math.round( CX * 100)/100).setY(Math.round( CY * 100)/100).addProperties(color).build());
                 PM.makePrecise(temp);
                 coords.add(temp);
             }
         }
+
         VDB.setSites(coords);
+        VDB.setTolerance(0);
         QuadEdgeSubdivision compModel = VDB.getSubdivision();
         edges = (ArrayList<QuadEdge>) compModel.getEdges();
-        edges.get(0).toLineSegment().getCoordinate(0);
-        return Mesh.newBuilder().build();
-    }
-    public Mesh generate() {
-//        ArrayList<Vertex> vertices = new ArrayList<>();
-//        ArrayList<Vertex> verticesWithColors = new ArrayList<>();
-//        ArrayList<Segment> segments = new ArrayList<>();
-//        ArrayList<Segment> segmentsWithColors = new ArrayList<>();
-//        ArrayList<Vertex> centroids = new ArrayList<>();
 
+        for (QuadEdge e: edges){
+            Vertex v1 = Vertex.newBuilder().setX(Math.round(e.orig().getX() * 100)/100).setY(Math.round(e.orig().getY() * 100)/100).build();
+            Vertex v2 = Vertex.newBuilder().setX(Math.round(e.dest().getX() * 100)/100).setY(Math.round(e.dest().getY() * 100)/100).build();
+            
+            vertices.add(v1);
+            vertices.add(v2);
+        }
+
+        this.addColourVertices();
+        this.createSegmentsPairs();
+        this.addColourSegments();
+
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllVertices(centroids).addAllSegments(segmentsWithColors).build();
+
+    }
+
+    public Mesh generate() {
         // Generate vertices
         for (int y = 0; y < height; y += square_size) {
             for (int x = 0; x < width; x += square_size) {
@@ -67,8 +91,22 @@ public class DotGen {
         }
 
         // Distribute colors randomly. Vertices are immutable, need to enrich them
-        
-        for(Vertex v: vertices){
+        this.addColourVertices();
+
+        this.createSegmentsSquare();
+
+        this.addColourSegments();
+
+        NewMesh mesh = new NewMesh(verticesWithColors, centroids, segmentsWithColors, width, square_size);
+        //System.out.println(mesh.getPolygons());
+
+
+        return Mesh.newBuilder().addAllVertices(mesh.getVertices()).addAllVertices(mesh.getCentroids()).addAllSegments(mesh.getSegments()).addAllPolygons(mesh.getPolygons()).build();
+
+    }
+
+    private void addColourVertices(){
+        for(Vertex v: this.vertices){
             int red = bag.nextInt(255);
             int green = bag.nextInt(255);
             int blue = bag.nextInt(255);
@@ -76,34 +114,37 @@ public class DotGen {
             String colorCode = red + "," + green + "," + blue + "," + alpha;
             Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
             Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
-            verticesWithColors.add(colored);
+            this.verticesWithColors.add(colored);
         }
-
-        for(Vertex v: vertices){
-            if((vertices.indexOf(v)+1)%25 != 0){
-                Segment s = Segment.newBuilder().setV1Idx(vertices.indexOf(v)).setV2Idx(vertices.indexOf(v)+1).build();
-                segments.add(s);
-            }
-            if((vertices.indexOf(v)+25) < vertices.size()){
-                Segment s = Segment.newBuilder().setV1Idx(vertices.indexOf(v)).setV2Idx(vertices.indexOf(v)+25).build();
-                segments.add(s);
-            }
-        }
-
-        for(Segment s: segments){
-            Property color = avgColor(verticesWithColors.get(s.getV1Idx()).getPropertiesList(), verticesWithColors.get(s.getV2Idx()).getPropertiesList());
-            Segment colored = Segment.newBuilder(s).addProperties(color).build();
-            segmentsWithColors.add(colored);
-        }
-
-        NewMesh mesh = new NewMesh(verticesWithColors, centroids, segmentsWithColors, width, square_size);
-        System.out.println(mesh.getPolygons());
-
-
-        return Mesh.newBuilder().addAllVertices(mesh.getVertices()).addAllVertices(mesh.getCentroids()).addAllSegments(mesh.getSegments()).addAllPolygons(mesh.getPolygons()).build();
-
     }
 
+    private void createSegmentsSquare(){
+        for(Vertex v: this.vertices){
+            if((this.vertices.indexOf(v)+1)%25 != 0){
+                Segment s = Segment.newBuilder().setV1Idx(this.vertices.indexOf(v)).setV2Idx(this.vertices.indexOf(v)+1).build();
+                this.segments.add(s);
+            }
+            if((this.vertices.indexOf(v)+25) < this.vertices.size()){
+                Segment s = Segment.newBuilder().setV1Idx(this.vertices.indexOf(v)).setV2Idx(this.vertices.indexOf(v)+25).build();
+                this.segments.add(s);
+            }
+        }
+    }
+
+    private void createSegmentsPairs(){
+        for(int i = 0; i < this.vertices.size()-1; i = i + 2){
+            Segment s = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).build();
+            this.segments.add(s);
+        }
+    }
+
+    private void addColourSegments(){
+        for(Segment s: this.segments){
+            Property color = avgColor(this.verticesWithColors.get(s.getV1Idx()).getPropertiesList(), this.verticesWithColors.get(s.getV2Idx()).getPropertiesList());
+            Segment colored = Segment.newBuilder(s).addProperties(color).build();
+            this.segmentsWithColors.add(colored);
+        }
+    }
 
     private Property avgColor(List<Property> prop1, List<Property> prop2) {
     
