@@ -9,7 +9,11 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
-
+import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.PrecisionModel;
+import org.locationtech.jts.triangulate.quadedge.QuadEdgeSubdivision;
 
 
 public class DotGen {
@@ -17,13 +21,27 @@ public class DotGen {
     public final double width = 500;
     private final double height = 500;
     public final double square_size = 20;
-
+    Random bag = new Random();
     ArrayList<Vertex> vertices = new ArrayList<>();
     ArrayList<Vertex> verticesWithColors = new ArrayList<>();
     ArrayList<Segment> segments = new ArrayList<>();
     ArrayList<Segment> segmentsWithColors = new ArrayList<>();
     ArrayList<Vertex> centroids = new ArrayList<>();
-
+    ArrayList<Coordinate> coords = new ArrayList<>();
+    PrecisionModel PM = new PrecisionModel();
+    VoronoiDiagramBuilder VDB = new VoronoiDiagramBuilder();
+    public QuadEdgeSubdivision iGenerate(){
+        Coordinate temp;
+        for (int y = 0; y < height-20; y += square_size) {
+            for (int x = 0; x < width-20; x += square_size) {
+                temp = new Coordinate(bag.nextInt(x), bag.nextInt(y));
+                PM.makePrecise(temp);
+                coords.add(temp);
+            }
+        }
+        VDB.setSites(coords);
+        return VDB.getSubdivision();
+    }
     public Mesh generate() {
 //        ArrayList<Vertex> vertices = new ArrayList<>();
 //        ArrayList<Vertex> verticesWithColors = new ArrayList<>();
@@ -45,7 +63,7 @@ public class DotGen {
         }
 
         // Distribute colors randomly. Vertices are immutable, need to enrich them
-        Random bag = new Random();
+        
         for(Vertex v: vertices){
             int red = bag.nextInt(255);
             int green = bag.nextInt(255);
