@@ -16,7 +16,6 @@ import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.triangulate.quadedge.QuadEdge;
 import org.locationtech.jts.triangulate.quadedge.QuadEdgeSubdivision;
 
-
 public class DotGen {
 
     public final double width = 500;
