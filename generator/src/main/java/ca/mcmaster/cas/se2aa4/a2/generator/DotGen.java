@@ -8,23 +8,23 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
+
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
+import org.locationtech.jts.algorithm.Centroid;
 import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.Geometry;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.triangulate.quadedge.QuadEdge;
 import org.locationtech.jts.triangulate.quadedge.QuadEdgeSubdivision;
 
-import org.locationtech.jts.geom.Geometry;
-import org.locationtech.jts.algorithm.Centroid;
 
 
 public class DotGen {
 
-    public final double width = 500;
+    private final double width = 500;
     private final double height = 500;
-    public final double square_size = 20;
+    private final double square_size = 20;
 
     Random bag = new Random();
     ArrayList<QuadEdge> edges = new ArrayList<>();
