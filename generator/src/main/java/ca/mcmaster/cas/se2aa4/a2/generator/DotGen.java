@@ -12,7 +12,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 import org.locationtech.jts.algorithm.Centroid;
 import org.locationtech.jts.geom.Coordinate;
-import org.locationtech.jts.geom.Geometry;
+import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.triangulate.quadedge.QuadEdge;
@@ -33,13 +33,15 @@ public class DotGen {
     ArrayList<Segment> segments = new ArrayList<>();
     ArrayList<Segment> segmentsWithColors = new ArrayList<>();
     ArrayList<Vertex> centroids = new ArrayList<>();
-    ArrayList<Coordinate> coords = new ArrayList<>();
-
-    PrecisionModel PM = new PrecisionModel();
-    VoronoiDiagramBuilder VDB = new VoronoiDiagramBuilder();
+    
+    
+    
 
     public Mesh iGenerate(){
-
+        ArrayList<Coordinate> coords = new ArrayList<>();
+        GeometryFactory Geo = new GeometryFactory();
+        PrecisionModel PM = new PrecisionModel();
+        VoronoiDiagramBuilder VDB = new VoronoiDiagramBuilder();
         Coordinate temp;
         double CX;
         double CY;
@@ -54,11 +56,19 @@ public class DotGen {
                 coords.add(temp);
             }
         }
-
-        VDB.setSites(coords);
-        VDB.setTolerance(0);
-        QuadEdgeSubdivision compModel = VDB.getSubdivision();
-        edges = (ArrayList<QuadEdge>) compModel.getEdges();
+        
+        for (int i = 0; i<10 ;i++){
+            VDB.setSites(coords);
+            List<Polygon> polygons = VDB.getSubdivision().getVoronoiCellPolygons(Geo);
+            coords.clear();
+            for (Polygon p: polygons){
+                Centroid centroid = new Centroid(p);
+                temp = centroid.getCentroid();
+                PM.makePrecise(temp);
+                coords.add(temp);
+            }
+        }
+        
 
         for (QuadEdge e: edges){
             Vertex v1 = Vertex.newBuilder().setX(Math.round(e.orig().getX() * 100)/100).setY(Math.round(e.orig().getY() * 100)/100).build();
