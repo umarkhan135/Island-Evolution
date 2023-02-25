@@ -13,6 +13,7 @@ import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
+import org.locationtech.jts.triangulate.quadedge.QuadEdge;
 import org.locationtech.jts.triangulate.quadedge.QuadEdgeSubdivision;
 
 
@@ -22,6 +23,7 @@ public class DotGen {
     private final double height = 500;
     public final double square_size = 20;
     Random bag = new Random();
+    ArrayList<QuadEdge> edges = new ArrayList<>();
     ArrayList<Vertex> vertices = new ArrayList<>();
     ArrayList<Vertex> verticesWithColors = new ArrayList<>();
     ArrayList<Segment> segments = new ArrayList<>();
@@ -30,17 +32,19 @@ public class DotGen {
     ArrayList<Coordinate> coords = new ArrayList<>();
     PrecisionModel PM = new PrecisionModel();
     VoronoiDiagramBuilder VDB = new VoronoiDiagramBuilder();
-    public QuadEdgeSubdivision iGenerate(){
+    public Mesh iGenerate(){
         Coordinate temp;
         for (int y = 0; y < height-20; y += square_size) {
             for (int x = 0; x < width-20; x += square_size) {
-                temp = new Coordinate(bag.nextInt(x), bag.nextInt(y));
+                temp = new Coordinate(bag.nextDouble(height), bag.nextDouble(width));
                 PM.makePrecise(temp);
                 coords.add(temp);
             }
         }
         VDB.setSites(coords);
-        return VDB.getSubdivision();
+        QuadEdgeSubdivision compModel = VDB.getSubdivision();
+        edges = (ArrayList<QuadEdge>) compModel.getEdges();
+        edges.get(0).toLineSegment().minX();
     }
     public Mesh generate() {
 //        ArrayList<Vertex> vertices = new ArrayList<>();
