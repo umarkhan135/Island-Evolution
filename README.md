@@ -77,5 +77,10 @@ Add conditions for the feature have been met.
 | F09 | Add alpha value to colours to support transparency | Mason | 02/15/2023|02/21/2023 | D |
 | F10 | Add thickness information/properties to vertices, segments and polygons | Mason | 02/15/2023|02/21/2023 |D |
 | F11 | Visualization mode, debugging | Umar | 02/21/2023 | 02/22/2023 | D |
-
+| F12 | Randomize generation of centroids | Mason | 02/24/2023 | 02/24/2023 | D |
+| F13 | Veronoi diagrams | Mason | 02/24/2023 | 02/24/2023 | D |
+| F14 | Lloyd Relaxation | All |  |  | p |
+| F15 | Cropping Mesh | All |  |  | p |
+| F16 | Delaunay Triangulation | All |  |  | p |
+| F16 | Convex Hull | All |  |  | p |
 

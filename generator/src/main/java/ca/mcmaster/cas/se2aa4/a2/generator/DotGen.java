@@ -45,6 +45,7 @@ public class DotGen {
         for (int y = 0; y < height-20; y += square_size) {
             for (int x = 0; x < width-20; x += square_size) {
                 temp = new Coordinate(bag.nextDouble(width), bag.nextDouble(height));
+                temp = new Coordinate(bag.nextDouble(width), bag.nextDouble(height));
                 PM.makePrecise(temp);
                 coords.add(temp);
             }
