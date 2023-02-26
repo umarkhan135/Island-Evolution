@@ -6,26 +6,25 @@ import java.util.*;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 import org.locationtech.jts.algorithm.Centroid;
-import org.locationtech.jts.geom.Coordinate;
 import org.locationtech.jts.geom.*;
-import org.locationtech.jts.geom.GeometryFactory;
-import org.locationtech.jts.geom.PrecisionModel;
+
 import org.locationtech.jts.triangulate.quadedge.QuadEdge;
 import org.locationtech.jts.triangulate.quadedge.QuadEdgeSubdivision;
 
 
 
 public class DotGen {
-
+    
     private final double width = 500;
     private final double height = 500;
     private final double square_size = 20;
-
+    
     Random bag = new Random();
     ArrayList<QuadEdge> edges = new ArrayList<>();
     ArrayList<Vertex> vertices = new ArrayList<>();
@@ -33,25 +32,21 @@ public class DotGen {
     ArrayList<Segment> segments = new ArrayList<>();
     ArrayList<Segment> segmentsWithColors = new ArrayList<>();
     ArrayList<Vertex> centroids = new ArrayList<>();
+    ArrayList<Coordinate> coords = new ArrayList<>();
     
-    
-    
-
     public Mesh iGenerate(){
-        ArrayList<Coordinate> coords = new ArrayList<>();
-        GeometryFactory Geo = new GeometryFactory();
+        
         PrecisionModel PM = new PrecisionModel();
         VoronoiDiagramBuilder VDB = new VoronoiDiagramBuilder();
+        GeometryFactory Geo = new GeometryFactory();
+        
+        List<org.locationtech.jts.geom.Polygon> polygons = new ArrayList<>();
+        
         Coordinate temp;
-        double CX;
-        double CY;
+        
         for (int y = 0; y < height-20; y += square_size) {
             for (int x = 0; x < width-20; x += square_size) {
-                CX=bag.nextDouble(width);
-                CY=bag.nextDouble(height);
-                temp = new Coordinate(CX, CY);
-                Property color = Property.newBuilder().setKey("rgb_color").setValue("255,255,255,255").build();
-                centroids.add(Vertex.newBuilder().setX(Math.round( CX * 100)/100).setY(Math.round( CY * 100)/100).addProperties(color).build());
+                temp = new Coordinate(bag.nextDouble(width), bag.nextDouble(height));
                 PM.makePrecise(temp);
                 coords.add(temp);
             }
@@ -59,9 +54,9 @@ public class DotGen {
         
         for (int i = 0; i<10 ;i++){
             VDB.setSites(coords);
-            List<Polygon> polygons = VDB.getSubdivision().getVoronoiCellPolygons(Geo);
+            polygons = VDB.getSubdivision().getVoronoiCellPolygons(Geo);
             coords.clear();
-            for (Polygon p: polygons){
+            for (org.locationtech.jts.geom.Polygon p: polygons){
                 Centroid centroid = new Centroid(p);
                 temp = centroid.getCentroid();
                 PM.makePrecise(temp);
@@ -69,23 +64,17 @@ public class DotGen {
             }
         }
         
-
-        for (QuadEdge e: edges){
-            Vertex v1 = Vertex.newBuilder().setX(Math.round(e.orig().getX() * 100)/100).setY(Math.round(e.orig().getY() * 100)/100).build();
-            Vertex v2 = Vertex.newBuilder().setX(Math.round(e.dest().getX() * 100)/100).setY(Math.round(e.dest().getY() * 100)/100).build();
-            
-            vertices.add(v1);
-            vertices.add(v2);
+        for (org.locationtech.jts.geom.Polygon p: polygons){
+            Coordinate[] temps = p.getCoordinates();
+            List<Vertex> tempVertices = new ArrayList<>();
+            for (Coordinate c: temps){
+                
+            }
         }
 
-        this.addColourVertices();
-        this.createSegmentsPairs();
-        this.addColourSegments();
-
-        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllVertices(centroids).addAllSegments(segmentsWithColors).build();
-
+        return Mesh.newBuilder().build();
     }
-
+    
     public Mesh generate() {
         // Generate vertices
         for (int y = 0; y < height; y += square_size) {
@@ -99,22 +88,22 @@ public class DotGen {
                 centroids.add(Vertex.newBuilder().setX(Math.round( x * 100)/100).setY(Math.round( y * 100)/100).addProperties(color).build());
             }
         }
-
+        
         // Distribute colors randomly. Vertices are immutable, need to enrich them
         this.addColourVertices();
-
+        
         this.createSegmentsSquare();
-
+        
         this.addColourSegments();
-
+        
         NewMesh mesh = new NewMesh(verticesWithColors, centroids, segmentsWithColors, width, square_size);
         //System.out.println(mesh.getPolygons());
-
-
+        
+        
         return Mesh.newBuilder().addAllVertices(mesh.getVertices()).addAllVertices(mesh.getCentroids()).addAllSegments(mesh.getSegments()).addAllPolygons(mesh.getPolygons()).build();
-
+        
     }
-
+    
     private void addColourVertices(){
         for(Vertex v: this.vertices){
             int red = bag.nextInt(255);
@@ -127,7 +116,7 @@ public class DotGen {
             this.verticesWithColors.add(colored);
         }
     }
-
+    
     private void createSegmentsSquare(){
         for(Vertex v: this.vertices){
             if((this.vertices.indexOf(v)+1)%25 != 0){
@@ -140,14 +129,7 @@ public class DotGen {
             }
         }
     }
-
-    private void createSegmentsPairs(){
-        for(int i = 0; i < this.vertices.size()-1; i = i + 2){
-            Segment s = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).build();
-            this.segments.add(s);
-        }
-    }
-
+    
     private void addColourSegments(){
         for(Segment s: this.segments){
             Property color = avgColor(this.verticesWithColors.get(s.getV1Idx()).getPropertiesList(), this.verticesWithColors.get(s.getV2Idx()).getPropertiesList());
@@ -155,9 +137,9 @@ public class DotGen {
             this.segmentsWithColors.add(colored);
         }
     }
-
-    private Property avgColor(List<Property> prop1, List<Property> prop2) {
     
+    private Property avgColor(List<Property> prop1, List<Property> prop2) {
+        
         String val1 = null;
         String val2 = null;
         for(Property p: prop1) {
@@ -172,7 +154,7 @@ public class DotGen {
                 val2 = p.getValue();
             }
         }
-
+        
         String[] raw1 = val1.split(",");
         String[] raw2 = val2.split(",");
         int red = (Integer.parseInt(raw1[0]) + Integer.parseInt(raw2[0]))/2;
