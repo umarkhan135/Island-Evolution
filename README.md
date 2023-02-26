@@ -79,8 +79,8 @@ Add conditions for the feature have been met.
 | F11 | Visualization mode, debugging | Umar | 02/21/2023 | 02/22/2023 | D |
 | F12 | Randomize generation of centroids | Mason | 02/24/2023 | 02/24/2023 | D |
 | F13 | Veronoi diagrams | Mason | 02/24/2023 | 02/24/2023 | D |
-| F14 | Lloyd Relaxation | All |  |  | p |
-| F15 | Cropping Mesh | All |  |  | p |
+| F14 | Lloyd Relaxation | Mason and Pedro |  |  | p |
+| F15 | Cropping Mesh | Pedro | 02/25/2023 | 02/25/2023 | p |
 | F16 | Delaunay Triangulation | All |  |  | p |
 | F16 | Convex Hull | All |  |  | p |
 

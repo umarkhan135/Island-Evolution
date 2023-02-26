@@ -54,13 +54,14 @@ public class DotGen {
                 coords.add(temp);
             }
         }
-        
-        for (int i = 0; i<100 ;i++){
+        Centroid centroid;
+        for (int i = 0; i<10 ;i++){
             VDB.setSites(coords);
             polygons = VDB.getSubdivision().getVoronoiCellPolygons(Geo);
-            coords.clear();
+            coords = new ArrayList<>();
+            VDB.setSites(coords);
             for (org.locationtech.jts.geom.Polygon p: polygons){
-                Centroid centroid = new Centroid(p);
+                centroid = new Centroid(p);
                 temp = centroid.getCentroid();
                 PM.makePrecise(temp);
                 coords.add(temp);
