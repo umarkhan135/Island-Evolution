@@ -1,3 +1,4 @@
+
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import java.io.IOException;
@@ -54,7 +55,7 @@ public class DotGen {
             }
         }
         
-        for (int i = 0; i<10 ;i++){
+        for (int i = 0; i<100 ;i++){
             VDB.setSites(coords);
             polygons = VDB.getSubdivision().getVoronoiCellPolygons(Geo);
             coords.clear();
@@ -65,7 +66,7 @@ public class DotGen {
                 coords.add(temp);
             }
         }
-        
+
         for (org.locationtech.jts.geom.Polygon p: polygons){
             Coordinate[] temps = p.getCoordinates();
             for(Coordinate c: temps){
@@ -73,6 +74,7 @@ public class DotGen {
                 Vertex v = Vertex.newBuilder().setX(Math.round(c.x)).setY(Math.round(c.y)).build();
                 vertices.add(v);
             }
+                vertices.add(Vertex.newBuilder().setX(Math.round(-1)).setY(Math.round(-1)).build());
         }
 
         this.addColourVertices();
@@ -139,9 +141,12 @@ public class DotGen {
     }
 
     private void createSegmentsPairs(){
-        for(int i = 0; i < this.vertices.size()-1; i = i + 1){
-            Segment s = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).build();
+        for(int i = 0; i < this.vertices.size(); i = i + 1){
+            if(!(vertices.get(i).equals(Vertex.newBuilder().setX(Math.round(-1)).setY(Math.round(-1)).build()))&&!(vertices.get(i+1).equals(Vertex.newBuilder().setX(Math.round(-1)).setY(Math.round(-1)).build()))){
+                Segment s = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).build();
             this.segments.add(s);
+            }
+            
         }
     }
 
