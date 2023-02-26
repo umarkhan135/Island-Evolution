@@ -37,23 +37,23 @@ public class GraphicRenderer {
             double x2 = points.get(segment.getV2Idx()).getX();
             double y2 = points.get(segment.getV2Idx()).getY();
             
-            Line2D lines = new Line2D.Double(x1,y1,x2,y2);
-            lines = boundCheck(lines);
+            if((0 < x1 && x1 < 500 && 0 < y1 && y1 < 500 ) || (0 < x2 && x2 < 500 && 0 < y2 && y2 < 500 ) ){
+                Line2D lines = new Line2D.Double(x1,y1,x2,y2);
+                lines = boundCheck(lines);
+                if (visualizerStatus == "debug"){
+                    Color lightGrey = new Color(100,100,100);
+                    canvas.setColor(lightGrey);
+                }else {
+                    canvas.setColor(extractColor(segment.getPropertiesList()));
+                }
+                
+                canvas.draw(lines);
+            }
             //Color old = canvas.getColor();
             //canvas.setColor(extractColor(segment.getPropertiesList()/*, Transparency */));
             
             //            Color black = new Color(60,60,60);
-            //            canvas.setColor(black);
-            
-            if (visualizerStatus == "debug"){
-                Color lightGrey = new Color(100,100,100);
-                canvas.setColor(lightGrey);
-            }else {
-                canvas.setColor(extractColor(segment.getPropertiesList()));
-            }
-            
-            canvas.draw(lines);
-            
+            //            canvas.setColor(black)
             //canvas.setColor(old);
         }
         
@@ -95,7 +95,7 @@ public class GraphicRenderer {
         int blue = Integer.parseInt(raw[2]);
         int alpha = Integer.parseInt(raw[3]);
         
-        return new Color(red, green, blue, alpha/*, Transparency*/);
+        return new Color(red, green, blue, alpha);
     }
     
     private Line2D boundCheck(Line2D line){
