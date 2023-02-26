@@ -66,9 +66,6 @@ public class NewMesh {
         this.segments.addAll(segments);
     }
 
-    public ArrayList<Polygon> getPolygons() {
-        return polygons;
-    }
     public void createAllPolygons(){
         List<List<Integer>> listOfNeighbors = new ArrayList<>();
         int incrementationSize = (int) (width/square_size - 1);
@@ -213,6 +210,10 @@ public class NewMesh {
             //System.out.println(poly.getNeighborIdxs(0));
         }
 
+    }
+
+    public ArrayList<Polygon> getPolygons() {
+        return polygons;
     }
 
     public ArrayList<Segment> getSegments() {
