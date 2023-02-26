@@ -70,6 +70,10 @@ public class DotGen {
                 coords.add(temp);
             }
         }
+        for (Coordinate c: coords){
+            Vertex v = Vertex.newBuilder().setX(Math.round(c.x)).setY(Math.round(c.y)).build();
+            centroids.add(v);
+        }
 
         for (org.locationtech.jts.geom.Polygon p: polygons){
             Coordinate[] temps = p.getCoordinates();
@@ -85,7 +89,7 @@ public class DotGen {
         this.createSegmentsPairs();
         this.addColourSegments();
 
-        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segmentsWithColors).build();
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllVertices(centroids).addAllSegments(segmentsWithColors).build();
 
     }
 
@@ -148,10 +152,15 @@ public class DotGen {
         for(int i = 0; i < this.vertices.size(); i = i + 1){
             if(!(vertices.get(i).equals(Vertex.newBuilder().setX(Math.round(-1)).setY(Math.round(-1)).build()))&&!(vertices.get(i+1).equals(Vertex.newBuilder().setX(Math.round(-1)).setY(Math.round(-1)).build()))){
                 Segment s = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).build();
-            this.segments.add(s);
+                this.segments.add(s);
             }
-            
         }
+        int f = 1;
+        while(!(vertices.get(this.vertices.size()-1-f).equals(Vertex.newBuilder().setX(Math.round(-1)).setY(Math.round(-1)).build()))){
+            f++;
+        }
+        Segment s = Segment.newBuilder().setV1Idx(this.vertices.size()-f).setV2Idx(this.vertices.size()-2).build();
+        this.segments.add(s);
     }
 
     private void addColourSegments(){
