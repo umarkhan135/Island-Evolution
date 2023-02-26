@@ -8,6 +8,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 import org.locationtech.jts.algorithm.Centroid;
@@ -43,15 +44,11 @@ public class DotGen {
         PrecisionModel PM = new PrecisionModel();
         VoronoiDiagramBuilder VDB = new VoronoiDiagramBuilder();
         Coordinate temp;
-        double CX;
-        double CY;
+        List<org.locationtech.jts.geom.Polygon> polygons = new ArrayList<>();
+        
         for (int y = 0; y < height-20; y += square_size) {
             for (int x = 0; x < width-20; x += square_size) {
-                CX=bag.nextDouble(width);
-                CY=bag.nextDouble(height);
-                temp = new Coordinate(CX, CY);
-                Property color = Property.newBuilder().setKey("rgb_color").setValue("255,255,255,255").build();
-                centroids.add(Vertex.newBuilder().setX(Math.round( CX * 100)/100).setY(Math.round( CY * 100)/100).addProperties(color).build());
+                temp = new Coordinate(bag.nextDouble(width), bag.nextDouble(height));
                 PM.makePrecise(temp);
                 coords.add(temp);
             }
@@ -59,9 +56,9 @@ public class DotGen {
         
         for (int i = 0; i<10 ;i++){
             VDB.setSites(coords);
-            List<Polygon> polygons = VDB.getSubdivision().getVoronoiCellPolygons(Geo);
+            polygons = VDB.getSubdivision().getVoronoiCellPolygons(Geo);
             coords.clear();
-            for (Polygon p: polygons){
+            for (org.locationtech.jts.geom.Polygon p: polygons){
                 Centroid centroid = new Centroid(p);
                 temp = centroid.getCentroid();
                 PM.makePrecise(temp);
@@ -69,20 +66,20 @@ public class DotGen {
             }
         }
         
-
-        for (QuadEdge e: edges){
-            Vertex v1 = Vertex.newBuilder().setX(Math.round(e.orig().getX() * 100)/100).setY(Math.round(e.orig().getY() * 100)/100).build();
-            Vertex v2 = Vertex.newBuilder().setX(Math.round(e.dest().getX() * 100)/100).setY(Math.round(e.dest().getY() * 100)/100).build();
-            
-            vertices.add(v1);
-            vertices.add(v2);
+        for (org.locationtech.jts.geom.Polygon p: polygons){
+            Coordinate[] temps = p.getCoordinates();
+            for(Coordinate c: temps){
+                PM.makePrecise(c);
+                Vertex v = Vertex.newBuilder().setX(Math.round(c.x)).setY(Math.round(c.y)).build();
+                vertices.add(v);
+            }
         }
 
         this.addColourVertices();
         this.createSegmentsPairs();
         this.addColourSegments();
 
-        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllVertices(centroids).addAllSegments(segmentsWithColors).build();
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllSegments(segmentsWithColors).build();
 
     }
 
@@ -142,7 +139,7 @@ public class DotGen {
     }
 
     private void createSegmentsPairs(){
-        for(int i = 0; i < this.vertices.size()-1; i = i + 2){
+        for(int i = 0; i < this.vertices.size()-1; i = i + 1){
             Segment s = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).build();
             this.segments.add(s);
         }
