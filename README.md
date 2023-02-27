@@ -83,5 +83,5 @@ Add conditions for the feature have been met.
 | F15 | Lloyd Relaxation | Mason and Pedro | 02/25/2023  | 02/27/2023  | D |
 | F16 | Cropping Mesh | Pedro | 02/25/2023 | 02/25/2023 | p |
 | F17 | Delaunay Triangulation | Mason | 02/27/2023 | 02/27/2023 | p |
-| F18 | Convex Hull | All |  |  | p |
+| F18 | Convex Hull | All | 02/27/2023 |  | p |
 
