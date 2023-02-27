@@ -109,35 +109,35 @@ public class GraphicRenderer {
         double b = y1 - m * x1;
 
         if(x1 > this.width){
-            y1 = m * this.width + b;
+            //y1 = m * this.width + b;
             x1 = this.width;
         }
         if(x1 < 0){
-            y1 = m * 0 + b;
+            //y1 = m * 0 + b;
             x1 = 0;
         }
         if(y1 > this.height){
-            x1 = (this.height - b) / m;
+            //x1 = (this.height - b) / m;
             y1 = this.height;
         }
         if(y1 < 0){
-            x1 = (0 - b) / m;
+            //x1 = (0 - b) / m;
             y1 = 0;
         }
         if(x2 > this.width){
-            y2 = m * this.width + b;
+            //y2 = m * this.width + b;
             x2 = this.width;
         }
         if(x2 < 0){
-            y2 = m * 0 + b;
+            //y2 = m * 0 + b;
             x2 = 0;
         }
         if(y2 > this.height){
-            x2 = (this.height - b) / m;
+            //x2 = (this.height - b) / m;
             y2 = this.height;
         }
         if(y2 < 0){
-            x2 = (0 - b) / m;
+            //x2 = (0 - b) / m;
             y2 = 0;
         }
         line.setLine(x1, y1, x2, y2);

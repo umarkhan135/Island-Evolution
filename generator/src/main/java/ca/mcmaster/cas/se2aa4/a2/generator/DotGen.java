@@ -19,6 +19,7 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.triangulate.quadedge.QuadEdge;
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
+import org.locationtech.jts.algorithm.ConvexHull;
 
 
 
@@ -39,7 +40,7 @@ public class DotGen {
     Map<Coordinate, ArrayList<Coordinate>> neighbors= new HashMap<>();
     DelaunayTriangulationBuilder DTB = new DelaunayTriangulationBuilder();
     PrecisionModel PM = new PrecisionModel();
-
+    
     //This does not work as intended rn I'll have to edit it
     public void iNeighbors(){
         DTB.setSites(coords);
@@ -50,19 +51,19 @@ public class DotGen {
             for(QuadEdge e: triangles){    
                 PM.makePrecise(e.orig().getCoordinate());
                 PM.makePrecise(e.dest().getCoordinate());
-                if(c.equals(e.orig().getCoordinate()) && e.dest().getCoordinate().y>=0 && e.dest().getCoordinate().x>=0){
+                if(e.dest().getCoordinate().y<=500 && e.dest().getCoordinate().x<=500 && e.dest().getCoordinate().y>=0 && e.dest().getCoordinate().x>=0 && c.equals2D(e.orig().getCoordinate(), 0.5 )){
                     close.add(e.dest().getCoordinate());
                 }    
             }
-            if(c.y>=0 && c.x>=0){
+            if(c.y>=0 && c.x>=0 && c.y<=500 && c.x<=500){
                 neighbors.put(c, close);
             }
             
         }
         for(Coordinate k: neighbors.keySet()){
-            System.out.printf("Neighbors of (%.2f, %.2f): \n",k.x,k.y);
+            System.out.printf("Neighbors of (%d, %d): \n",Math.round(k.x),Math.round(k.y));
             for(Coordinate c: neighbors.get(k)){
-                System.out.printf("(%.2f, %.2f)",c.x,c.y);
+                System.out.printf("(%d, %d)",Math.round(c.x),Math.round(c.y));
             }
             System.out.println();
         }
@@ -72,6 +73,7 @@ public class DotGen {
     
 
     public Mesh iGenerate(){
+        
         
         GeometryFactory Geo = new GeometryFactory();
         PrecisionModel PM = new PrecisionModel();
@@ -94,7 +96,8 @@ public class DotGen {
             coords.clear();
             VDB.setSites(coords);
             for (org.locationtech.jts.geom.Polygon p: polygons){
-                centroid = new Centroid(p);
+                ConvexHull CV = new ConvexHull(p);
+                centroid = new Centroid(CV.getConvexHull());
                 temp = centroid.getCentroid();
                 PM.makePrecise(temp);
                 coords.add(temp);
@@ -183,7 +186,7 @@ public class DotGen {
 
     private void createSegmentsPairs(){
         for(int i = 0; i < this.vertices.size(); i = i + 1){
-            if(vertices.get(i).getX()>=-50 && vertices.get(i).getX()<=550 && vertices.get(i).getY()>=-50 && vertices.get(i).getY()<=550 && vertices.get(i+1).getX()>=-50 && vertices.get(i+1).getX()<=550 && vertices.get(i+1).getY()>=-50 && vertices.get(i+1).getY()<=550){
+            if(vertices.get(i).getX()>=-50 && vertices.get(i).getX()<=width+50 && vertices.get(i).getY()>=-50 && vertices.get(i).getY()<=height+50 && vertices.get(i+1).getX()>=-50 && vertices.get(i+1).getX()<=550 && vertices.get(i+1).getY()>=-50 && vertices.get(i+1).getY()<=550){
                 Segment s = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).build();
                 this.segments.add(s);
             }
