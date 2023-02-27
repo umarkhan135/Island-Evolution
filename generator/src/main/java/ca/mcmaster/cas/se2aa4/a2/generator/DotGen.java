@@ -18,7 +18,6 @@ import org.locationtech.jts.geom.*;
 import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.triangulate.quadedge.QuadEdge;
-import org.locationtech.jts.triangulate.quadedge.QuadEdgeSubdivision;
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 
 
@@ -36,21 +35,50 @@ public class DotGen {
     ArrayList<Segment> segments = new ArrayList<>();
     ArrayList<Segment> segmentsWithColors = new ArrayList<>();
     ArrayList<Vertex> centroids = new ArrayList<>();
-    
-    
+    ArrayList<Coordinate> coords = new ArrayList<>();
+    Map<Coordinate, ArrayList<Coordinate>> neighbors= new HashMap<>();
+    DelaunayTriangulationBuilder DTB = new DelaunayTriangulationBuilder();
+    PrecisionModel PM = new PrecisionModel();
+
+    //This does not work as intended rn I'll have to edit it
+    public void iNeighbors(){
+        DTB.setSites(coords);
+        Collection<QuadEdge> triangles = DTB.getSubdivision().getEdges();
+        for ( Coordinate c: coords){
+            ArrayList<Coordinate> close = new ArrayList<>();
+            PM.makePrecise(c);
+            for(QuadEdge e: triangles){    
+                PM.makePrecise(e.orig().getCoordinate());
+                PM.makePrecise(e.dest().getCoordinate());
+                if(c.equals(e.orig().getCoordinate()) && e.dest().getCoordinate().y>=0 && e.dest().getCoordinate().x>=0){
+                    close.add(e.dest().getCoordinate());
+                }    
+            }
+            if(c.y>=0 && c.x>=0){
+                neighbors.put(c, close);
+            }
+            
+        }
+        for(Coordinate k: neighbors.keySet()){
+            System.out.printf("Neighbors of (%.2f, %.2f): \n",k.x,k.y);
+            for(Coordinate c: neighbors.get(k)){
+                System.out.printf("(%.2f, %.2f)",c.x,c.y);
+            }
+            System.out.println();
+        }
+        System.out.printf("\n%d\n", neighbors.keySet().size());
+    }
     
     
 
     public Mesh iGenerate(){
-        ArrayList<Coordinate> coords = new ArrayList<>();
+        
         GeometryFactory Geo = new GeometryFactory();
         PrecisionModel PM = new PrecisionModel();
         VoronoiDiagramBuilder VDB = new VoronoiDiagramBuilder();
-        DelaunayTriangulationBuilder DTB = new DelaunayTriangulationBuilder();
         Coordinate temp;
         List<org.locationtech.jts.geom.Polygon> polygons = new ArrayList<>();
-        ArrayList<Coordinate> polygonv = new ArrayList<>();
-        Map<Coordinate, ArrayList<Coordinate>> neighbors= new HashMap<>();
+        
 
         for (int y = 0; y < (height-20)*(width-20); y += square_size*square_size) {
             temp = new Coordinate(bag.nextDouble(width), bag.nextDouble(height));
@@ -73,17 +101,7 @@ public class DotGen {
             }
         }
 
-        DTB.setSites(coords);
-        Collection<QuadEdge> triangles = DTB.getSubdivision().getEdges();
-        for ( Coordinate c: coords){
-            ArrayList<Coordinate> close = new ArrayList<>();
-            for(QuadEdge e: triangles){      
-                if(c.equals(e.orig().getCoordinate())){
-                    close.add(e.dest().getCoordinate());
-                }    
-            }
-            neighbors.put(c, close);
-        }
+        
 
 
         for (Coordinate c: coords){
@@ -165,7 +183,7 @@ public class DotGen {
 
     private void createSegmentsPairs(){
         for(int i = 0; i < this.vertices.size(); i = i + 1){
-            if(!(vertices.get(i).equals(Vertex.newBuilder().setX(Math.round(-100)).setY(Math.round(-100)).build()))&&!(vertices.get(i+1).equals(Vertex.newBuilder().setX(Math.round(-100)).setY(Math.round(-100)).build()))){
+            if(vertices.get(i).getX()>=-50 && vertices.get(i).getX()<=550 && vertices.get(i).getY()>=-50 && vertices.get(i).getY()<=550 && vertices.get(i+1).getX()>=-50 && vertices.get(i+1).getX()<=550 && vertices.get(i+1).getY()>=-50 && vertices.get(i+1).getY()<=550){
                 Segment s = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).build();
                 this.segments.add(s);
             }

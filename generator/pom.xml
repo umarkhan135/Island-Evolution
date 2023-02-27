@@ -11,7 +11,7 @@
     <artifactId>2aa4.mesh</artifactId>
     <version>1.0</version>
   </parent>
-<repositories>
+  <repositories>
 		<repository>
 			<id>locationtech-releases</id>
 			<url>https://repo.eclipse.org/content/groups/releases</url>
@@ -34,6 +34,9 @@
   <artifactId>2aa4.mesh.generator</artifactId>
   <name>McMaster :: CAS :: 2AA4 :: A2 :: Generator</name>
 
+  <properties>
+    <jts.version>1.16.1</jts.version>
+  </properties>
   <dependencies>
     <dependency>
       <groupId>io.github.ace-design</groupId>
@@ -46,9 +49,7 @@
 			<version>${jts.version}</version>
 		</dependency>
   </dependencies>
-    <properties>
-      <jts.version>1.16.1</jts.version>
-    </properties>
+
   <build>
     <plugins>
       <plugin>
