@@ -212,27 +212,29 @@ public class NewMesh {
 
     }
     public ArrayList<Polygon> getPolygons() {
-        return polygons;
+        return new ArrayList<Polygon>(this.polygons);
     }
 
     public ArrayList<Segment> getSegments() {
-        return segments;
+        return new ArrayList<Segment>(this.segments);
     }
 
     public ArrayList<Vertex> getVertices() {
-        return vertices;
+        return new ArrayList<Vertex>(this.vertices);
     }
 
     public ArrayList<Vertex> getCentroids() {
-        return centroids;
+        return new ArrayList<Vertex>(this.centroids);
     }
 
     public double getSquare_size() {
-        return square_size;
+        double x = square_size;
+        return x;
     }
 
     public double getWidth() {
-        return width;
+        double x = width;
+        return x;
     }
 }    
 
