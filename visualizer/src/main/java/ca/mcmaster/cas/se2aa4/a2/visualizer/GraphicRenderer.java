@@ -4,8 +4,6 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
-import org.apache.batik.apps.rasterizer.Main;
 
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -13,7 +11,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Ellipse2D;
 import java.awt.geom.Line2D;
-import java.awt.geom.Point2D;
 import java.util.List;
 
 
@@ -37,7 +34,7 @@ public class GraphicRenderer {
             double x2 = points.get(segment.getV2Idx()).getX();
             double y2 = points.get(segment.getV2Idx()).getY();
             
-            if((0 < x1 && x1 < 500 && 0 < y1 && y1 < 500 ) || (0 < x2 && x2 < 500 && 0 < y2 && y2 < 500 ) ){
+            if((0 <= x1 && x1 <= 500 && 0 <= y1 && y1 <= 500 ) || (0 <= x2 && x2 <= 500 && 0 <= y2 && y2 <= 500 ) ){
                 Line2D lines = new Line2D.Double(x1,y1,x2,y2);
                 lines = boundCheck(lines);
                 if (visualizerStatus == "debug"){
@@ -49,12 +46,6 @@ public class GraphicRenderer {
                 
                 canvas.draw(lines);
             }
-            //Color old = canvas.getColor();
-            //canvas.setColor(extractColor(segment.getPropertiesList()/*, Transparency */));
-            
-            //            Color black = new Color(60,60,60);
-            //            canvas.setColor(black)
-            //canvas.setColor(old);
         }
         
         
@@ -74,8 +65,6 @@ public class GraphicRenderer {
             if(0 <= centre_x && centre_x <= width && 0 <= centre_y && centre_y <= height){
                 canvas.fill(point);
             }
-            
-            //canvas.setColor(old);
         }
     }
     
@@ -83,8 +72,9 @@ public class GraphicRenderer {
         String val = null;
         for(Property p: properties) {
             if (p.getKey().equals("rgb_color")) {
-                //System.out.println(p.getValue());
+                
                 val = p.getValue();
+
             }
         }
         if (val == null)
