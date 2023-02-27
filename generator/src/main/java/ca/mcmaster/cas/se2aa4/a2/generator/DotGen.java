@@ -7,9 +7,7 @@ import java.util.*;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
 import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
 import org.locationtech.jts.algorithm.Centroid;
@@ -87,11 +85,7 @@ public class DotGen {
         List<org.locationtech.jts.geom.Polygon> polygons = new ArrayList<>();
         
 
-        for (int y = 0; y < (height-20)*(width-20); y += square_size*square_size) {
-            temp = new Coordinate(bag.nextDouble(width), bag.nextDouble(height));
-            PM.makePrecise(temp);
-            coords.add(temp);
-        }
+        this.coords = centGen.createRandomCentroids(height, width, square_size);
 
         Centroid centroid;
         for (int i = 0; i<15 ;i++){
@@ -109,7 +103,7 @@ public class DotGen {
             }
         }
 
-        this.centroids = centGen.createIrregularCentroids(coords);
+        this.centroids = centGen.createIrregularFinalCentroids(coords);
 
         this.vertices = vertGen.createIrregularVertices(polygons);
 
