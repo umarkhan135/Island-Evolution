@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         DotGen generator = new DotGen();
         Mesh myMesh = generator.iGenerate();
-        generator.iNeighbors();
+        //generator.iNeighbors();//we need to add a command line argument to display this
         MeshFactory factory = new MeshFactory();
         factory.write(myMesh, args[0]);
     }
