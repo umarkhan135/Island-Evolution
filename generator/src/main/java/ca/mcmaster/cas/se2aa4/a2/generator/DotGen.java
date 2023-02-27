@@ -19,6 +19,7 @@ import org.locationtech.jts.geom.GeometryFactory;
 import org.locationtech.jts.geom.PrecisionModel;
 import org.locationtech.jts.triangulate.quadedge.QuadEdge;
 import org.locationtech.jts.triangulate.quadedge.QuadEdgeSubdivision;
+import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 
 
 
@@ -38,24 +39,25 @@ public class DotGen {
     
     
     
+    
 
     public Mesh iGenerate(){
         ArrayList<Coordinate> coords = new ArrayList<>();
         GeometryFactory Geo = new GeometryFactory();
         PrecisionModel PM = new PrecisionModel();
         VoronoiDiagramBuilder VDB = new VoronoiDiagramBuilder();
+        DelaunayTriangulationBuilder DTB = new DelaunayTriangulationBuilder();
         Coordinate temp;
         List<org.locationtech.jts.geom.Polygon> polygons = new ArrayList<>();
-        
-        for (int y = 0; y < height-20; y += square_size) {
-            for (int x = 0; x < width-20; x += square_size) {
-                temp = new Coordinate(bag.nextDouble(width), bag.nextDouble(height));
-                PM.makePrecise(temp);
-                coords.add(temp);
-            }
+        ArrayList<Coordinate> polygonv = new ArrayList<>();
+        Map<Coordinate, ArrayList<Coordinate>> neighbors= new HashMap<>();
+
+        for (int y = 0; y < (height-20)*(width-20); y += square_size*square_size) {
+            temp = new Coordinate(bag.nextDouble(width), bag.nextDouble(height));
+            PM.makePrecise(temp);
+            coords.add(temp);
         }
 
-        
         Centroid centroid;
         for (int i = 0; i<15 ;i++){
             VDB = new VoronoiDiagramBuilder();
@@ -70,6 +72,20 @@ public class DotGen {
                 coords.add(temp);
             }
         }
+
+        DTB.setSites(coords);
+        Collection<QuadEdge> triangles = DTB.getSubdivision().getEdges();
+        for ( Coordinate c: coords){
+            ArrayList<Coordinate> close = new ArrayList<>();
+            for(QuadEdge e: triangles){      
+                if(c.equals(e.orig().getCoordinate())){
+                    close.add(e.dest().getCoordinate());
+                }    
+            }
+            neighbors.put(c, close);
+        }
+
+
         for (Coordinate c: coords){
             Vertex v = Vertex.newBuilder().setX(Math.round(c.x)).setY(Math.round(c.y)).build();
             centroids.add(v);
@@ -82,9 +98,8 @@ public class DotGen {
                 Vertex v = Vertex.newBuilder().setX(Math.round(c.x)).setY(Math.round(c.y)).build();
                 vertices.add(v);
             }
-                vertices.add(Vertex.newBuilder().setX(Math.round(-1)).setY(Math.round(-1)).build());
+                vertices.add(Vertex.newBuilder().setX(Math.round(-100)).setY(Math.round(-100)).build());
         }
-
         this.addColourVertices();
         this.createSegmentsPairs();
         this.addColourSegments();
@@ -150,17 +165,11 @@ public class DotGen {
 
     private void createSegmentsPairs(){
         for(int i = 0; i < this.vertices.size(); i = i + 1){
-            if(!(vertices.get(i).equals(Vertex.newBuilder().setX(Math.round(-1)).setY(Math.round(-1)).build()))&&!(vertices.get(i+1).equals(Vertex.newBuilder().setX(Math.round(-1)).setY(Math.round(-1)).build()))){
+            if(!(vertices.get(i).equals(Vertex.newBuilder().setX(Math.round(-100)).setY(Math.round(-100)).build()))&&!(vertices.get(i+1).equals(Vertex.newBuilder().setX(Math.round(-100)).setY(Math.round(-100)).build()))){
                 Segment s = Segment.newBuilder().setV1Idx(i).setV2Idx(i+1).build();
                 this.segments.add(s);
             }
         }
-        int f = 1;
-        while(!(vertices.get(this.vertices.size()-1-f).equals(Vertex.newBuilder().setX(Math.round(-1)).setY(Math.round(-1)).build()))){
-            f++;
-        }
-        Segment s = Segment.newBuilder().setV1Idx(this.vertices.size()-f).setV2Idx(this.vertices.size()-2).build();
-        this.segments.add(s);
     }
 
     private void addColourSegments(){
