@@ -22,20 +22,20 @@ public class CentroidsGen {
         return centroids;
     }
 
-    public ArrayList<Coordinate> createRandomCentroids(double height, double width, double square_size){
+    public ArrayList<Coordinate> createRandomCentroids(double height, double width, double square_size, int polyNum){
 
         PrecisionModel PM = new PrecisionModel();
         ArrayList<Coordinate> coords = new ArrayList<>();
         Coordinate temp;
         Random bag = new Random();
 
-        for (int y = 0; y < (height-20)*(width-20); y += square_size*square_size) {
+        for (int y = 0; y < polyNum; y ++) {
             temp = new Coordinate(bag.nextDouble(width), bag.nextDouble(height));
             PM.makePrecise(temp);
             coords.add(temp);
         }
 
-        return coords;
+        return coords;  
     }
 
     public ArrayList<Vertex> createIrregularFinalCentroids(ArrayList<Coordinate> coords){

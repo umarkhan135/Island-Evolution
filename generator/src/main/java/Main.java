@@ -8,11 +8,15 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 
 
+import org.apache.commons.cli.*;
+
+
+
 import java.io.IOException;
 
 public class Main {
-
-    public static void main(String[] args) throws IOException {
+    
+    public static void main(String[] args) throws IOException, ParseException {
 
         Options options = new Options();
         options.addOption(new Option("d", "debug", false, "Turn on debug."));
@@ -34,11 +38,32 @@ public class Main {
 
         Mesh myMesh = generator.generate();
 
-        //Mesh myMesh = generator.iGenerate();
+
+        options.addOption("h", false, "help");
+        options.addOption("p", true, "number of polygons");
+        options.addOption("r", true, "relaxation level of mesh");
+        options.addOption("i", false, "prints irregular mesh");
+        options.addOption("g", false, "prints regular mesh");
+        options.addOption("n", false , "prints neighbors");
+
+        //CommandLineParser parser = new DefaultParser();
+        CommandLine cmd;
+        cmd = parser.parse(options, args);
+        
+        if (cmd.hasOption("h")) {
+            
+            HelpFormatter formatter = new HelpFormatter();
+            formatter.printHelp("generator", options);
+            System.exit(0);
+            
+        }
+        
+
+
         //generator.iNeighbors();//we need to add a command line argument to display this
 
         MeshFactory factory = new MeshFactory();
         factory.write(myMesh, args[0]);
     }
-
+    
 }
