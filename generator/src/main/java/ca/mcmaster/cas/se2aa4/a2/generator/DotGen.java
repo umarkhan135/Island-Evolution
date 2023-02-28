@@ -25,6 +25,7 @@ import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 
 public class DotGen {
 
+
     private final double width = 500;
     private final double height = 500;
     private final double square_size = 20;

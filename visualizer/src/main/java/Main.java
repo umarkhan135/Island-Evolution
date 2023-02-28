@@ -3,6 +3,8 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.GraphicRenderer;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.MeshDump;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.SVGCanvas;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
 
 import java.awt.*;
 import java.io.IOException;
@@ -11,7 +13,9 @@ import java.util.Objects;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
         
+
         // Extracting command line parameters
         String input = args[0];
         String output = args[1];
