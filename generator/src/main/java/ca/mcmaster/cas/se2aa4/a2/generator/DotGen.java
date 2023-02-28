@@ -15,7 +15,6 @@ import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.quadedge.QuadEdge;
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 import org.locationtech.jts.algorithm.ConvexHull;
-import org.apache.commons.cli.*;
 
 
 public class DotGen {
@@ -36,8 +35,8 @@ public class DotGen {
     protected DelaunayTriangulationBuilder DTB = new DelaunayTriangulationBuilder();
     protected PrecisionModel PM = new PrecisionModel();
     
-    //This does not work as intended rn I'll have to edit it
-    void iNeighbors(){
+    
+    public void iNeighbors(){
 
         DelaunayTriangulationBuilder DTB = new DelaunayTriangulationBuilder();
         PrecisionModel PM = new PrecisionModel();
@@ -88,18 +87,18 @@ public class DotGen {
         this.coords = centGen.createRandomCentroids(height, width, square_size, polyNum);
 
         Centroid centroid;
-        for (int i = 0; i<15 ;i++){
+        for (int i = 0; i<relaxLev+1;i++){
             VDB = new VoronoiDiagramBuilder();
             VDB.setSites(coords);
             polygons = VDB.getSubdivision().getVoronoiCellPolygons(Geo);
-            coords.clear();
+            this.coords.clear();
             VDB.setSites(coords);
             for (org.locationtech.jts.geom.Polygon p: polygons){
                 ConvexHull CV = new ConvexHull(p);
                 centroid = new Centroid(CV.getConvexHull());
                 temp = centroid.getCentroid();
                 PM.makePrecise(temp);
-                coords.add(temp);
+                this.coords.add(temp);
             }
         }
 
