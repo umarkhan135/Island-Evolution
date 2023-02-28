@@ -15,7 +15,7 @@ import org.locationtech.jts.geom.*;
 import org.locationtech.jts.triangulate.quadedge.QuadEdge;
 import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
 import org.locationtech.jts.algorithm.ConvexHull;
-
+import org.apache.commons.cli.*;
 
 
 public class DotGen {
@@ -25,19 +25,19 @@ public class DotGen {
     private final double square_size = 20;
 
     Random bag = new Random();
-    ArrayList<QuadEdge> edges = new ArrayList<>();
-    ArrayList<Vertex> vertices = new ArrayList<>();
-    ArrayList<Vertex> verticesWithColors = new ArrayList<>();
-    ArrayList<Segment> segments = new ArrayList<>();
-    ArrayList<Segment> segmentsWithColors = new ArrayList<>();
-    ArrayList<Vertex> centroids = new ArrayList<>();
-    ArrayList<Coordinate> coords = new ArrayList<>();
-    Map<Coordinate, ArrayList<Coordinate>> neighbors= new HashMap<>();
-    DelaunayTriangulationBuilder DTB = new DelaunayTriangulationBuilder();
-    PrecisionModel PM = new PrecisionModel();
+    protected ArrayList<QuadEdge> edges = new ArrayList<>();
+    protected ArrayList<Vertex> vertices = new ArrayList<>();
+    protected ArrayList<Vertex> verticesWithColors = new ArrayList<>();
+    protected ArrayList<Segment> segments = new ArrayList<>();
+    protected ArrayList<Segment> segmentsWithColors = new ArrayList<>();
+    protected ArrayList<Vertex> centroids = new ArrayList<>();
+    protected ArrayList<Coordinate> coords = new ArrayList<>();
+    protected Map<Coordinate, ArrayList<Coordinate>> neighbors= new HashMap<>();
+    protected DelaunayTriangulationBuilder DTB = new DelaunayTriangulationBuilder();
+    protected PrecisionModel PM = new PrecisionModel();
     
     //This does not work as intended rn I'll have to edit it
-    public void iNeighbors(){
+    void iNeighbors(){
 
         DelaunayTriangulationBuilder DTB = new DelaunayTriangulationBuilder();
         PrecisionModel PM = new PrecisionModel();
