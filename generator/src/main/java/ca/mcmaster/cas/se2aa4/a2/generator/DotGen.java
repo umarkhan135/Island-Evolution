@@ -71,7 +71,7 @@ public class DotGen {
     
     
 
-    public Mesh iGenerate(){
+    public Mesh iGenerate(int polyNum, int relaxLev){
 
         VerticesGen vertGen = new VerticesGen();
         SegmentsGen segGen = new SegmentsGen();
@@ -85,7 +85,7 @@ public class DotGen {
         List<org.locationtech.jts.geom.Polygon> polygons = new ArrayList<>();
         
 
-        this.coords = centGen.createRandomCentroids(height, width, square_size);
+        this.coords = centGen.createRandomCentroids(height, width, square_size, polyNum);
 
         Centroid centroid;
         for (int i = 0; i<15 ;i++){
