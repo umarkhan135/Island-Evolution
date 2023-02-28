@@ -46,7 +46,6 @@ public class Main {
         options.addOption("g", false, "prints regular mesh");
         options.addOption("n", false , "prints neighbors");
 
-        //CommandLineParser parser = new DefaultParser();
         CommandLine cmd;
         cmd = parser.parse(options, args);
         
