@@ -1,0 +1,42 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+class GraphicRenderer{
+
+- THICKNESS: final int
+- width: final double
+- height: final double
+
++ render(Mesh aMesh, Graphics2D canvas, float Thickness, String visualizerStatus): void
+- extractColor(List<Property> properties): Color
+
+}
+
+class MeshDump{
+
++ dump(Mesh aMesh): void
++ dump(String fileName): void
+
+}
+
+class SVGCanvas{
+
++ build(int width, int height): Graphics2D
++ write(Graphics2D g, String fileName): void
+
+}
+
+class Main{
+
++ main()
+
+}
+
+
+Main o-.|> SVGCanvas
+Main o--.|> MeshDump
+Main o---.|> GraphicRenderer
+
+
+
+@enduml

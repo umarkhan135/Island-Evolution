@@ -1,3 +1,4 @@
+
 package ca.mcmaster.cas.se2aa4.a2.generator;
 
 import java.io.IOException;
@@ -6,108 +7,138 @@ import java.util.*;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
+import org.locationtech.jts.triangulate.VoronoiDiagramBuilder;
+import org.locationtech.jts.algorithm.Centroid;
+import org.locationtech.jts.geom.*;
+import org.locationtech.jts.triangulate.quadedge.QuadEdge;
+import org.locationtech.jts.triangulate.DelaunayTriangulationBuilder;
+import org.locationtech.jts.algorithm.ConvexHull;
 
 
 public class DotGen {
 
-    public final double width = 500;
+
+    private final double width = 500;
     private final double height = 500;
-    public final double square_size = 20;
+    private final double square_size = 20;
 
-    ArrayList<Vertex> vertices = new ArrayList<>();
-    ArrayList<Vertex> verticesWithColors = new ArrayList<>();
-    ArrayList<Segment> segments = new ArrayList<>();
-    ArrayList<Segment> segmentsWithColors = new ArrayList<>();
-    ArrayList<Vertex> centroids = new ArrayList<>();
+    Random bag = new Random();
+    protected ArrayList<QuadEdge> edges = new ArrayList<>();
+    protected ArrayList<Vertex> vertices = new ArrayList<>();
+    protected ArrayList<Vertex> verticesWithColors = new ArrayList<>();
+    protected ArrayList<Segment> segments = new ArrayList<>();
+    protected ArrayList<Segment> segmentsWithColors = new ArrayList<>();
+    protected ArrayList<Vertex> centroids = new ArrayList<>();
+    protected ArrayList<Coordinate> coords = new ArrayList<>();
+    protected Map<Coordinate, ArrayList<Coordinate>> neighbors= new HashMap<>();
+    protected DelaunayTriangulationBuilder DTB = new DelaunayTriangulationBuilder();
+    protected PrecisionModel PM = new PrecisionModel();
+    
+    
+    public void iNeighbors(){
 
-    public Mesh generate() {
-//        ArrayList<Vertex> vertices = new ArrayList<>();
-//        ArrayList<Vertex> verticesWithColors = new ArrayList<>();
-//        ArrayList<Segment> segments = new ArrayList<>();
-//        ArrayList<Segment> segmentsWithColors = new ArrayList<>();
-//        ArrayList<Vertex> centroids = new ArrayList<>();
+        DelaunayTriangulationBuilder DTB = new DelaunayTriangulationBuilder();
+        PrecisionModel PM = new PrecisionModel();
 
-        // Generate vertices
-        for (int y = 0; y < height; y += square_size) {
-            for (int x = 0; x < width; x += square_size) {
-                vertices.add(Vertex.newBuilder().setX(Math.round( x * 100)/100).setY(Math.round( y * 100)/100).build());
+        DTB.setSites(coords);
+        Collection<QuadEdge> triangles = DTB.getSubdivision().getEdges();
+        for ( Coordinate c: coords){
+            ArrayList<Coordinate> close = new ArrayList<>();
+            PM.makePrecise(c);
+            for(QuadEdge e: triangles){    
+                PM.makePrecise(e.orig().getCoordinate());
+                PM.makePrecise(e.dest().getCoordinate());
+                if(e.dest().getCoordinate().y<=500 && e.dest().getCoordinate().x<=500 && e.dest().getCoordinate().y>=0 && e.dest().getCoordinate().x>=0 && c.equals2D(e.orig().getCoordinate(), 0.5 )){
+                    close.add(e.dest().getCoordinate());
+                }    
+            }
+            if(c.y>=0 && c.x>=0 && c.y<=500 && c.x<=500){
+                neighbors.put(c, close);
+            }
+            
+        }
+        for(Coordinate k: neighbors.keySet()){
+            System.out.printf("Neighbors of (%d, %d): \n",Math.round(k.x),Math.round(k.y));
+            for(Coordinate c: neighbors.get(k)){
+                System.out.printf("(%d, %d)",Math.round(c.x),Math.round(c.y));
+            }
+            System.out.println();
+        }
+        System.out.printf("\n%d\n", neighbors.keySet().size());
+    }
+    
+    
+
+    public Mesh iGenerate(int polyNum, int relaxLev){
+
+        VerticesGen vertGen = new VerticesGen();
+        SegmentsGen segGen = new SegmentsGen();
+        CentroidsGen centGen = new CentroidsGen();
+        
+        
+        GeometryFactory Geo = new GeometryFactory();
+        PrecisionModel PM = new PrecisionModel();
+        VoronoiDiagramBuilder VDB = new VoronoiDiagramBuilder();
+        Coordinate temp;
+        List<org.locationtech.jts.geom.Polygon> polygons = new ArrayList<>();
+        
+
+        this.coords = centGen.createRandomCentroids(height, width, square_size, polyNum);
+
+        Centroid centroid;
+        for (int i = 0; i<relaxLev+1;i++){
+            VDB = new VoronoiDiagramBuilder();
+            VDB.setSites(coords);
+            polygons = VDB.getSubdivision().getVoronoiCellPolygons(Geo);
+            this.coords.clear();
+            VDB.setSites(coords);
+            for (org.locationtech.jts.geom.Polygon p: polygons){
+                ConvexHull CV = new ConvexHull(p);
+                centroid = new Centroid(CV.getConvexHull());
+                temp = centroid.getCentroid();
+                PM.makePrecise(temp);
+                this.coords.add(temp);
             }
         }
-        for (int y = 10; y < height-10; y += square_size) {
-            for (int x = 10; x < width-10; x += square_size) {
-                Property color = Property.newBuilder().setKey("rgb_color").setValue("0,0,0,127").build();
-                centroids.add(Vertex.newBuilder().setX(Math.round( x * 100)/100).setY(Math.round( y * 100)/100).addProperties(color).build());
-            }
-        }
 
-        // Distribute colors randomly. Vertices are immutable, need to enrich them
-        Random bag = new Random();
-        for(Vertex v: vertices){
-            int red = bag.nextInt(255);
-            int green = bag.nextInt(255);
-            int blue = bag.nextInt(255);
-            int alpha = 255;
-            String colorCode = red + "," + green + "," + blue + "," + alpha;
-            Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-            Vertex colored = Vertex.newBuilder(v).addProperties(color).build();
-            verticesWithColors.add(colored);
-        }
+        this.centroids = centGen.createIrregularFinalCentroids(coords);
 
-        for(Vertex v: vertices){
-            if((vertices.indexOf(v)+1)%25 != 0){
-                Segment s = Segment.newBuilder().setV1Idx(vertices.indexOf(v)).setV2Idx(vertices.indexOf(v)+1).build();
-                segments.add(s);
-            }
-            if((vertices.indexOf(v)+25) < vertices.size()){
-                Segment s = Segment.newBuilder().setV1Idx(vertices.indexOf(v)).setV2Idx(vertices.indexOf(v)+25).build();
-                segments.add(s);
-            }
-        }
+        this.vertices = vertGen.createIrregularVertices(polygons);
 
-        for(Segment s: segments){
-            Property color = avgColor(verticesWithColors.get(s.getV1Idx()).getPropertiesList(), verticesWithColors.get(s.getV2Idx()).getPropertiesList());
-            Segment colored = Segment.newBuilder(s).addProperties(color).build();
-            segmentsWithColors.add(colored);
-        }
+        this.verticesWithColors = vertGen.addColourVertices(vertices);
 
-        NewMesh mesh = new NewMesh(verticesWithColors, centroids, segmentsWithColors, width, square_size);
-        System.out.println(mesh.getPolygons());
+        this.segments = segGen.createSegmentsPairs(verticesWithColors);
 
+        this.segmentsWithColors = segGen.addColourSegments(segments, verticesWithColors);
 
-        return Mesh.newBuilder().addAllVertices(mesh.getVertices()).addAllVertices(mesh.getCentroids()).addAllSegments(mesh.getSegments()).addAllPolygons(mesh.getPolygons()).build();
+        return Mesh.newBuilder().addAllVertices(verticesWithColors).addAllVertices(centroids).addAllSegments(segmentsWithColors).build();
 
     }
 
+    public Mesh generate() {
 
-    private Property avgColor(List<Property> prop1, List<Property> prop2) {
-    
-        String val1 = null;
-        String val2 = null;
-        for(Property p: prop1) {
-            if (p.getKey().equals("rgb_color")) {
-                //System.out.println(p.getValue());
-                val1 = p.getValue();
-            }
-        }
-        for(Property p: prop2) {
-            if (p.getKey().equals("rgb_color")) {
-                //System.out.println(p.getValue());
-                val2 = p.getValue();
-            }
-        }
+        VerticesGen vertGen = new VerticesGen();
+        SegmentsGen segGen = new SegmentsGen();
+        CentroidsGen centGen = new CentroidsGen();
 
-        String[] raw1 = val1.split(",");
-        String[] raw2 = val2.split(",");
-        int red = (Integer.parseInt(raw1[0]) + Integer.parseInt(raw2[0]))/2;
-        int green = (Integer.parseInt(raw1[1]) + Integer.parseInt(raw2[1]))/2;
-        int blue = (Integer.parseInt(raw1[2]) + Integer.parseInt(raw2[2]))/2;
-        int alpha = (Integer.parseInt(raw1[3]) + Integer.parseInt(raw2[3]))/2;
-        String colorCode = red + "," + green + "," + blue + "," + alpha;
-        Property color = Property.newBuilder().setKey("rgb_color").setValue(colorCode).build();
-        return color;
+        // Generate vertices
+        this.vertices = vertGen.createRegularVertices(width, height, square_size);
+
+        this.centroids = centGen.createRegularCentroids(width, height, square_size);
+        
+        // Distribute colors randomly. Vertices are immutable, need to enrich them
+        this.verticesWithColors = vertGen.addColourVertices(this.vertices);
+
+        this.segments = segGen.createRegularSegments(this.verticesWithColors);
+
+        this.segmentsWithColors = segGen.addColourSegments(this.segments, this.verticesWithColors);
+
+        NewMesh mesh = new NewMesh(verticesWithColors, centroids, segmentsWithColors, width, square_size);
+        //System.out.println(mesh.getPolygons());
+
+        return Mesh.newBuilder().addAllVertices(mesh.getVertices()).addAllVertices(mesh.getCentroids()).addAllSegments(mesh.getSegments()).addAllPolygons(mesh.getPolygons()).build();
+
     }
 }

@@ -71,11 +71,18 @@ Add conditions for the feature have been met.
 | F03 | Apply average colour to segment | Pedro  | 02/05/2023 | 02/07/2023  | D  | 
 | F04 | Edit GraphicRenderer to draw out segments | Everyone  | 02/05/2023 | 02/07/2023  | D  |
 | F05 | Mesh ADT: Precision model | Omar and Umar | 02/19/2023 | 02/20/2023 | D |
-| F06 | Mesh ADT: Polygon implementation | Omar and Pedro | 02/19/2023 | 02/20/2023 | D |
-| F07 | Mesh ADT: Allow only new vertices, segments and polygons | Omar and Pedro | 02/19/2023 | 02/23/2023 | D |
+| F06 | Mesh ADT: Polygon implementation | Omar | 02/19/2023 | 02/20/2023 | D |
+| F07 | Mesh ADT: Allow only new vertices, segments and polygons | Omar | 02/19/2023 | 02/22/2023 | D |
 | F08 | Producing full meshes | Omar and Umar | 02/20/2023 | 02/22/2023 | D |
 | F09 | Add alpha value to colours to support transparency | Mason | 02/15/2023|02/21/2023 | D |
-| F10 | Add thickness information/properties to vertices, segments and polygons | Mason | 02/15/2023|02/21/2023 | D |
+| F10 | Add thickness information/properties to vertices, segments and polygons | Mason | 02/15/2023|02/21/2023 |D |
 | F11 | Visualization mode, debugging | Umar | 02/21/2023 | 02/22/2023 | D |
-
+| F12 | Creating a new class and cleaning F06, F07, F08 to reduce technical debt | Pedro | 02/22/2023 | 02/23/2023 | D |
+| F13 | Randomize generation of centroids | Mason | 02/24/2023 | 02/24/2023 | D |
+| F14 | Voronoi diagrams | Mason and Pedro | 02/24/2023 | 02/24/2023 | D |
+| F15 | Lloyd Relaxation | Mason and Pedro | 02/25/2023  | 02/27/2023  | D |
+| F16 | Cropping Mesh | Pedro | 02/25/2023 | 02/25/2023 | D |
+| F17 | Delaunay Triangulation | Mason | 02/27/2023 | 02/27/2023 | D |
+| F18 | Convex Hull | Mason | 02/27/2023 | 02/27/2023 | D |
+| F19 | Command line arguments | Pedro | 02/27/2023 | 02/27/2023 | D |
 

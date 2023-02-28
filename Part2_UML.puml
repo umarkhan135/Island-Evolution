@@ -1,0 +1,52 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+class NewMesh{
+
+- vertices: ArrayList<Vertex>
+- centroids: ArrayList<Vertex>
+- segments: ArrayList<Segment>
+- polygons: ArrayList<Polygon>
+- square_size: double
+- width: double
+
+
++ NewMesh(vertices, centroids, segments, polygons, square_size, width)
++ setWidth(width): void
++ setSquare_size(square_size): void
++ addAllVertices(vertices): void
++ addAllCentroids(centroids): void
++ addAllSegments(segments): void
++ createAllPolygons(): void
++ getPolygons(): ArrayList<Polygon>
++ getSegments(): ArrayList<Segment>
++ getVertices(): ArrayList<Vertex>
++ getCentroids(): ArrayList<Vertex>
++ getSquare_size(): double
++ getWidth(): double
+
+}
+
+class DotGen{
+
+- width: double
+- height: double
+- square_size: double
++ vertices: ArrayList<Vertex>
++ verticesWithColors: ArrayList<Vertex>
++ segments: ArrayList<Segment>
++ segmentsWithColors: ArrayList<Segment>
++ centroids: ArrayList<Vertex>
+
++ generate(): Mesh
++ addColourVertices(): void
++ createSegmentsSquare(): void
++ createSegmentsSquare(): void
++ addColourSegments(): void
++ avgColor(List<Property> prop1, List<Property> prop2): Property
+
+}
+
+DotGen o-o NewMesh
+
+@enduml
