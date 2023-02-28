@@ -84,5 +84,5 @@ Add conditions for the feature have been met.
 | F16 | Cropping Mesh | Pedro | 02/25/2023 | 02/25/2023 | D |
 | F17 | Delaunay Triangulation | Mason | 02/27/2023 | 02/27/2023 | D |
 | F18 | Convex Hull | Mason | 02/27/2023 | 02/27/2023 | D |
-| F19 | Command line arguments | All | 02/27/2023 |  | p |
+| F19 | Command line arguments | Pedro | 02/27/2023 | 02/27/2023 | D |
 
