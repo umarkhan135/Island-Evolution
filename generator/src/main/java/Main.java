@@ -26,12 +26,17 @@ public class Main {
         options.addOption("p","polygons", true, "number of polygons for irregulare");
 
         CommandLineParser parser = new BasicParser();
-        CommandLine cmd = parser.parse(options, args);
+        //CommandLine cmd = parser.parse(options, args);
 
 
 
         DotGen generator = new DotGen();
+
         Mesh myMesh = generator.generate();
+
+        //Mesh myMesh = generator.iGenerate();
+        //generator.iNeighbors();//we need to add a command line argument to display this
+
         MeshFactory factory = new MeshFactory();
         factory.write(myMesh, args[0]);
     }
