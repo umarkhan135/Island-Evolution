@@ -19,6 +19,7 @@ import org.locationtech.jts.algorithm.ConvexHull;
 
 public class DotGen {
 
+
     private final double width = 500;
     private final double height = 500;
     private final double square_size = 20;

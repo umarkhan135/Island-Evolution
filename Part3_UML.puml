@@ -1,0 +1,82 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+class AverageColorGen{
++ avgColor(prop1: List<Property>, prop2: List<Property>): Property
+}
+
+class CentroidsGen{
++ createRegularCentroids(height: double, width: double,square_size: double): ArrayList<Vertex>
++ createRandomCentroids(height: double, width: double,square_size: double,polyNum: int): ArrayList<Coordinate>
++ createIrregularFinalCentroids(coords: ArrayList<Coordinate> ): ArrayList<Vertex>
+}
+
+class DotGen{
+- square_size: double
+- width: double
+- height: double
+# vertices: ArrayList<Vertex>
+# verticesWithColors: ArrayList<Vertex>
+# segments: ArrayList<Segment>
+# segmentsWithColors: <Segment>
+# centroids: ArrayList<Vertex>
+# coords: ArrayList<Coordinate>
+# neighbors: Map<Coordinate, ArrayList<Coordinate>>
+# DTB: DelaunayTriangulationBuilder
+# PM: PrecisionModel
++ iNeighbors(): void
++ iGenerate(polyNum: int, relaxLev: int): Mesh
++ generate(): Mesh
+}
+
+class NewMesh{
+- vertices: ArrayList<Vertex>
+- centroids: ArrayList<Vertex>
+- segments: ArrayList<Segment>
+- polygons: ArrayList<Polygon>
+- square_size: double
+- width: double
++ NewMesh(vertices, centroids, segments, polygons, square_size, width)
++ setWidth(width): void
++ setSquare_size(square_size): void
++ addAllVertices(vertices): void
++ addAllCentroids(centroids): void
++ addAllSegments(segments): void
++ createAllPolygons(): void
++ getPolygons(): ArrayList<Polygon>
++ getSegments(): ArrayList<Segment>
++ getVertices(): ArrayList<Vertex>
++ getCentroids(): ArrayList<Vertex>
++ getSquare_size(): double
++ getWidth(): double
+}
+
+class PolygonsGen{
++ createRegularPolygons(width: double, height: double, square_size: double): ArrayList<Polygon>
+}
+
+class SegmentsGen{
++ createRegularSegments(vertices: ArrayList<Vertex>): ArrayList<Segment>
++ createSegmentsPairs(vertices: ArrayList<Vertex>): ArrayList<Segment>
++ addColourSegments(segments: ArrayList<Segment>, verticesWithColors: ArrayList<Vertex>): ArrayList<Segment
+}
+
+class VerticesGen{
++ createRegularVertices(height: double, width: double,square_size: double): ArrayList<Vertex>
++ createIrregularVertices(polygons: List<org.locationtech.jts.geom.Polygon>): ArrayList<Vertex>
++ addColourVertices(vertices: ArrayList<Vertex>): ArrayList<Vertex>
+}
+
+PolygonsGen *-- NewMesh : composition
+
+DotGen o-- AverageColorGen : aggregation
+DotGen o-- CentroidsGen : aggregation
+DotGen o-- SegmentsGen : aggregation
+DotGen o-- VerticesGen : aggregation
+DotGen o-- NewMesh : aggregation
+
+PolygonsGen --> DotGen : dependency
+SegmentsGen --> DotGen : dependency
+VerticesGen --> DotGen : dependency
+CentroidsGen --> DotGen : dependency
+@enduml
