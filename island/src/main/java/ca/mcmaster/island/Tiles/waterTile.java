@@ -1,12 +1,15 @@
 package ca.mcmaster.island.Tiles;
 
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
+
 public class waterTile implements Tile{
 
     private String colour_code = "0,0,255";
 
     @Override
-    public String getColour() {
-        return colour_code;
+    public Property getColour() {
+        Property p = Property.newBuilder().setValue(colour_code).build();
+        return p;
     }
     
 }

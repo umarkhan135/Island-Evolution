@@ -11,7 +11,7 @@ public class Main{
         Configuration config = new Configuration(args);
         Structs.Mesh aMesh = new MeshFactory().read(config.input());
         islandGen island = new islandGen();
-        Structs.Mesh exported = island.simpleIsland(aMesh);
+        Structs.Mesh exported = island.lagoon(aMesh);
         new MeshFactory().write(exported, config.output());
     }
 }

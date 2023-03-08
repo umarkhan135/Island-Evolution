@@ -12,6 +12,7 @@ import java.io.IOException;
 public class Main {
 
     public static void main(String[] args) throws IOException {
+
         Configuration config = new Configuration(args);
         Buildable specification = SpecificationFactory.create(config);
         Mesh theMesh = specification.build();
@@ -20,5 +21,6 @@ public class Main {
             exported = new RandomEnricher(0.2f).process(exported);
         }
         new MeshFactory().write(exported, config.export(Configuration.FILENAME));
+
     }
-}
+}  

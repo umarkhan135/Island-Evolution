@@ -53,4 +53,8 @@ public class GraphicRenderer implements Renderer {
         }
     }
 
+    private void fillPolygon(Structs.Polygon p, Mesh aMesh, Graphics2D canvas){
+            
+    }
+
 }
