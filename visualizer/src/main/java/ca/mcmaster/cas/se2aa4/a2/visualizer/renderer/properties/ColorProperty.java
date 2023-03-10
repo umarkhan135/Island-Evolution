@@ -9,7 +9,7 @@ import java.util.Optional;
 public class ColorProperty implements PropertyAccess<Color> {
     @Override
     public Optional<Color> extract(List<Property> props) {
-        String value = new Reader(props).get("rgb_color");
+        String value = props.get(0).getValue();
         if (value == null)
             return Optional.empty();
         String[] raw = value.split(",");
