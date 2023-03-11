@@ -16,6 +16,7 @@ public class Main {
         Graphics2D canvas = SVGCanvasProvider.build(aMesh);
         Renderer renderer = (config.debug()? new DebugRenderer(): new GraphicRenderer());
         renderer.render(aMesh, canvas);
+        System.out.println("Hey");
         SVGCanvasProvider.write(canvas, config.output());
     }
 

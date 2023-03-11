@@ -1,8 +1,3 @@
 mvn install
-cd generator
-java -jar generator.jar sample.mesh
-cd ..
-cd visualizer
-java -jar visualizer.jar ../generator/sample.mesh sample.svg
-cd ..
-
+java -jar generator/generator.jar -k irregular -r 12 -h 1080 -w 1920 -p 1000 -o img/irregular.mesh
+java -jar visualizer/visualizer.jar -i img/irregular.mesh -o img/irregular.svg

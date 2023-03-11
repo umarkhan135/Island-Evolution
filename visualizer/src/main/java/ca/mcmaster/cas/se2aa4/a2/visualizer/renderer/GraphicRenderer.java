@@ -45,6 +45,10 @@ public class GraphicRenderer implements Renderer {
         path.closePath();
         canvas.draw(path);
         Optional<Color> fill = new ColorProperty().extract(p.getPropertiesList());
+        System.out.println(fill.isPresent());
+        Color blue = new Color(0, 0, 200);
+        canvas.setColor(blue);
+        canvas.fill(path);
         if(fill.isPresent()) {
             Color old = canvas.getColor();
             canvas.setColor(fill.get());
