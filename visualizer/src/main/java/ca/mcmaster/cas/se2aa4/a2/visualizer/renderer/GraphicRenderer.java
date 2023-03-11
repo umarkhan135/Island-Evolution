@@ -1,37 +1,49 @@
+
 package ca.mcmaster.cas.se2aa4.a2.visualizer.renderer;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.ColorProperty;
 
 import java.awt.Graphics2D;
+import java.awt.Polygon;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.geom.Path2D;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
+
+import org.apache.batik.ext.awt.image.codec.png.PNGEncodeParam.RGB;
 
 public class GraphicRenderer implements Renderer {
 
     private static final int THICKNESS = 3;
+
     public void render(Mesh aMesh, Graphics2D canvas) {
         canvas.setColor(Color.BLACK);
+        canvas.setBackground(Color.RED);
         Stroke stroke = new BasicStroke(0.2f);
         canvas.setStroke(stroke);
-        drawPolygons(aMesh,canvas);
+        drawPolygons(aMesh, canvas);
+
     }
 
     private void drawPolygons(Mesh aMesh, Graphics2D canvas) {
-        for(Structs.Polygon p: aMesh.getPolygonsList()){
+        for (Structs.Polygon p : aMesh.getPolygonsList()) {
             drawAPolygon(p, aMesh, canvas);
+
         }
     }
 
     private void drawAPolygon(Structs.Polygon p, Mesh aMesh, Graphics2D canvas) {
+        // Colour
         Hull hull = new Hull();
-        for(Integer segmentIdx: p.getSegmentIdxsList()) {
+        for (Integer segmentIdx : p.getSegmentIdxsList()) {
             hull.add(aMesh.getSegments(segmentIdx), aMesh);
         }
         Path2D path = new Path2D.Float();
@@ -45,11 +57,7 @@ public class GraphicRenderer implements Renderer {
         path.closePath();
         canvas.draw(path);
         Optional<Color> fill = new ColorProperty().extract(p.getPropertiesList());
-        System.out.println(fill.isPresent());
-        Color blue = new Color(0, 0, 200);
-        canvas.setColor(blue);
-        canvas.fill(path);
-        if(fill.isPresent()) {
+        if (fill.isPresent()) {
             Color old = canvas.getColor();
             canvas.setColor(fill.get());
             canvas.fill(path);
@@ -57,8 +65,5 @@ public class GraphicRenderer implements Renderer {
         }
     }
 
-    private void fillPolygon(Structs.Polygon p, Mesh aMesh, Graphics2D canvas){
-            
-    }
-
 }
+
