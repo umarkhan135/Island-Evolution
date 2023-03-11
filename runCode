@@ -1,3 +1,4 @@
 mvn install
 java -jar generator/generator.jar -k irregular -r 12 -h 1080 -w 1920 -p 1000 -o img/irregular.mesh
+java -jar island/island.jar -o img/irregular.svg
 java -jar visualizer/visualizer.jar -i img/irregular.mesh -o img/irregular.svg
