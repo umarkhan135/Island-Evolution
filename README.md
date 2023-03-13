@@ -74,7 +74,7 @@ Add conditions for the feature have been met.
 |:--:|---------------|------|-------|-----|--------|
 | F01 | Generate missing segments in DotGen |   Omar   | 02/05/2023 |  02/07/2023   |   D    |
 | F02 | Get average colour | Pedro  | 02/05/2023 | 02/07/2023  | D |
-| F03 | Apply average colour to segment | Pedro  | 02/05/2023 | 02/07/2023  | D  | 
+| F03 | Apply average colour to segment | Pedro  | 02/05/2023 | 02/07/2023  | D | 
 | F04 | Edit GraphicRenderer to draw out segments | Everyone  | 02/05/2023 | 02/07/2023  | D  |
 | F05 | Mesh ADT: Precision model | Omar and Umar | 02/19/2023 | 02/20/2023 | D |
 | F06 | Mesh ADT: Polygon implementation | Omar | 02/19/2023 | 02/20/2023 | D |
@@ -93,6 +93,7 @@ Add conditions for the feature have been met.
 | F19 | Command line arguments | Pedro | 02/27/2023 | 02/27/2023 | D |
 
 ### A3 Product Backlog
+
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
 | F01 | Generate Polygon Types| Pedro |  |     | S |
