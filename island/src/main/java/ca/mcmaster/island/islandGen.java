@@ -21,36 +21,35 @@ public class islandGen {
             double d = centerDistance(v);
 
             if (d <= inner_radius) {
-                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(0, lagoon.getColour()).build());
-            }else if(d <= outer_radius){
+                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(lagoon.getColour()).build());
+            } else if (d <= outer_radius) {
                 boolean b = checkNeighbors(p.getNeighborIdxsList(), m, inner_radius, outer_radius);
-                if(b){
+                if (b) {
                     tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(0, beach.getColour()).build());
-                }else{
+                } else {
                     tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(0, land.getColour()).build());
                 }
-            }else {
+            } else {
                 tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(0, ocean.getColour()).build());
             }
         }
-
 
         Structs.Mesh newMesh = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(tilePolygons).build();
 
         return newMesh;
     }
 
-    public double centerDistance(Structs.Vertex v){
+    public double centerDistance(Structs.Vertex v) {
         double d = Math.sqrt((250 - v.getY()) * (250 - v.getY()) + (250 - v.getX()) * (250 - v.getX()));
         return d;
     }
 
-    public boolean checkNeighbors(List<Integer> n, Structs.Mesh m, double inner, double outer){
+    public boolean checkNeighbors(List<Integer> n, Structs.Mesh m, double inner, double outer) {
         List<Structs.Polygon> p = m.getPolygonsList();
-        for(int i : n){
+        for (int i : n) {
             Structs.Vertex v = m.getVertices(p.get(i).getCentroidIdx());
             double d = centerDistance(v);
-            if(d > outer || d < inner){
+            if (d > outer || d < inner) {
                 return true;
             }
         }
