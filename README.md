@@ -58,7 +58,7 @@ When you develop features and enrich the product, remember that you have first t
 
 ## How to run the project
 mvn install
-java -jar generator/generator.jar -k irregular -h 1080 -w 1080 -p 1000 -s 20 -o img/test.mesh
+java -jar generator/generator.jar -k irregular -h 500 -w 500 -p 1000 -s 20 -o img/test.mesh
 java -jar island/island.jar -o img/test2.mesh -i img/test.mesh
 java -jar visualizer/visualizer.jar -i img/test2.mesh -o img/test3.svg 
 
