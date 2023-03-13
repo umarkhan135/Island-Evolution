@@ -15,6 +15,7 @@ public class islandGen {
         Tile lagoon = new lagoonTile();
         Tile beach = new beachTile();
 
+
         for (Structs.Polygon p : m.getPolygonsList()) {
 
             Structs.Vertex v = m.getVertices(p.getCentroidIdx());
