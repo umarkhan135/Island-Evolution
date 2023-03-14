@@ -22,8 +22,9 @@ public class Main {
                 exported = island.lagoon(aMesh);
                 break;
 
-        new MeshFactory().write(exported, config.output());
+        
         }
+        new MeshFactory().write(exported, config.output());
     }
 }
 

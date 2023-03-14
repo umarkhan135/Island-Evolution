@@ -23,21 +23,22 @@ public class AppTest {
      */
     @Test
     public void oceanTest() throws IOException {
-        assertTrue(new oceanTile().getColour().getValue().equals(oceanColorCode));
+        assertTrue(new oceanTile().getColor().getValue().equals(oceanColorCode));
     }
 
     @Test
     public void landTest() throws IOException {
-        assertTrue(new landTile().getColour().getValue().equals(landColorCode));
+        assertTrue(new landTile().getColor().getValue().equals(landColorCode));
     }
 
     @Test
     public void beachTest() throws IOException {
-        assertTrue(new beachTile().getColour().getValue().equals(beachColorCode));
+        assertTrue(new beachTile().getColor().getValue().equals(beachColorCode));
     }
 
     @Test
     public void lagoonTest() throws IOException {
-        assertTrue(new lagoonTile().getColour().getValue().equals(lagoonColorCode));
+        assertTrue(new lagoonTile().getColor().getValue().equals(lagoonColorCode));
     }
+
 }

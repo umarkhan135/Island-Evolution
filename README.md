@@ -96,5 +96,7 @@ Add conditions for the feature have been met.
 
 | Id | Feature title | Who? | Start | End | Status |
 |:--:|---------------|------|-------|-----|--------|
-| F01 | Generate Polygon Types| Pedro |  |     | S |
-| F02 | Fill polygons with the appropriate colour based on type | Mason | 03/08/2023 |   | S |
+| F01 | Create Tile Types | Pedro | 03/08/2023 |  03/10/2023   | D |
+| F02 | Assign Tile Types/Colors | Pedro | 03/08/2023 | 03/11/2023 | D |
+| F02 | Fill polygons with the appropriate colour based on type | Pedro and Mason | 03/08/2023 |  03/11/2023 | D |
+| F03 | MVP/Step 1 unit testing | Mason, Umar and Omar | 03/13/2023 | | S |
