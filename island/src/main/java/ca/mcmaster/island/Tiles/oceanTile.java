@@ -13,7 +13,7 @@ public class oceanTile implements Tile {
     }
 
     public Property getTileProperty(){
-        Property c = Property.newBuilder().setKey("tile_type").setValue("beachTile").build();
+        Property c = Property.newBuilder().setKey("tile_type").setValue("oceanTile").build();
         return c;
     }
 
