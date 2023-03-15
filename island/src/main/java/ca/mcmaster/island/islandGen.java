@@ -28,13 +28,11 @@ public class islandGen {
             double d = dis.centerDistance(v, 250, 250);
             
             if (d <= inner_radius) {
-                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(lagoon.getColor()).build());
-            }else if(d <= outer_radius && n.checkNeighbors(p, m, outer_radius, inner_radius)){
-                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(beach.getColor()).build()); 
+                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(lagoon.getTileProperty()).build()); 
             }else if(d <= outer_radius){
-                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getColor()).build());
+                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).build());
             }else {
-                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(ocean.getColor()).build());
+                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(ocean.getTileProperty()).build());
             }
 
         }
@@ -43,5 +41,5 @@ public class islandGen {
         
         return newMesh;
     }
-    
 }
+    
