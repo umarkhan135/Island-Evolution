@@ -14,12 +14,13 @@ public class Main {
         Structs.Mesh aMesh = new MeshFactory().read(config.input());
         islandGen island = new islandGen();
         Structs.Mesh exported = Mesh.newBuilder().build();
+        colorMesh cm = new colorMesh();
         switch (config.mode()) {
             case "lagoon":
-                exported = colorMesh.setpolygonColor(island.lagoon(aMesh));
+                exported = island.lagoon(aMesh);
                 break;
             default:
-                exported = colorMesh.setpolygonColor(island.lagoon(aMesh));
+                exported = island.lagoon(aMesh);
                 break;
         }
         new MeshFactory().write(exported, config.output());

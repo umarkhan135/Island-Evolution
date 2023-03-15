@@ -9,30 +9,34 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.island.Tiles.*;
 import ca.mcmaster.island.*;
 import java.util.*;
+import ca.mcmaster.island.properties.*;
 
 public class colorMesh {
-    static Tile land = new landTile();
-    static Tile ocean = new oceanTile();
-    static Tile lagoon = new lagoonTile();
-    static Tile beach = new beachTile();
+    Tile land = new landTile();
+    Tile ocean = new oceanTile();
+    Tile lagoon = new lagoonTile();
+    Tile beach = new beachTile();
+    TileProperty tileProperty = new TileProperty();
 
-    public static Mesh setpolygonColor(Mesh m) {
+    public Mesh setpolygonColor(Mesh m) {
         ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
         for (Structs.Polygon p : m.getPolygonsList()) {
-            if (p.getProperties(0).getValue().equals(land.getTileProperty().getValue())) {
-                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getColor()).build());
+            Optional<String> tile = tileProperty.extract(p.getPropertiesList());
+            if (tile.isPresent()) {
+                if (tile.get().equals(land.getTileProperty().getValue())) {
+                    tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getColor()).build());
 
-            } else if (p.getProperties(0).getValue().equals(ocean.getTileProperty().getValue())) {
-                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(ocean.getColor()).build());
+                } else if (tile.get().equals(land.getTileProperty().getValue())) {
+                    tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(ocean.getColor()).build());
 
-            } else if (p.getProperties(0).getValue().equals(lagoon.getTileProperty().getValue())) {
-                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(lagoon.getColor()).build());
+                } else if (tile.get().equals(land.getTileProperty().getValue())) {
+                    tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(lagoon.getColor()).build());
 
-            } else if (p.getProperties(0).getValue().equals(beach.getTileProperty().getValue())) {
-                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(beach.getColor()).build());
+                } else if (tile.get().equals(land.getTileProperty().getValue())) {
+                    tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(beach.getColor()).build());
 
+                }
             }
-
         }
         Structs.Mesh newMesh = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(tilePolygons).build();
         return newMesh;
