@@ -4,6 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import java.io.IOException;
+import ca.mcmaster.island.colorMesh;
 
 public class Main {
 
@@ -15,10 +16,10 @@ public class Main {
         Structs.Mesh exported = Mesh.newBuilder().build();
         switch (config.mode()) {
             case "lagoon":
-                exported = island.lagoon(aMesh);
+                exported = colorMesh.setpolygonColor(island.lagoon(aMesh));
                 break;
             default:
-                exported = island.lagoon(aMesh);
+                exported = colorMesh.setpolygonColor(island.lagoon(aMesh));
                 break;
         }
         new MeshFactory().write(exported, config.output());
