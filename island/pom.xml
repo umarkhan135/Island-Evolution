@@ -13,10 +13,16 @@
   </parent>
 
   <version>1.0</version>
-  <artifactId>2aa4.mesh.generator</artifactId>
-  <name>McMaster :: CAS :: 2AA4 :: A2 :: Generator</name>
+  <artifactId>2aa4.mesh.island</artifactId>
+  <name>McMaster :: CAS :: 2AA4 :: A3 :: Island</name>
 
   <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.11</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>io.github.ace-design</groupId>
       <artifactId>2aa4.mesh.io</artifactId>
@@ -90,7 +96,7 @@
             </goals>
             <configuration>
               <sourceFile>${project.build.directory}/${project.artifactId}-jar-with-dependencies.jar</sourceFile>
-              <destinationFile>generator.jar</destinationFile>
+              <destinationFile>island.jar</destinationFile>
             </configuration>
           </execution>
         </executions>
