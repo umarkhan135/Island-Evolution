@@ -7,10 +7,13 @@ import java.util.*;
 
 
 public class islandGen {
+
+    ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
+    Structs.Mesh testMesh;
     
     public Structs.Mesh lagoon(Structs.Mesh m) {
         
-        ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
+        
         neighborCheck n = new neighborCheck();
         distance dis = new distance();
         
@@ -40,8 +43,17 @@ public class islandGen {
         }
         
         Structs.Mesh newMesh = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(tilePolygons).build();
+        testMesh = newMesh;
         
         return newMesh;
+    }
+
+    public ArrayList<Structs.Polygon> getTilePolygons() {
+        return tilePolygons;
+    }
+
+    public Structs.Mesh getTestLagoonMesh(){
+        return testMesh;
     }
     
 }
