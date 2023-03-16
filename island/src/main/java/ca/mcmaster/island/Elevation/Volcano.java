@@ -1,30 +1,33 @@
 package ca.mcmaster.island.Elevation;
 
 import java.util.Optional;
+import java.awt.*;
 
-import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.island.MeshSize;
 import ca.mcmaster.island.distance;
 import ca.mcmaster.island.Tiles.oceanTile;
 import ca.mcmaster.island.properties.ColorProperty;
 
-import java.awt.*;
 
-
-public class Canyon implements elevation {
-
+public class Volcano implements elevation {
     private double elevation;    
 
     @Override
-    public double getElevation(Polygon polygon, int radius, Structs.Mesh aMesh) {
+    public double getElevation(Polygon polygon, int radius, Mesh aMesh) {
+
 
         ColorProperty colorProperty = new ColorProperty();
         Structs.Vertex meshSize = new MeshSize().findLargestXYVertex(aMesh);
+        
 
         double x = meshSize.getX();
         double y = meshSize.getY();
+        System.out.println(x + " " + y);
         
         String oceanColorString = new oceanTile().getColor().getValue();
         Color oceanColor = colorProperty.toColor(oceanColorString);
@@ -41,7 +44,7 @@ public class Canyon implements elevation {
 
             distance dis = new distance();
             double distance = dis.centerDistance(centroid, x/2, y/2);
-            double normalizedDistance = distance / radius;
+            double normalizedDistance = (radius - distance) / radius;
 
             elevation = Math.pow(normalizedDistance, 2) * 100;
             elevation = Math.round(elevation * 100) / 100.0;
@@ -52,12 +55,8 @@ public class Canyon implements elevation {
 
     @Override
     public Property tileElevation() {
-
         Property c = Property.newBuilder().setKey("elevation").setValue(String.valueOf(this.elevation)).build();
-        return c;
-        
+        return c;   
     }
-
-    
     
 }

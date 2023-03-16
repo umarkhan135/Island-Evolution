@@ -4,6 +4,7 @@ import ca.mcmaster.island.Tiles.*;
 import ca.mcmaster.island.properties.TileProperty;
 import ca.mcmaster.island.neighborCheck;
 import ca.mcmaster.island.Elevation.Canyon;
+import ca.mcmaster.island.Elevation.Volcano;
 import ca.mcmaster.island.Elevation.elevation;
 import ca.mcmaster.island.distance;
 
@@ -68,22 +69,21 @@ public class islandGen {
 
         for (Structs.Polygon p : tilePolygons1) {
 
-            elevation elevate = new Canyon();
+            elevation elevate = new Volcano();
             elevate.getElevation(p, 200, m);
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
             poly.add(newPolygon);
         }
         Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
 
-        //System.out.println(poly);
-
-
-        for (Structs.Polygon p : tilePolygons1) {
+        for (Structs.Polygon p : poly) {
+            elevation elevate = new Volcano();
+            elevate.getElevation(p, 200, m);
             Optional<Color> tile = colorProperty.extract(p.getPropertiesList());
             if (tile.isPresent()) {
                 if (tile.get().equals(colorProperty.toColor(land.getColorCode()))) {
                     if (n.checkNeighbors(p, newMeshWithElevation, ocean) || n.checkNeighbors(p, newMeshWithElevation, lagoon)) {
-                        tilePolygons2.add(Structs.Polygon.newBuilder(p).addProperties(beach.getColor()).build());
+                        tilePolygons2.add(Structs.Polygon.newBuilder(p).clearProperties().addProperties(beach.getColor()).addProperties(beach.getTileProperty()).addProperties(elevate.tileElevation()).build());
                     } else {
                         tilePolygons2.add(p);
                     }
@@ -92,6 +92,8 @@ public class islandGen {
                 }
             }
         }
+
+        System.out.println(tilePolygons2);
 
         Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMeshWithElevation).clearPolygons().addAllPolygons(tilePolygons2).build();
 
