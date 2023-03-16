@@ -1,4 +1,4 @@
-package ca.mcmaster.island.Tiles;
+package ca.mcmaster.island.tiles;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 

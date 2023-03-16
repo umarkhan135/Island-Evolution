@@ -1,5 +1,5 @@
-import ca.mcmaster.island.Configuration.Configuration;
 import ca.mcmaster.island.islandGen;
+import ca.mcmaster.island.configuration.Configuration;
 import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;

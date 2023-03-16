@@ -13,8 +13,8 @@ import org.locationtech.jts.geom.Point;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
-import ca.mcmaster.island.Configuration.Configuration;
-import ca.mcmaster.island.Tiles.*;
+import ca.mcmaster.island.configuration.Configuration;
+import ca.mcmaster.island.tiles.*;
 
 public class distanceTest {
 
