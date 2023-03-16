@@ -14,9 +14,13 @@ import java.awt.Color;
 import java.util.*;
 import ca.mcmaster.island.properties.*;
 
+
 public class islandGen {
 
     public Structs.Mesh lagoon(Structs.Mesh m) {
+
+        MeshSize size = new MeshSize();
+        Structs.Vertex maxSize = size.findLargestXYVertex(m);
 
         ArrayList<Structs.Polygon> tilePolygons1 = new ArrayList<Structs.Polygon>();
         ArrayList<Structs.Polygon> tilePolygons2 = new ArrayList<Structs.Polygon>();
@@ -28,6 +32,10 @@ public class islandGen {
 
         final double inner_radius = 125.0;
         final double outer_radius = 200.0;
+        final double x = maxSize.getX();
+        final double y = maxSize.getY();
+
+        
 
         Tile land = new landTile();
         Tile ocean = new oceanTile();
@@ -41,11 +49,7 @@ public class islandGen {
         for (Structs.Polygon p : m.getPolygonsList()) {
 
             Structs.Vertex v = m.getVertices(p.getCentroidIdx());
-            double d = dis.centerDistance(v, 250, 250);
-            elevation elevate = new Canyon();
-            elevate.getElevation(p, 200, m);
-            
-            
+            double d = dis.centerDistance(v, x/2, y/2);
 
             if (d <= inner_radius) {                
                 tilePolygons1.add(Structs.Polygon.newBuilder(p).addProperties(lagoon.getTileProperty()).addProperties(lagoon.getColor()).build());
@@ -64,8 +68,6 @@ public class islandGen {
 
         for (Structs.Polygon p : tilePolygons1) {
 
-            Structs.Vertex v = m.getVertices(p.getCentroidIdx());
-
             elevation elevate = new Canyon();
             elevate.getElevation(p, 200, m);
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
@@ -73,7 +75,7 @@ public class islandGen {
         }
         Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
 
-        System.out.println(poly);
+        //System.out.println(poly);
 
 
         for (Structs.Polygon p : tilePolygons1) {
