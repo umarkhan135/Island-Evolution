@@ -26,4 +26,4 @@ public class ColorProperty implements PropertyAccess<Color> {
         int blue = Integer.parseInt(raw[2]);
         return (new Color(red, green, blue));
     }
-}
+} 

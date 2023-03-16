@@ -1,6 +1,8 @@
 package ca.mcmaster.island.Tiles;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
+import java.awt.*;
+
 
 public class oceanTile implements Tile {
 
@@ -19,6 +21,10 @@ public class oceanTile implements Tile {
 
     public String getColorCode(){
         return color_code;
+    }
+
+    public Color getColorColor(){
+        return new Color(43,101,236);
     }
 
 }
