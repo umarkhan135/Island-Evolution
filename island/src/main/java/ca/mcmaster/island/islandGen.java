@@ -15,7 +15,7 @@ public class islandGen {
 
         ArrayList<Structs.Polygon> tilePolygons1 = new ArrayList<Structs.Polygon>();
         ArrayList<Structs.Polygon> tilePolygons2 = new ArrayList<Structs.Polygon>();
-
+        
         neighborCheck n = new neighborCheck();
         distance dis = new distance();
         TileProperty tileProperty = new TileProperty();
@@ -43,6 +43,7 @@ public class islandGen {
             }
 
         }
+
         Structs.Mesh newMesh = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(tilePolygons1).build();
         for (Structs.Polygon p : tilePolygons1) {
             Optional<Color> tile = colorProperty.extract(p.getPropertiesList());
