@@ -12,6 +12,11 @@ public class beachTile implements Tile {
         return p;
     }
 
+    public Property getTileProperty(){
+        Property c = Property.newBuilder().setKey("tile_type").setValue("beachTile").build();
+        return c;
+    }
+
     public String getColorCode(){
         return color_code;
     }

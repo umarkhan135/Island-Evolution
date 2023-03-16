@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 
 import java.io.IOException;
+import ca.mcmaster.island.colorMesh;
 
 public class Main {
 
@@ -14,6 +15,7 @@ public class Main {
         Structs.Mesh aMesh = new MeshFactory().read(config.input());
         islandGen island = new islandGen();
         Structs.Mesh exported = Mesh.newBuilder().build();
+        colorMesh cm = new colorMesh();
         switch (config.mode()) {
             case "lagoon":
                 exported = island.lagoon(aMesh);
