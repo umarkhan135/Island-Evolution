@@ -3,6 +3,7 @@ package ca.mcmaster.island;
 import ca.mcmaster.island.Tiles.*;
 import ca.mcmaster.island.properties.TileProperty;
 import ca.mcmaster.island.neighborCheck;
+import ca.mcmaster.island.Configuration.Configuration;
 import ca.mcmaster.island.Elevation.Canyon;
 import ca.mcmaster.island.Elevation.Volcano;
 import ca.mcmaster.island.Elevation.elevation;
@@ -18,7 +19,28 @@ import ca.mcmaster.island.properties.*;
 
 public class islandGen {
 
+    private Configuration config;
+
+    public islandGen(Configuration config) {
+        this.config = config;
+    }
+
+    private elevation createElevationProfile(String altitudeProfile) {
+        switch (altitudeProfile.toLowerCase()) {
+            case "volcano":
+                return new Volcano();
+            case "canyon":
+                return new Canyon();
+            default:
+                throw new IllegalArgumentException("Invalid altitude profile: " + altitudeProfile);
+        }
+    }
+
     public Structs.Mesh lagoon(Structs.Mesh m) {
+
+        
+
+        elevation elevate = createElevationProfile(config.getAltitude());
 
         MeshSize size = new MeshSize();
         Structs.Vertex maxSize = size.findLargestXYVertex(m);
@@ -69,7 +91,7 @@ public class islandGen {
 
         for (Structs.Polygon p : tilePolygons1) {
 
-            elevation elevate = new Volcano();
+            //elevation elevate = new Volcano();
             elevate.getElevation(p, 200, m);
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
             poly.add(newPolygon);
@@ -77,7 +99,7 @@ public class islandGen {
         Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
 
         for (Structs.Polygon p : poly) {
-            elevation elevate = new Volcano();
+            //elevation elevate = new Volcano();
             elevate.getElevation(p, 200, m);
             Optional<Color> tile = colorProperty.extract(p.getPropertiesList());
             if (tile.isPresent()) {
@@ -94,6 +116,7 @@ public class islandGen {
         }
 
         System.out.println(tilePolygons2);
+        System.out.println(config.getAltitude());
 
         Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMeshWithElevation).clearPolygons().addAllPolygons(tilePolygons2).build();
 

@@ -27,7 +27,6 @@ public class Volcano implements elevation {
 
         double x = meshSize.getX();
         double y = meshSize.getY();
-        System.out.println(x + " " + y);
         
         String oceanColorString = new oceanTile().getColor().getValue();
         Color oceanColor = colorProperty.toColor(oceanColorString);
