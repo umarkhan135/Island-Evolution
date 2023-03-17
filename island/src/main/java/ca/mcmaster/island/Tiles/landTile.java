@@ -4,7 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 
 public class landTile implements Tile {
 
-    private String color_code = "155,118,83";
+    protected String color_code = "155,118,83";
 
     @Override
     public Property getColor() {
@@ -12,12 +12,12 @@ public class landTile implements Tile {
         return p;
     }
 
-    public Property getTileProperty(){
+    public Property getTileProperty() {
         Property c = Property.newBuilder().setKey("tile_type").setValue("landTile").build();
         return c;
     }
 
-    public String getColorCode(){
+    public String getColorCode() {
         return color_code;
     }
 

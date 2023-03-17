@@ -7,6 +7,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 
 import ca.mcmaster.island.Tiles.*;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTile;
 import ca.mcmaster.island.*;
 import java.util.*;
 import ca.mcmaster.island.properties.*;
@@ -16,6 +17,7 @@ public class colorMesh {
     Tile ocean = new oceanTile();
     Tile lagoon = new lagoonTile();
     Tile beach = new beachTile();
+    forestTile forest = new forestTile();
     TileProperty tileProperty = new TileProperty();
 
     public Mesh setpolygonColor(Mesh m) {
