@@ -1,13 +1,12 @@
 package ca.mcmaster.island;
 
 import ca.mcmaster.island.properties.ColorProperty;
-import ca.mcmaster.island.tiles.*;
+import ca.mcmaster.island.Tiles.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 
 import java.awt.*;
 import java.util.List;
 import java.util.Optional;
-
 
 public class neighborCheck {
 

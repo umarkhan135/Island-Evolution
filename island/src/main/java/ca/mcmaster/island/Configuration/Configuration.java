@@ -1,7 +1,6 @@
-package ca.mcmaster.island.configuration;
+package ca.mcmaster.island.Configuration;
 
 import org.apache.commons.cli.*;
-
 
 public class Configuration {
 
@@ -10,6 +9,7 @@ public class Configuration {
     public static final String MODE = "m";
 
     private CommandLine cli;
+
     public Configuration(String[] args) {
         try {
             this.cli = parser().parse(options(), args);
@@ -30,7 +30,7 @@ public class Configuration {
         return this.cli.getOptionValue(OUTPUT, "output.svg");
     }
 
-    public String mode(){
+    public String mode() {
         return this.cli.getOptionValue(MODE, "lagoon");
     }
 

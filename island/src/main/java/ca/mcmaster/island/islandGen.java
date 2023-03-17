@@ -1,20 +1,22 @@
 package ca.mcmaster.island;
 
+import ca.mcmaster.island.Tiles.*;
+import ca.mcmaster.island.properties.TileProperty;
 import ca.mcmaster.island.*;
-import ca.mcmaster.island.properties.*;
-import ca.mcmaster.island.tiles.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
 import java.awt.Color;
 import java.util.*;
+import ca.mcmaster.island.properties.*;
 
 public class islandGen {
 
+    ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
+    Structs.Mesh testMesh;
+
     public Structs.Mesh lagoon(Structs.Mesh m) {
 
-        ArrayList<Structs.Polygon> tilePolygons1 = new ArrayList<Structs.Polygon>();
-        ArrayList<Structs.Polygon> tilePolygons2 = new ArrayList<Structs.Polygon>();
-        
         neighborCheck n = new neighborCheck();
         distance dis = new distance();
         TileProperty tileProperty = new TileProperty();
@@ -28,6 +30,7 @@ public class islandGen {
         Tile lagoon = new lagoonTile();
         Tile beach = new beachTile();
 
+        ArrayList<Polygon> tilePolygons1 = new ArrayList<>();
         for (Structs.Polygon p : m.getPolygonsList()) {
 
             Structs.Vertex v = m.getVertices(p.getCentroidIdx());
@@ -42,8 +45,8 @@ public class islandGen {
             }
 
         }
-
         Structs.Mesh newMesh = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(tilePolygons1).build();
+        ArrayList<Polygon> tilePolygons2 = new ArrayList<>();
         for (Structs.Polygon p : tilePolygons1) {
             Optional<Color> tile = colorProperty.extract(p.getPropertiesList());
             if (tile.isPresent()) {
