@@ -57,9 +57,4 @@ public abstract class Neighborhood {
         polygons.forEach(p -> registry.put(p.centroid(), p));
     }
 
-
-
-
-
-
 }

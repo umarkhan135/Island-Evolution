@@ -9,8 +9,10 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.island.Tiles.*;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTile;
 import ca.mcmaster.island.*;
-import java.util.*;
 import ca.mcmaster.island.properties.*;
+import ca.mcmaster.island.Tiles.*;
+
+import java.util.*;
 
 public class colorMesh {
     Tile land = new landTile();

@@ -1,22 +1,31 @@
 package ca.mcmaster.island;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.junit.jupiter.api.Test;
+import org.locationtech.jts.geom.Point;
+
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
+import ca.mcmaster.island.Configuration.Configuration;
 import ca.mcmaster.island.Tiles.*;
 
 /**
  * Unit test for simple App.
  */
-public class AppTest {
-    private static final String oceanColorCode = "43,101,236";
+public class tileTest {
+    private static final String oceanColorCode = "26,50,100";
     private static final String landColorCode = "155,118,83";
     private static final String beachColorCode = "194,178,128";
-    private static final String lagoonColorCode = "0,98,111";
+    private static final String lagoonColorCode = "0,150,200";
+    double x = 3;
+    double y = 4;
 
     /**
      * Rigorous Test :-)
