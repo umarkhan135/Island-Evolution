@@ -2,7 +2,7 @@ package ca.mcmaster.island.tiles;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 
-public class lagoonTile implements Tile {
+public class LagoonTile implements Tile {
 
     private String color_code = "0,150,200";
 
