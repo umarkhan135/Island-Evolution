@@ -1,13 +1,7 @@
 import ca.mcmaster.island.IslandGenerator;
 import ca.mcmaster.island.configuration.Configuration;
-import ca.mcmaster.island.shapes.CircleIsland;
-import ca.mcmaster.island.shapes.EllipseIsland;
-import ca.mcmaster.island.shapes.RandomShape;
-import ca.mcmaster.island.shapes.ShapeGenerator;
-import ca.mcmaster.island.shapes.StarIsland;
-import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
+import ca.mcmaster.island.shapes.*;
+import ca.mcmaster.cas.se2aa4.a2.io.*;
 
 import java.io.IOException;
 import ca.mcmaster.island.ColorMesh;
@@ -19,24 +13,25 @@ public class Main {
         Configuration config = new Configuration(args);
         Structs.Mesh aMesh = new MeshFactory().read(config.input());
         IslandGenerator island = new IslandGenerator();
-        Structs.Mesh exported = Mesh.newBuilder().build();
+        Structs.Mesh exported = Structs.Mesh.newBuilder().build();
         ColorMesh cm = new ColorMesh();
         ShapeGenerator shape;
 
         switch (config.shape()){
-            case "random":
-                shape = new RandomShape();
             case "star":
-                shape = new StarIsland();
+                shape = new StarIsland(aMesh);
+                break;
+            case "random":
+                shape = new RandomIsland(aMesh);
                 break;
             case "ellipse":
-                shape = new EllipseIsland();
+                shape = new EllipseIsland(aMesh);
                 break;
             case "circle":
-                shape = new CircleIsland();
+                shape = new CircleIsland(aMesh);
                 break;
             default:
-                shape = new CircleIsland();
+                shape = new CircleIsland(aMesh);
                 break;
         }
 
