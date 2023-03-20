@@ -11,9 +11,14 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.island.Tiles.Tile;
 import ca.mcmaster.island.Tiles.landTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.jungleTile;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.RainForestTypes.rainForest;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.RainForestTypes.tropicalRainForest;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.fieldTypes.fieldTile;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.fieldTypes.savannaTile;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.fieldTypes.tundraTile;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes.forestTile;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes.tiagaTile;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes.tropicalForestTile;
 import ca.mcmaster.island.properties.ColorProperty;
 import ca.mcmaster.island.properties.TileProperty;
 
@@ -22,15 +27,26 @@ public class randomBiomeGen {
     public Mesh randomLandGen(Mesh m){
         Random random = new Random();
         Tile land = new landTile();
-        forestTile forest = new forestTile();
-        jungleTile jungle = new jungleTile();
-        fieldTile field = new fieldTile();
+        Tile forest = new forestTile();
+        Tile taiga = new tiagaTile();
+        Tile tropicalForest = new tropicalForestTile();
+        Tile rainforest = new rainForest();
+        Tile tropicalRain = new tropicalRainForest();
+        Tile field = new fieldTile();
+        Tile savanna = new savannaTile();
+        Tile tundra = new tundraTile();
+    
         TileProperty tileProperty = new TileProperty();
         ArrayList<Polygon> polygons = new ArrayList<>();
         List<Tile> tileTypes= new ArrayList<>();
         tileTypes.add(forest);
         tileTypes.add(field);
-        tileTypes.add(jungle);
+        tileTypes.add(rainforest);
+        tileTypes.add(taiga);
+        tileTypes.add(tropicalForest);
+        tileTypes.add(tropicalRain);
+        tileTypes.add(tundra);
+        tileTypes.add(savanna);
         Property temp;
 
         for (Structs.Polygon p : m.getPolygonsList()) {
