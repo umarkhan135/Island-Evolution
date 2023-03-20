@@ -11,11 +11,9 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.island.Tiles.Tile;
 import ca.mcmaster.island.Tiles.landTile;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.fieldTile;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTile;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.jungleTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.mountainTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.savannaTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.tundraTile;
 import ca.mcmaster.island.properties.ColorProperty;
 import ca.mcmaster.island.properties.TileProperty;
 
@@ -25,18 +23,14 @@ public class randomBiomeGen {
         Random random = new Random();
         Tile land = new landTile();
         forestTile forest = new forestTile();
-        savannaTile savanna = new savannaTile();
-        tundraTile tundra = new tundraTile();
         jungleTile jungle = new jungleTile();
-        mountainTile mountain = new mountainTile();
+        fieldTile field = new fieldTile();
         TileProperty tileProperty = new TileProperty();
         ArrayList<Polygon> polygons = new ArrayList<>();
         List<Tile> tileTypes= new ArrayList<>();
         tileTypes.add(forest);
-        tileTypes.add(savanna);
-        tileTypes.add(tundra);
+        tileTypes.add(field);
         tileTypes.add(jungle);
-        tileTypes.add(mountain);
         Property temp;
 
         for (Structs.Polygon p : m.getPolygonsList()) {
