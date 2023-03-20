@@ -1,6 +1,7 @@
 package ca.mcmaster.island;
 
 import ca.mcmaster.island.Tiles.*;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.landBiomeGen;
 import ca.mcmaster.island.properties.TileProperty;
 import ca.mcmaster.island.*;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
@@ -21,6 +22,7 @@ public class islandGen {
         distance dis = new distance();
         TileProperty tileProperty = new TileProperty();
         ColorProperty colorProperty = new ColorProperty();
+        landBiomeGen landBiome = new landBiomeGen();
 
         final double inner_radius = 125.0;
         final double outer_radius = 200.0;
@@ -63,7 +65,7 @@ public class islandGen {
         }
 
         Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(tilePolygons2).build();
-
-        return newMesh2;
+        Structs.Mesh newMesh3 = landBiome.randomLandGen(newMesh2);
+        return newMesh3;
     }
 }
