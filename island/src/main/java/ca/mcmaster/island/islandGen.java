@@ -1,9 +1,9 @@
 package ca.mcmaster.island;
 
 import ca.mcmaster.island.Tiles.*;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.randomBiomeGen;
 import ca.mcmaster.island.properties.TileProperty;
 import ca.mcmaster.island.neighborCheck;
+import ca.mcmaster.island.BiomeGeneration.randomBiomeGen;
 import ca.mcmaster.island.Configuration.Configuration;
 import ca.mcmaster.island.Elevation.Canyon;
 import ca.mcmaster.island.Elevation.Volcano;
