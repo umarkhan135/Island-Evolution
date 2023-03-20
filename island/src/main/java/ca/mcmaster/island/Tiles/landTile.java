@@ -4,7 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 
 public class landTile implements Tile {
 
-    protected String color_code = "155,118,83";
+    private String color_code = "155,118,83";
 
     @Override
     public Property getColor() {
