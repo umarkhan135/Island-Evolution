@@ -13,7 +13,7 @@ public class Main {
 
         Configuration config = new Configuration(args);
         Structs.Mesh aMesh = new MeshFactory().read(config.input());
-        islandGen island = new islandGen();
+        islandGen island = new islandGen(config);
         Structs.Mesh exported = Mesh.newBuilder().build();
         colorMesh cm = new colorMesh();
         switch (config.mode()) {
