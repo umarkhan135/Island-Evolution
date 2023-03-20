@@ -1,10 +1,9 @@
-package ca.mcmaster.island.Tiles.LandBiomeTiles;
+package ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
-import ca.mcmaster.island.Tiles.landTile;
 
-public class fieldTile extends landTile{
-    private String color_code = "116,168,120";
+public class tropicalForestTile extends forestTile{
+    private String color_code = "101,122,31";
     public Property getColor() {
         Property p = Property.newBuilder().setKey("rgb_color").setValue(color_code).build();
         return p;
