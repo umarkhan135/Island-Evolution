@@ -15,18 +15,23 @@ import ca.mcmaster.island.properties.ColorProperty;
 import ca.mcmaster.island.properties.TileProperty;
 
 
-public class landBiomeGen {
+public class randomBiomeGen {
     public Mesh randomLandGen(Mesh m){
         Random random = new Random();
         Tile land = new landTile();
         forestTile forest = new forestTile();
         savannaTile savanna = new savannaTile();
+        tundraTile tundra = new tundraTile();
+        jungleTile jungle = new jungleTile();
+        mountainTile mountain = new mountainTile();
         TileProperty tileProperty = new TileProperty();
-        ColorProperty colorProperty = new ColorProperty();
         ArrayList<Polygon> polygons = new ArrayList<>();
         List<Tile> tileTypes= new ArrayList<>();
         tileTypes.add(forest);
         tileTypes.add(savanna);
+        tileTypes.add(tundra);
+        tileTypes.add(jungle);
+        tileTypes.add(mountain);
         Property temp;
 
         for (Structs.Polygon p : m.getPolygonsList()) {

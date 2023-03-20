@@ -1,7 +1,7 @@
 package ca.mcmaster.island;
 
 import ca.mcmaster.island.Tiles.*;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.landBiomeGen;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.randomBiomeGen;
 import ca.mcmaster.island.properties.TileProperty;
 import ca.mcmaster.island.neighborCheck;
 import ca.mcmaster.island.Configuration.Configuration;
@@ -54,7 +54,7 @@ public class islandGen {
         distance dis = new distance();
         TileProperty tileProperty = new TileProperty();
         ColorProperty colorProperty = new ColorProperty();
-        landBiomeGen landBiome = new landBiomeGen();
+        randomBiomeGen landBiome = new randomBiomeGen();
 
         final double inner_radius = 125.0;
         final double outer_radius = 200.0;
