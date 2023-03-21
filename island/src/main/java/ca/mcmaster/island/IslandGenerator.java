@@ -17,8 +17,8 @@ public class IslandGenerator {
         ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
 
 
-        Tile land = new LandTile();
-        Tile ocean = new OceanTile();
+        Tile land = new landTile();
+        Tile ocean = new oceanTile();
 
         for (Structs.Polygon p : m.getPolygonsList()) {
             
@@ -42,7 +42,7 @@ public class IslandGenerator {
         ArrayList<Structs.Polygon> tilePolygons1 = new ArrayList<Structs.Polygon>();
         ArrayList<Structs.Polygon> tilePolygons2 = new ArrayList<Structs.Polygon>();
         
-        NeighborCheck n = new NeighborCheck();
+        neighborCheck n = new neighborCheck();
         Distance dis = new Distance();
         TileProperty tileProperty = new TileProperty();
         ColorProperty colorProperty = new ColorProperty();
@@ -50,10 +50,10 @@ public class IslandGenerator {
         final double inner_radius = 125.0;
         final double outer_radius = 200.0;
         
-        Tile land = new LandTile();
-        Tile ocean = new OceanTile();
-        Tile lagoon = new LagoonTile();
-        Tile beach = new BeachTile();
+        Tile land = new landTile();
+        Tile ocean = new oceanTile();
+        Tile lagoon = new lagoonTile();
+        Tile beach = new beachTile();
         
         for (Structs.Polygon p : m.getPolygonsList()) {
             

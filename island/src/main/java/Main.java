@@ -4,7 +4,7 @@ import ca.mcmaster.island.shapes.*;
 import ca.mcmaster.cas.se2aa4.a2.io.*;
 
 import java.io.IOException;
-import ca.mcmaster.island.ColorMesh;
+import ca.mcmaster.island.colorMesh;
 
 public class Main {
 
@@ -14,7 +14,7 @@ public class Main {
         Structs.Mesh aMesh = new MeshFactory().read(config.input());
         IslandGenerator island = new IslandGenerator();
         Structs.Mesh exported = Structs.Mesh.newBuilder().build();
-        ColorMesh cm = new ColorMesh();
+        colorMesh cm = new colorMesh();
         ShapeGenerator shape;
 
         switch (config.shape()){

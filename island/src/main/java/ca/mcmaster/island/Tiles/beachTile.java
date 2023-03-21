@@ -2,7 +2,7 @@ package ca.mcmaster.island.tiles;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 
-public class BeachTile implements Tile {
+public class beachTile implements Tile {
 
     private String color_code = "194,178,128";
 

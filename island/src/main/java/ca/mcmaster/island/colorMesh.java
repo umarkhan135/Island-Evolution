@@ -10,11 +10,11 @@ import ca.mcmaster.island.tiles.*;
 
 import java.util.*;
 
-public class ColorMesh {
-    Tile land = new LandTile();
-    Tile ocean = new OceanTile();
-    Tile lagoon = new LagoonTile();
-    Tile beach = new BeachTile();
+public class colorMesh {
+    Tile land = new landTile();
+    Tile ocean = new oceanTile();
+    Tile lagoon = new lagoonTile();
+    Tile beach = new beachTile();
     TileProperty tileProperty = new TileProperty();
 
     public Mesh setpolygonColor(Mesh m) {
