@@ -8,7 +8,7 @@ public class Configuration {
     public static final String INPUT = "i";
     public static final String MODE = "m";
     public static final String ALTITUDE = "altitude";
-    public static final String TEMPERATURE = "tempurature";
+    public static final String TEMPERATURE = "temperature";
     public static final String HUMIDITY = "humidity";
 
     private CommandLine cli;
@@ -41,7 +41,7 @@ public class Configuration {
         return this.cli.getOptionValue(ALTITUDE, "volcano");
     }
     public String getTemperature(){
-        return this.cli.getOptionValue(TEMPERATURE, "mild");
+        return this.cli.getOptionValue(TEMPERATURE, "cold");
     }
     public String getHumidity(){
         return this.cli.getOptionValue(HUMIDITY, "temperate");
