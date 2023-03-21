@@ -41,11 +41,11 @@ public class Main {
             case "lagoon":
                 exported = island.lagoon(aMesh);
                 break;
-            /*case "basic":
+            case "basic":
                 exported = island.basic(aMesh, shape.getShape());
-                break;*/
+                break;
             default:
-                exported = island.lagoon(aMesh);
+                exported = island.basic(aMesh, shape.getShape());
                 break;
         }
         

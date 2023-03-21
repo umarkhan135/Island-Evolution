@@ -10,7 +10,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.island.Tiles.Tile;
-import ca.mcmaster.island.Tiles.landTile;
+import ca.mcmaster.island.Tiles.LandTile;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.RainForestTypes.rainForest;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.RainForestTypes.tropicalRainForest;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.fieldTypes.fieldTile;
@@ -26,7 +26,7 @@ import ca.mcmaster.island.properties.TileProperty;
 public class randomBiomeGen {
     public Mesh randomLandGen(Mesh m){
         Random random = new Random();
-        Tile land = new landTile();
+        Tile land = new LandTile();
         Tile forest = new forestTile();
         Tile taiga = new tiagaTile();
         Tile tropicalForest = new tropicalForestTile();

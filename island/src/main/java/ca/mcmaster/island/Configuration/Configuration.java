@@ -47,7 +47,7 @@ public class Configuration {
     public String getTemperature(){
         return this.cli.getOptionValue(TEMPERATURE, "cold");
     }
-    public String getHumidity(){
+    public String getPrecipitation(){
         return this.cli.getOptionValue(PERCIPITATION, "temperate");
     }
 

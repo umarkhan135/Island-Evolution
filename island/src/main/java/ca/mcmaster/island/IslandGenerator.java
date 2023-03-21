@@ -22,13 +22,43 @@ import ca.mcmaster.island.properties.*;
 
 
 public class IslandGenerator {
-
+   
     private Configuration config;
 
     public IslandGenerator(Configuration config) {
         this.config = config;
     }
+    public Structs.Mesh basic(Structs.Mesh m, Path2D s){
+        whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
+        ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
+        ArrayList<Structs.Polygon> poly = new ArrayList<>();
+        elevation elevate = createElevationProfile(config.getAltitude());
 
+        Tile land = new LandTile();
+        Tile ocean = new OceanTile();
+
+        for (Structs.Polygon p : m.getPolygonsList()) {
+            
+            Structs.Vertex v = m.getVertices(p.getCentroidIdx());
+            
+            if(s.contains(v.getX(), v.getY())){
+                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getColor()).build());
+            }else{
+                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(ocean.getColor()).build());
+            }
+        }
+        for (Structs.Polygon p : tilePolygons) {
+
+            //elevation elevate = new Volcano();
+            elevate.getElevation(p, 200, m);
+            Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
+            poly.add(newPolygon);
+        }
+        Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(poly).build();
+        Structs.Mesh newMesh2 = whittakerGen.biomeGen(newMeshWithElevation);
+        return newMesh2;
+
+    }
     private elevation createElevationProfile(String altitudeProfile) {
         switch (altitudeProfile.toLowerCase()) {
             case "volcano":
@@ -45,7 +75,7 @@ public class IslandGenerator {
         
 
         elevation elevate = createElevationProfile(config.getAltitude());
-        whittakerGen whitGen = new whittakerGen(config.getTemperature(), config.getHumidity());
+        whittakerGen whitGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
 
         MeshSize size = new MeshSize(m);
         Structs.Vertex maxSize = size.findLargestXYVertex(m);
