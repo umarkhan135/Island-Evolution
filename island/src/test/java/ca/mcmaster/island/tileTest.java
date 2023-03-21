@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import ca.mcmaster.island.Tiles.*;
+import ca.mcmaster.island.tiles.*;
 
 /**
  * Unit test for simple App.

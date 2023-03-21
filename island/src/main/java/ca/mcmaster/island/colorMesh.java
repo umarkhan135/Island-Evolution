@@ -6,7 +6,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 
 import ca.mcmaster.island.properties.*;
-import ca.mcmaster.island.Tiles.*;
+import ca.mcmaster.island.tiles.*;
 
 import java.util.*;
 

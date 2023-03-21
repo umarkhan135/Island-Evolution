@@ -1,5 +1,5 @@
 import ca.mcmaster.island.IslandGenerator;
-import ca.mcmaster.island.Configuration.Configuration;
+import ca.mcmaster.island.configuration.Configuration;
 import ca.mcmaster.island.shapes.*;
 import ca.mcmaster.cas.se2aa4.a2.io.*;
 
