@@ -24,22 +24,22 @@ public class tileTest {
      */
     @Test
     public void oceanTest() throws IOException {
-        assertTrue(new OceanTile().getColor().getValue().equals(oceanColorCode));
+        assertTrue(new oceanTile().getColor().getValue().equals(oceanColorCode));
     }
 
     @Test
     public void landTest() throws IOException {
-        assertTrue(new LandTile().getColor().getValue().equals(landColorCode));
+        assertTrue(new landTile().getColor().getValue().equals(landColorCode));
     }
 
     @Test
     public void beachTest() throws IOException {
-        assertTrue(new BeachTile().getColor().getValue().equals(beachColorCode));
+        assertTrue(new beachTile().getColor().getValue().equals(beachColorCode));
     }
 
     @Test
     public void lagoonTest() throws IOException {
-        assertTrue(new LagoonTile().getColor().getValue().equals(lagoonColorCode));
+        assertTrue(new lagoonTile().getColor().getValue().equals(lagoonColorCode));
     }
 
     

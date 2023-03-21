@@ -2,14 +2,14 @@ package ca.mcmaster.island;
 
 import ca.mcmaster.island.Tiles.*;
 import ca.mcmaster.island.properties.TileProperty;
-import ca.mcmaster.island.NeighborCheck;
+import ca.mcmaster.island.neighborCheck;
 import ca.mcmaster.island.BiomeGeneration.randomBiomeGen;
 import ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen.whittakerGen;
 import ca.mcmaster.island.Configuration.Configuration;
 import ca.mcmaster.island.Elevation.Canyon;
 import ca.mcmaster.island.Elevation.Volcano;
 import ca.mcmaster.island.Elevation.elevation;
-import ca.mcmaster.island.Distance;
+import ca.mcmaster.island.distance;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
@@ -35,8 +35,8 @@ public class IslandGenerator {
         elevation elevate = createElevationProfile(config.getAltitude());
 
 
-        Tile land = new LandTile();
-        Tile ocean = new OceanTile();
+        Tile land = new landTile();
+        Tile ocean = new oceanTile();
 
         for (Structs.Polygon p : m.getPolygonsList()) {
             
@@ -85,8 +85,8 @@ public class IslandGenerator {
         ArrayList<Structs.Polygon> tilePolygons1 = new ArrayList<Structs.Polygon>();
         ArrayList<Structs.Polygon> tilePolygons2 = new ArrayList<Structs.Polygon>();
 
-        NeighborCheck n = new NeighborCheck();
-        Distance dis = new Distance();
+        neighborCheck n = new neighborCheck();
+        distance dis = new distance();
         TileProperty tileProperty = new TileProperty();
         ColorProperty colorProperty = new ColorProperty();
         randomBiomeGen landBiome = new randomBiomeGen();
@@ -99,10 +99,10 @@ public class IslandGenerator {
 
         
 
-        Tile land = new LandTile();
-        Tile ocean = new OceanTile();
-        Tile lagoon = new LagoonTile();
-        Tile beach = new BeachTile();
+        Tile land = new landTile();
+        Tile ocean = new oceanTile();
+        Tile lagoon = new lagoonTile();
+        Tile beach = new beachTile();
 
 
         

@@ -14,7 +14,7 @@ public class MeshSize {
     public Structs.Vertex findLargestXYVertex(Structs.Mesh mesh) {
         largestVertex = mesh.getVertices(0);
         double maxDistance = 0;
-        Distance dis = new Distance();
+        distance dis = new distance();
 
         for (Structs.Vertex vertex : mesh.getVerticesList()) {
             double currentDistance = dis.centerDistance(vertex, 0, 0);

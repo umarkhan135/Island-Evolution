@@ -4,7 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import java.awt.*;
 
 
-public class OceanTile implements Tile {
+public class oceanTile implements Tile {
 
     private String color_code = "26,50,100";
 

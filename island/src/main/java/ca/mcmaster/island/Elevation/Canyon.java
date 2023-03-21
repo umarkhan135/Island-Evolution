@@ -6,8 +6,8 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.island.MeshSize;
-import ca.mcmaster.island.Distance;
-import ca.mcmaster.island.Tiles.OceanTile;
+import ca.mcmaster.island.distance;
+import ca.mcmaster.island.Tiles.oceanTile;
 import ca.mcmaster.island.properties.ColorProperty;
 
 import java.awt.*;
@@ -26,7 +26,7 @@ public class Canyon implements elevation {
         double x = meshSize.getX();
         double y = meshSize.getY();
         
-        String oceanColorString = new OceanTile().getColor().getValue();
+        String oceanColorString = new oceanTile().getColor().getValue();
         Color oceanColor = colorProperty.toColor(oceanColorString);
         Optional<Color> polygonColor = colorProperty.extract(polygon.getPropertiesList());
         
@@ -39,7 +39,7 @@ public class Canyon implements elevation {
             int centroidIdx = polygon.getCentroidIdx(); // Get the index of the centroid vertex
             Structs.Vertex centroid = aMesh.getVertices(centroidIdx);
 
-            Distance dis = new Distance();
+            distance dis = new distance();
             double distance = dis.centerDistance(centroid, x/2, y/2);
             double normalizedDistance = distance / radius;
 

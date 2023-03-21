@@ -8,7 +8,7 @@ import java.awt.*;
 import java.util.List;
 import java.util.Optional;
 
-public class NeighborCheck {
+public class neighborCheck {
 
     public boolean checkNeighbors(Structs.Polygon poly, Structs.Mesh m, Tile t) {
 
