@@ -20,15 +20,16 @@ import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes.forestTile;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes.tiagaTile;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes.tropicalForestTile;
 import ca.mcmaster.island.properties.ColorProperty;
+import ca.mcmaster.island.properties.ElevationProperty;
 import ca.mcmaster.island.properties.TileProperty;
-import ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen.whittakerHumidityType;
+import ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen.whittakerPercipitationType;
 public class whittakerGen {
     private static int temp; 
-    private static int hum;
+    private static int per;
     
-    public whittakerGen(String temp, String hum){
+    public whittakerGen(String temp, String per){
         this.temp = whittakerTemperatureType.MILD.create(temp).getTemperature();
-        this.hum = whittakerHumidityType.TEMPERATE.create(hum).getHumidity();
+        this.per = whittakerPercipitationType.TEMPERATE.create(per).getHumidity();
     }
     public static Mesh biomeGen(Mesh m){
         Tile land = new landTile();
@@ -42,26 +43,34 @@ public class whittakerGen {
         Tile tundra = new tundraTile();
     
         TileProperty tileProperty = new TileProperty();
+        ElevationProperty elevationProperty = new ElevationProperty();
         ArrayList<Polygon> polygons = new ArrayList<>();
+        percipitationCalculator pC = new percipitationCalculator();
+        temperatureCalculator tP = new temperatureCalculator();
+        int temperature;
+        int percipitation;
         for (Structs.Polygon p : m.getPolygonsList()) {
             Optional<String> tile = tileProperty.extract(p.getPropertiesList());
-            if(tile.isPresent()){
+            Optional<String> hieght = elevationProperty.extract(p.getPropertiesList());
+            if(tile.isPresent() && hieght.isPresent()){
+                temperature = tP.hieghtTemp(Integer.parseInt(hieght.get()), temp);
+                percipitation = pC.hieghtPercipitation(Integer.parseInt(hieght.get()), per);
                 if(tile.get().equals(land.getTileProperty().getValue())){
-                    switch(hum){
+                    switch(percipitation){
                         case 50: 
-                        switch(temp){
+                        switch(temperature){
                             case -5: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tundra.getColor()).build());break;
                             case 25: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(savanna.getColor()).build());break;
                             default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(field.getColor()).build());break;
                         };break;
                         case 300 : 
-                        switch(temp){
+                        switch(temperature){
                             case -5: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(taiga.getColor()).build());break;
                             case 25: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tropicalForest.getColor()).build());break;
                             default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(forest.getColor()).build());break;
                         };break;
                         default:
-                        switch(temp){
+                        switch(temperature){
                             case 25: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tropicalRain.getColor()).build());break;
                             case -5: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(taiga.getColor()).build());break;
                             default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(rainforest.getColor()).build());break;

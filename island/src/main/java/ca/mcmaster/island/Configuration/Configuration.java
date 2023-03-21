@@ -9,7 +9,7 @@ public class Configuration {
     public static final String MODE = "m";
     public static final String ALTITUDE = "altitude";
     public static final String TEMPERATURE = "temperature";
-    public static final String HUMIDITY = "humidity";
+    public static final String PERCIPITATION = "percipitation";
 
     private CommandLine cli;
 
@@ -44,7 +44,7 @@ public class Configuration {
         return this.cli.getOptionValue(TEMPERATURE, "cold");
     }
     public String getHumidity(){
-        return this.cli.getOptionValue(HUMIDITY, "temperate");
+        return this.cli.getOptionValue(PERCIPITATION, "temperate");
     }
 
     private Options options() {
@@ -54,7 +54,7 @@ public class Configuration {
         options.addOption(new Option(MODE, "mode", true, "Island Generation Type"));
         options.addOption(new Option(ALTITUDE, true, "Altitude Profile"));
         options.addOption(new Option(TEMPERATURE, true, "Whittaker Temperature Type"));
-        options.addOption(new Option(HUMIDITY, true, "Whittaker Humidity Type"));
+        options.addOption(new Option(PERCIPITATION, true, "Whittaker Percipitation Type"));
         return options;
     }
 
