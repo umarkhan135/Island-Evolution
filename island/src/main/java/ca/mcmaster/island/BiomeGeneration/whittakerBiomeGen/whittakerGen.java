@@ -47,32 +47,32 @@ public class whittakerGen {
         ArrayList<Polygon> polygons = new ArrayList<>();
         percipitationCalculator pC = new percipitationCalculator();
         temperatureCalculator tP = new temperatureCalculator();
-        int temperature;
-        int percipitation;
+        double temperature;
+        double percipitation;
         for (Structs.Polygon p : m.getPolygonsList()) {
             Optional<String> tile = tileProperty.extract(p.getPropertiesList());
             Optional<String> hieght = elevationProperty.extract(p.getPropertiesList());
             if(tile.isPresent() && hieght.isPresent()){
-                temperature = tP.hieghtTemp(Integer.parseInt(hieght.get()), temp);
-                percipitation = pC.hieghtPercipitation(Integer.parseInt(hieght.get()), per);
+                temperature = tP.hieghtTemp((int)Double.parseDouble(hieght.get()), temp);
+                percipitation = pC.hieghtPercipitation((int)Double.parseDouble(hieght.get()), per);
                 if(tile.get().equals(land.getTileProperty().getValue())){
-                    switch(percipitation){
-                        case 50: 
-                        switch(temperature){
-                            case -5: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tundra.getColor()).build());break;
-                            case 25: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(savanna.getColor()).build());break;
+                    switch(compareP(percipitation)){
+                        case 1: 
+                        switch(compareT(temperature)){
+                            case -1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tundra.getColor()).build());break;
+                            case 1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(savanna.getColor()).build());break;
                             default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(field.getColor()).build());break;
                         };break;
-                        case 300 : 
-                        switch(temperature){
-                            case -5: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(taiga.getColor()).build());break;
-                            case 25: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tropicalForest.getColor()).build());break;
+                        case -1 : 
+                        switch(compareT(temperature)){
+                            case -1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(taiga.getColor()).build());break;
+                            case 1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tropicalForest.getColor()).build());break;
                             default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(forest.getColor()).build());break;
                         };break;
                         default:
-                        switch(temperature){
-                            case 25: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tropicalRain.getColor()).build());break;
-                            case -5: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(taiga.getColor()).build());break;
+                        switch(compareT(temperature)){
+                            case 1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tropicalRain.getColor()).build());break;
+                            case -1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(taiga.getColor()).build());break;
                             default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(rainforest.getColor()).build());break;
                         };break;
                     }
@@ -84,6 +84,23 @@ public class whittakerGen {
         Structs.Mesh newMesh = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(polygons).build();
 
         return newMesh;
+    }
+    private static int compareP(double percipitation) {
+        if (percipitation< 100){
+                return 1;
+        }
+        else if(250<percipitation){
+            return -1;
+        }
+        return 0;
+    }
+    private static int compareT(double temperature){
+        if(temperature>20){
+            return 1;
+        }else if(temperature<0){
+            return -1;
+        }
+        return 0;
     }
 
 }
