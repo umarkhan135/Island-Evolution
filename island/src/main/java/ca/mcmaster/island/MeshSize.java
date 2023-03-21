@@ -7,11 +7,14 @@ public class MeshSize {
 
     private Structs.Vertex largestVertex;
 
+    public MeshSize(Structs.Mesh mesh){
+        findLargestXYVertex(mesh);
+    }
 
     public Structs.Vertex findLargestXYVertex(Structs.Mesh mesh) {
         largestVertex = mesh.getVertices(0);
         double maxDistance = 0;
-        distance dis = new distance();
+        Distance dis = new Distance();
 
         for (Structs.Vertex vertex : mesh.getVerticesList()) {
             double currentDistance = dis.centerDistance(vertex, 0, 0);
@@ -22,6 +25,14 @@ public class MeshSize {
         }
 
         return largestVertex;
+    }
+
+    public double getMaxX(){
+        return largestVertex.getX();
+    }
+
+    public double getMaxY(){
+        return largestVertex.getY();
     }
 
 }

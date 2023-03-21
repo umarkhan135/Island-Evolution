@@ -2,29 +2,30 @@ package ca.mcmaster.island;
 
 import ca.mcmaster.island.Tiles.*;
 import ca.mcmaster.island.properties.TileProperty;
-import ca.mcmaster.island.neighborCheck;
+import ca.mcmaster.island.NeighborCheck;
 import ca.mcmaster.island.BiomeGeneration.randomBiomeGen;
 import ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen.whittakerGen;
 import ca.mcmaster.island.Configuration.Configuration;
 import ca.mcmaster.island.Elevation.Canyon;
 import ca.mcmaster.island.Elevation.Volcano;
 import ca.mcmaster.island.Elevation.elevation;
-import ca.mcmaster.island.distance;
+import ca.mcmaster.island.Distance;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 
 import java.awt.Color;
+import java.awt.geom.Path2D;
 import java.util.*;
 import ca.mcmaster.island.properties.*;
 
 
-public class islandGen {
+public class IslandGenerator {
 
     private Configuration config;
 
-    public islandGen(Configuration config) {
+    public IslandGenerator(Configuration config) {
         this.config = config;
     }
 
@@ -46,14 +47,14 @@ public class islandGen {
         elevation elevate = createElevationProfile(config.getAltitude());
         whittakerGen whitGen = new whittakerGen(config.getTemperature(), config.getHumidity());
 
-        MeshSize size = new MeshSize();
+        MeshSize size = new MeshSize(m);
         Structs.Vertex maxSize = size.findLargestXYVertex(m);
 
         ArrayList<Structs.Polygon> tilePolygons1 = new ArrayList<Structs.Polygon>();
         ArrayList<Structs.Polygon> tilePolygons2 = new ArrayList<Structs.Polygon>();
 
-        neighborCheck n = new neighborCheck();
-        distance dis = new distance();
+        NeighborCheck n = new NeighborCheck();
+        Distance dis = new Distance();
         TileProperty tileProperty = new TileProperty();
         ColorProperty colorProperty = new ColorProperty();
         randomBiomeGen landBiome = new randomBiomeGen();
@@ -66,10 +67,10 @@ public class islandGen {
 
         
 
-        Tile land = new landTile();
-        Tile ocean = new oceanTile();
-        Tile lagoon = new lagoonTile();
-        Tile beach = new beachTile();
+        Tile land = new LandTile();
+        Tile ocean = new OceanTile();
+        Tile lagoon = new LagoonTile();
+        Tile beach = new BeachTile();
 
 
         
@@ -125,4 +126,5 @@ public class islandGen {
         Structs.Mesh newMesh3 = whittakerGen.biomeGen(newMesh2);
         return newMesh3;
     }
+
 }
