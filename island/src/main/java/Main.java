@@ -1,11 +1,10 @@
-import ca.mcmaster.island.islandGen;
+import ca.mcmaster.island.IslandGenerator;
 import ca.mcmaster.island.configuration.Configuration;
-import ca.mcmaster.cas.se2aa4.a2.io.MeshFactory;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
+import ca.mcmaster.island.shapes.*;
+import ca.mcmaster.cas.se2aa4.a2.io.*;
 
 import java.io.IOException;
-import ca.mcmaster.island.colorMesh;
+import ca.mcmaster.island.ColorMesh;
 
 public class Main {
 
@@ -13,19 +12,43 @@ public class Main {
 
         Configuration config = new Configuration(args);
         Structs.Mesh aMesh = new MeshFactory().read(config.input());
-        islandGen island = new islandGen();
-        Structs.Mesh exported = Mesh.newBuilder().build();
-        colorMesh cm = new colorMesh();
+        IslandGenerator island = new IslandGenerator();
+        Structs.Mesh exported = Structs.Mesh.newBuilder().build();
+        ColorMesh cm = new ColorMesh();
+        ShapeGenerator shape;
+
+        switch (config.shape()){
+            case "star":
+                shape = new StarIsland(aMesh);
+                break;
+            case "random":
+                shape = new RandomIsland(aMesh);
+                break;
+            case "ellipse":
+                shape = new EllipseIsland(aMesh);
+                break;
+            case "circle":
+                shape = new CircleIsland(aMesh);
+                break;
+            default:
+                shape = new CircleIsland(aMesh);
+                break;
+        }
+
+        shape.generateShape();
+
         switch (config.mode()) {
             case "lagoon":
                 exported = island.lagoon(aMesh);
                 break;
-            default:
-                exported = island.lagoon(aMesh);
+            case "basic":
+                exported = island.basic(aMesh, shape.getShape());
                 break;
-
-        
+            default:
+                exported = island.basic(aMesh, shape.getShape());
+                break;
         }
+        
         new MeshFactory().write(exported, config.output());
     }
 }

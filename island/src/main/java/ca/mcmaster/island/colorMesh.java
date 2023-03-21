@@ -4,18 +4,17 @@ import java.util.ArrayList;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
-import ca.mcmaster.island.*;
+
 import ca.mcmaster.island.properties.*;
 import ca.mcmaster.island.tiles.*;
 
 import java.util.*;
 
-public class colorMesh {
-    Tile land = new landTile();
-    Tile ocean = new oceanTile();
-    Tile lagoon = new lagoonTile();
-    Tile beach = new beachTile();
+public class ColorMesh {
+    Tile land = new LandTile();
+    Tile ocean = new OceanTile();
+    Tile lagoon = new LagoonTile();
+    Tile beach = new BeachTile();
     TileProperty tileProperty = new TileProperty();
 
     public Mesh setpolygonColor(Mesh m) {

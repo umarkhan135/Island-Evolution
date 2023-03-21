@@ -1,19 +1,11 @@
 package ca.mcmaster.island;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
-import org.locationtech.jts.geom.Point;
 
-import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
-import ca.mcmaster.island.configuration.Configuration;
 import ca.mcmaster.island.tiles.*;
 
 /**
@@ -32,22 +24,22 @@ public class tileTest {
      */
     @Test
     public void oceanTest() throws IOException {
-        assertTrue(new oceanTile().getColor().getValue().equals(oceanColorCode));
+        assertTrue(new OceanTile().getColor().getValue().equals(oceanColorCode));
     }
 
     @Test
     public void landTest() throws IOException {
-        assertTrue(new landTile().getColor().getValue().equals(landColorCode));
+        assertTrue(new LandTile().getColor().getValue().equals(landColorCode));
     }
 
     @Test
     public void beachTest() throws IOException {
-        assertTrue(new beachTile().getColor().getValue().equals(beachColorCode));
+        assertTrue(new BeachTile().getColor().getValue().equals(beachColorCode));
     }
 
     @Test
     public void lagoonTest() throws IOException {
-        assertTrue(new lagoonTile().getColor().getValue().equals(lagoonColorCode));
+        assertTrue(new LagoonTile().getColor().getValue().equals(lagoonColorCode));
     }
 
     
