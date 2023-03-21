@@ -34,6 +34,7 @@ public class IslandGenerator {
         ArrayList<Structs.Polygon> poly = new ArrayList<>();
         elevation elevate = createElevationProfile(config.getAltitude());
 
+
         Tile land = new LandTile();
         Tile ocean = new OceanTile();
 
@@ -42,11 +43,12 @@ public class IslandGenerator {
             Structs.Vertex v = m.getVertices(p.getCentroidIdx());
             
             if(s.contains(v.getX(), v.getY())){
-                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getColor()).build());
+                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getColor()).addProperties(land.getTileProperty()).build());
             }else{
-                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(ocean.getColor()).build());
+                tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(ocean.getColor()).addProperties(ocean.getTileProperty()).build());
             }
         }
+        Structs.Mesh newMesh = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(tilePolygons).build();
         for (Structs.Polygon p : tilePolygons) {
 
             //elevation elevate = new Volcano();
@@ -54,7 +56,7 @@ public class IslandGenerator {
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
             poly.add(newPolygon);
         }
-        Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(poly).build();
+        Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
         Structs.Mesh newMesh2 = whittakerGen.biomeGen(newMeshWithElevation);
         return newMesh2;
 
