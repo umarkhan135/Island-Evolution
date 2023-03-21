@@ -19,7 +19,6 @@ import ca.mcmaster.island.Tiles.LandBiomeTiles.fieldTypes.tundraTile;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes.forestTile;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes.tiagaTile;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes.tropicalForestTile;
-import ca.mcmaster.island.properties.ColorProperty;
 import ca.mcmaster.island.properties.TileProperty;
 
 
