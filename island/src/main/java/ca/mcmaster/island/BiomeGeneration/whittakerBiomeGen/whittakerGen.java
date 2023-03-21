@@ -44,7 +44,7 @@ public class whittakerGen {
         Tile tundra = new tundraTile();
         Tile mountain = new MountainTile();
         Tile snowyMountain = new SnowyMountainTile();
-        Tile canyon = new CanyonTile();
+        CanyonTile canyon = new CanyonTile();
     
         TileProperty tileProperty = new TileProperty();
         ElevationProperty elevationProperty = new ElevationProperty();
@@ -57,10 +57,11 @@ public class whittakerGen {
             Optional<String> tile = tileProperty.extract(p.getPropertiesList());
             Optional<String> hieght = elevationProperty.extract(p.getPropertiesList());
             if(tile.isPresent() && hieght.isPresent()){
-                temperature = tP.hieghtTemp((int)Double.parseDouble(hieght.get()), temp);
-                percipitation = pC.hieghtPercipitation((int)Double.parseDouble(hieght.get()), per);
+                int h = (int)Double.parseDouble(hieght.get());
+                temperature = tP.hieghtTemp(h, temp);
+                percipitation = pC.hieghtPercipitation(h, per);
                 if(tile.get().equals(land.getTileProperty().getValue())){
-                    switch(compareP(percipitation, (int)Double.parseDouble(hieght.get()))){
+                    switch(compareP(percipitation, h)){
                         case 1: 
                         switch(compareT(temperature)){
                             case -1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tundra.getColor()).build());break;
@@ -82,8 +83,8 @@ public class whittakerGen {
                         case -2:
                         switch(compareT(temperature)){
                             case -1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(snowyMountain.getColor()).build());break;
-                            case 1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor()).build());break;
-                            default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor()).build());break;
+                            case 1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h)).build());break;
+                            default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h)).build());break;
                         };break;
                         default:
                         switch(compareT(temperature)){
@@ -105,7 +106,7 @@ public class whittakerGen {
         if (h>75){
             return 2;
         }
-        if(h<-100){
+        if(h<-75){
             return -2;
         }
         
