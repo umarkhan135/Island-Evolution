@@ -98,5 +98,18 @@ Add conditions for the feature have been met.
 |:--:|---------------|------|-------|-----|--------|
 | F20 | Create Tile Types | Pedro | 03/08/2023 |  03/10/2023   | D |
 | F21 | Assign Tile Types/Colors | Pedro | 03/08/2023 | 03/11/2023 | D |
-| F22 | Fill polygons with the appropriate colour based on type | Pedro and Mason | 03/08/2023 |  03/11/2023 | D |
-| F23 | MVP/Step 1 unit testing | Mason, Umar and Omar | 03/13/2023 | | S |
+| F22 | Fill polygons with the appropriate colour based on type | Mason and Pedro | 03/08/2023 |  03/11/2023 | D |
+| F23 | MVP Nieghbors | Pedro | 03/11/2023 | 03/13/2023 | D |
+| F24 | MVP/Step 1 unit testing | Mason, Umar and Omar | 03/13/2023 | 03/14/2023 | D |
+| F25 | Nieghbors | Mason and Pedro | 03/14/2023 | 03/17/2023 | D |
+| F26 | Shapes | Pedro | 03/15/2023 |  | S |
+| F27 | Elevation | Omar | 03/15/2023 |  | S |
+| F28 | Lakes | |  |  | P |
+| F29 | Rivers |  |  |  | P |
+| F30 | River Flow| |  |  | P |
+| F31 | Aquifiers | Omar |  |  | P |
+| F32 | Biomes | Mason | 03/20/2023 |  | S |
+| F33 | Whittaker Diagrams | Mason | 03/21/2023 |  | S |
+| F34 | Reproducability |  |  |  | P |
+
+

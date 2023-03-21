@@ -10,7 +10,7 @@ public class CanyonTile extends landTile{
         Property p;
         if(hieght<-110){
             p = Property.newBuilder().setKey("rgb_color").setValue(color_code).build();
-        }else if(hieght<-100){
+        }else if(hieght<-97){
             p = Property.newBuilder().setKey("rgb_color").setValue(color_code2).build();
         }else{
             p = Property.newBuilder().setKey("rgb_color").setValue(color_code3).build();

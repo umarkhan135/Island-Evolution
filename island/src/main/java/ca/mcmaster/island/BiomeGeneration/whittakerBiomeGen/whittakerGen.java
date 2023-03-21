@@ -106,7 +106,7 @@ public class whittakerGen {
         if (h>75){
             return 2;
         }
-        if(h<-75){
+        if(h<-85){
             return -2;
         }
         
