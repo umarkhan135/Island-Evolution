@@ -3,7 +3,6 @@ package ca.mcmaster.island;
 import ca.mcmaster.island.Tiles.*;
 import ca.mcmaster.island.properties.TileProperty;
 import ca.mcmaster.island.neighborCheck;
-import ca.mcmaster.island.BiomeGeneration.randomBiomeGen;
 import ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen.whittakerGen;
 import ca.mcmaster.island.Configuration.Configuration;
 import ca.mcmaster.island.Elevation.Canyon;
@@ -89,7 +88,7 @@ public class IslandGenerator {
         distance dis = new distance();
         TileProperty tileProperty = new TileProperty();
         ColorProperty colorProperty = new ColorProperty();
-        randomBiomeGen landBiome = new randomBiomeGen();
+
        
 
         final double inner_radius = 125.0;
