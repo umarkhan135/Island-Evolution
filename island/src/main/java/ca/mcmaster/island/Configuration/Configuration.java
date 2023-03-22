@@ -1,4 +1,4 @@
-package ca.mcmaster.island.configuration;
+package ca.mcmaster.island.Configuration;
 
 import org.apache.commons.cli.*;
 
