@@ -2,9 +2,6 @@ package ca.mcmaster.island.shapes;
 
 import java.awt.geom.Path2D;
 import java.util.Random;
-
-import org.locationtech.jts.awt.PointShapeFactory.X;
-
 import java.lang.Math;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
@@ -29,43 +26,27 @@ public class RandomIsland implements ShapeGenerator{
         center_x = max_x/2;
         center_y = max_y/2;
         if(max_x < max_y){
-            radius = (max_x/5) * 2;
+            radius = (max_x/5) * 1.5;
         }else{
-            radius = (max_y/5) * 2;
+            radius = (max_y/5) * 1.5;
         }
     }
     
     
     public void generateShape() {
-        int num_cooefficients = rand.nextInt(10) + 1;
-        double[] coefficients = new double[num_cooefficients];
-        for(int  i = 0; i < num_cooefficients; i++){
-            double coef = rand.nextDouble(0,200)/100;
-            if(rand.nextBoolean()){
-                coef = -coef;
-            }
-            coefficients[i] = coef;
-        }
+
+        double[] coefficients = {1, 0.5, 0.2};
         RadialFunction radialFunction = new RadialFunction(coefficients);
 
-        for(double i = 0; i < 2 * Math.PI; i += 0.05){
-            double radial_radius  = radialFunction.evaluate(i);
-            double x_comp = (radial_radius * Math.cos(i)) * (radius/2);
-            double y_comp = (radial_radius * Math.sin(i)) * (radius/2);
-            if(x_comp > radius){
-                x_comp = radius - (x_comp - radius);
-            }else if(x_comp < -radius){
-                x_comp = -radius - (x_comp + radius);
-            }
-            if(y_comp > radius){
-                y_comp = radius - (y_comp - radius);
-            }else if(y_comp < -radius){
-                y_comp = -radius - (y_comp + radius);
-            }
+        for(int i = 0; i < 2 * Math.PI; i += 0.1){
+            System.out.println(Math.PI);
+            double radius  = radialFunction.evaluate(i);
+            double x_comp = center_x + (radius * Math.cos(i));
+            double y_comp = center_y + (radius * Math.sin(i));
             if(i == 0){
-                shape.moveTo(center_x + x_comp, center_y + y_comp);
+                shape.moveTo(x_comp, y_comp);
             }else{
-                shape.lineTo(center_x + x_comp, center_y + y_comp);
+                shape.lineTo(x_comp, y_comp);
             }
         }
         shape.closePath();

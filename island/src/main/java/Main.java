@@ -12,9 +12,8 @@ public class Main {
 
         Configuration config = new Configuration(args);
         Structs.Mesh aMesh = new MeshFactory().read(config.input());
-        IslandGenerator island = new IslandGenerator();
+        IslandGenerator island = new IslandGenerator(config);
         Structs.Mesh exported = Structs.Mesh.newBuilder().build();
-        colorMesh cm = new colorMesh();
         ShapeGenerator shape;
 
         switch (config.shape()){
@@ -52,4 +51,3 @@ public class Main {
         new MeshFactory().write(exported, config.output());
     }
 }
-

@@ -12,12 +12,12 @@ public class landTile implements Tile {
         return p;
     }
 
-    public Property getTileProperty(){
+    public Property getTileProperty() {
         Property c = Property.newBuilder().setKey("tile_type").setValue("landTile").build();
         return c;
     }
 
-    public String getColorCode(){
+    public String getColorCode() {
         return color_code;
     }
 
