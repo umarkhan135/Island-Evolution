@@ -9,17 +9,12 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 
 import ca.mcmaster.island.Tiles.Tile;
 import ca.mcmaster.island.Tiles.landTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.CanyonTypes.CanyonTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.MountainTypes.MountainTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.MountainTypes.SnowyMountainTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.RainForestTypes.rainForest;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.RainForestTypes.tropicalRainForest;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.fieldTypes.fieldTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.fieldTypes.savannaTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.fieldTypes.tundraTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes.forestTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes.tiagaTile;
-import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTypes.tropicalForestTile;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.CanyonTile;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.MountainTile;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.fieldTile;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.forestTile;
+import ca.mcmaster.island.Tiles.LandBiomeTiles.rainForest;
+
 
 import ca.mcmaster.island.properties.ElevationProperty;
 import ca.mcmaster.island.properties.TileProperty;
@@ -34,16 +29,10 @@ public class whittakerGen {
     }
     public static Mesh biomeGen(Mesh m){
         Tile land = new landTile();
-        Tile forest = new forestTile();
-        Tile taiga = new tiagaTile();
-        Tile tropicalForest = new tropicalForestTile();
-        Tile rainforest = new rainForest();
-        Tile tropicalRain = new tropicalRainForest();
-        Tile field = new fieldTile();
-        Tile savanna = new savannaTile();
-        Tile tundra = new tundraTile();
-        Tile mountain = new MountainTile();
-        Tile snowyMountain = new SnowyMountainTile();
+        rainForest rainforest = new rainForest();
+        fieldTile field = new fieldTile();
+        forestTile forest = new forestTile();
+        MountainTile mountain = new MountainTile();
         CanyonTile canyon = new CanyonTile();
     
         TileProperty tileProperty = new TileProperty();
@@ -62,36 +51,11 @@ public class whittakerGen {
                 percipitation = pC.hieghtPercipitation(h, per);
                 if(tile.get().equals(land.getTileProperty().getValue())){
                     switch(compareP(percipitation, h)){
-                        case 1: 
-                        switch(compareT(temperature)){
-                            case -1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tundra.getColor()).build());break;
-                            case 1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(savanna.getColor()).build());break;
-                            default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(field.getColor()).build());break;
-                        };break;
-                        case -1 : 
-                        switch(compareT(temperature)){
-                            case -1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(taiga.getColor()).build());break;
-                            case 1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tropicalRain.getColor()).build());break;
-                            default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(rainforest.getColor()).build());break;
-                        };break;
-                        case 2:
-                        switch(compareT(temperature)){
-                            case -1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(snowyMountain.getColor()).build());break;
-                            case 1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(mountain.getColor()).build());break;
-                            default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(mountain.getColor()).build());break;
-                        };break;
-                        case -2:
-                        switch(compareT(temperature)){
-                            case -1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(snowyMountain.getColor()).build());break;
-                            case 1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h)).build());break;
-                            default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h)).build());break;
-                        };break;
-                        default:
-                        switch(compareT(temperature)){
-                            case 1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(tropicalForest.getColor()).build());break;
-                            case -1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(taiga.getColor()).build());break;
-                            default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(forest.getColor()).build());break;
-                        };break;
+                        case 1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(rainforest.getColor(temperature)).build());break;
+                        case -1 : polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(field.getColor(temperature)).build());break; 
+                        case 2:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(mountain.getColor(temperature)).build());break;
+                        case -2:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h,temperature)).build());break;
+                        default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(forest.getColor(temperature)).build());break;
                     }
                 }else{
                     polygons.add(p);
