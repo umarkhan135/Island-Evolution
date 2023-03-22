@@ -4,9 +4,9 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.island.Tiles.landTile;
 
 public class forestTile extends landTile {
-    private String mild_code = "31,122,49";
-    private String hot_code = "101,122,31";
-    private String cold_code = "31,117,122";
+    private String mild_code = "79,140,67";
+    private String hot_code = "1113,140,67";
+    private String cold_code = "67,140,134";
     public Property getColor(double temp) {
         Property p;
         if (temp<0){

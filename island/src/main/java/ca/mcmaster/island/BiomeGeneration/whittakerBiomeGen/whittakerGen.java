@@ -6,9 +6,11 @@ import java.util.Optional;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
-
+import ca.mcmaster.island.neighborCheck;
 import ca.mcmaster.island.Tiles.Tile;
+import ca.mcmaster.island.Tiles.beachTile;
 import ca.mcmaster.island.Tiles.landTile;
+import ca.mcmaster.island.Tiles.oceanTile;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.CanyonTile;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.MountainTile;
 import ca.mcmaster.island.Tiles.LandBiomeTiles.fieldTile;
@@ -22,13 +24,18 @@ import ca.mcmaster.island.properties.TileProperty;
 public class whittakerGen {
     private static int temp; 
     private static int per;
-    
+    whittakerPercipitationType WPT = new whittakerPercipitationType();
+    whittakerTemperatureType WTT = new whittakerTemperatureType();
+
     public whittakerGen(String temp, String per){
-        this.temp = whittakerTemperatureType.MILD.create(temp).getTemperature();
-        this.per = whittakerPercipitationType.TEMPERATE.create(per).getHumidity();
+        this.temp = WTT.tT(temp);
+        this.per = WPT.pT(per);
     }
-    public static Mesh biomeGen(Mesh m){
+    
+    public Mesh biomeGen(Mesh m){
         Tile land = new landTile();
+        Tile ocean = new oceanTile();
+        Tile beach = new beachTile();
         rainForest rainforest = new rainForest();
         fieldTile field = new fieldTile();
         forestTile forest = new forestTile();
@@ -40,6 +47,7 @@ public class whittakerGen {
         ArrayList<Polygon> polygons = new ArrayList<>();
         percipitationCalculator pC = new percipitationCalculator();
         temperatureCalculator tP = new temperatureCalculator();
+        neighborCheck nC = new neighborCheck();
         double temperature;
         double percipitation;
         for (Structs.Polygon p : m.getPolygonsList()) {
@@ -47,15 +55,20 @@ public class whittakerGen {
             Optional<String> hieght = elevationProperty.extract(p.getPropertiesList());
             if(tile.isPresent() && hieght.isPresent()){
                 int h = (int)Double.parseDouble(hieght.get());
-                temperature = tP.hieghtTemp(h, temp);
-                percipitation = pC.hieghtPercipitation(h, per);
+                temperature = tP.hieghtTemp(h, this.temp);
+                percipitation = pC.hieghtPercipitation(h, this.per);
+                
                 if(tile.get().equals(land.getTileProperty().getValue())){
-                    switch(compareP(percipitation, h)){
-                        case 1: polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(rainforest.getColor(temperature)).build());break;
-                        case -1 : polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(field.getColor(temperature)).build());break; 
-                        case 2:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(mountain.getColor(temperature)).build());break;
-                        case -2:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h,temperature)).build());break;
-                        default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(forest.getColor(temperature)).build());break;
+                    if(nC.checkNeighbors(p, m, ocean)){
+                        polygons.add(Structs.Polygon.newBuilder(p).addProperties(beach.getTileProperty()).addProperties(beach.getColor()).build());
+                    }else{
+                        switch(compareP(percipitation, h)){
+                            case "tropical": polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(rainforest.getColor(temperature)).build());break;
+                            case "dry" : polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(field.getColor(temperature)).build());break; 
+                            case "mountain":polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(mountain.getColor(temperature)).build());break;
+                            case "canyon":polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h,temperature)).build());break;
+                            default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(forest.getColor(temperature)).build());break;
+                        }
                     }
                 }else{
                     polygons.add(p);
@@ -66,30 +79,20 @@ public class whittakerGen {
 
         return newMesh;
     }
-    private static int compareP(double percipitation, int h) {
-        if (h>75){
-            return 2;
+    private static String compareP(double percipitation, int h) {
+        if (h>65){
+            return "mountain";
         }
         if(h<-85){
-            return -2;
+            return "canyon";
         }
         
         if (percipitation< 100){
-                return 1;
+                return "dry";
         }
-        else if(250<percipitation){
-            return -1;
+        else if(percipitation>200){
+            return "tropical";
         }
-        return 0;
+        return "temperate";
     }
-    private static int compareT(double temperature){
-        
-        if(temperature>20){
-            return 1;
-        }else if(temperature<0){
-            return -1;
-        }
-        return 0;
-    }
-
 }

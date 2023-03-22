@@ -56,7 +56,7 @@ public class IslandGenerator {
             poly.add(newPolygon);
         }
         Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
-        Structs.Mesh newMesh2 = whittakerGen.biomeGen(newMeshWithElevation);
+        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithElevation);
         return newMesh2;
 
     }
@@ -72,7 +72,7 @@ public class IslandGenerator {
     }
 
     public Structs.Mesh lagoon(Structs.Mesh m) {
-
+        whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
         
 
         elevation elevate = createElevationProfile(config.getAltitude());
@@ -154,7 +154,7 @@ public class IslandGenerator {
         }
 
         Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(tilePolygons2).build();
-        Structs.Mesh newMesh3 = whittakerGen.biomeGen(newMesh2);
+        Structs.Mesh newMesh3 = wGen.biomeGen(newMesh2);
         return newMesh3;
     }
 

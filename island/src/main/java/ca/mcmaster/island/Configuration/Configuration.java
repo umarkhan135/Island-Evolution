@@ -45,7 +45,7 @@ public class Configuration {
         return this.cli.getOptionValue(ALTITUDE, "volcano");
     }
     public String getTemperature(){
-        return this.cli.getOptionValue(TEMPERATURE, "cold");
+        return this.cli.getOptionValue(TEMPERATURE, "mild");
     }
     public String getPrecipitation(){
         return this.cli.getOptionValue(PERCIPITATION, "temperate");
