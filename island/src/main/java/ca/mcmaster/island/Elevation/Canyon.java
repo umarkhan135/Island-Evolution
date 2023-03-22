@@ -42,7 +42,7 @@ public class Canyon implements elevation {
             double distance = dis.centerDistance(centroid, x/2, y/2);
             double normalizedDistance = distance / radius;
 
-            elevation = Math.pow(normalizedDistance, 2) * 100;
+            elevation = Math.pow(normalizedDistance, 2) * 400;
             elevation = Math.round(elevation * 100) / 100.0;
 
         }

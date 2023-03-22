@@ -41,6 +41,9 @@ public class IslandGenerator {
 
         for (Structs.Polygon p : tilePolygons) {
 
+            double el = elevate.getElevation(p,x,m);
+            System.out.println(el);
+
             elevate.getElevation(p, x, m);
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
             poly.add(newPolygon);
