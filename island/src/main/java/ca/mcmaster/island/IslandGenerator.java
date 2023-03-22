@@ -28,11 +28,11 @@ public class IslandGenerator {
     public IslandGenerator(Configuration config) {
         this.config = config;
     }
-    public Structs.Mesh basic(Structs.Mesh m, Path2D s){
+    public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate){
         whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
         ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
         ArrayList<Structs.Polygon> poly = new ArrayList<>();
-        elevation elevate = createElevationProfile(config.getAltitude());
+        
 
 
         Tile land = new landTile();
@@ -52,7 +52,7 @@ public class IslandGenerator {
         for (Structs.Polygon p : tilePolygons) {
 
             //elevation elevate = new Volcano();
-            elevate.getElevation(p, 200, m);
+            elevate.getElevation(p, 200, m,s);
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
             poly.add(newPolygon);
         }
