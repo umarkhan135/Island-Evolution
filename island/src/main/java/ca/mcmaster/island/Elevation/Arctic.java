@@ -1,33 +1,26 @@
 package ca.mcmaster.island.Elevation;
 
 import java.util.Optional;
+import java.util.Random;
 import java.awt.*;
 
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
-import ca.mcmaster.cas.se2aa4.a2.io.Structs;
-import ca.mcmaster.island.MeshSize;
-import ca.mcmaster.island.distance;
 import ca.mcmaster.island.Tiles.oceanTile;
 import ca.mcmaster.island.properties.ColorProperty;
 
+public class Arctic implements elevation {
 
-public class Volcano implements elevation {
-    private double elevation;    
+    private int elevation;    
 
     @Override
     public double getElevation(Polygon polygon, int radius, Mesh aMesh) {
 
 
         ColorProperty colorProperty = new ColorProperty();
-        Structs.Vertex meshSize = new MeshSize().findLargestXYVertex(aMesh);
-        
 
-        double x = meshSize.getX();
-        double y = meshSize.getY();
-        
         String oceanColorString = new oceanTile().getColor().getValue();
         Color oceanColor = colorProperty.toColor(oceanColorString);
         Optional<Color> polygonColor = colorProperty.extract(polygon.getPropertiesList());
@@ -38,15 +31,8 @@ public class Volcano implements elevation {
 
         }else{
 
-            int centroidIdx = polygon.getCentroidIdx(); // Get the index of the centroid vertex
-            Structs.Vertex centroid = aMesh.getVertices(centroidIdx);
-
-            distance dis = new distance();
-            double distance = dis.centerDistance(centroid, x/2, y/2);
-            double normalizedDistance = (radius - distance) / radius;
-
-            elevation = Math.pow(normalizedDistance, 2) * 1000;
-            elevation = Math.round(elevation * 100) / 100.0;
+            Random random = new Random();
+            elevation = random.nextInt(6);
 
         }
         return elevation;

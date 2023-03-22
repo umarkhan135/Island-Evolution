@@ -4,7 +4,9 @@ import ca.mcmaster.island.Tiles.*;
 import ca.mcmaster.island.properties.TileProperty;
 import ca.mcmaster.island.neighborCheck;
 import ca.mcmaster.island.Configuration.Configuration;
+import ca.mcmaster.island.Elevation.Arctic;
 import ca.mcmaster.island.Elevation.Canyon;
+import ca.mcmaster.island.Elevation.RandomElevation;
 import ca.mcmaster.island.Elevation.Volcano;
 import ca.mcmaster.island.Elevation.elevation;
 import ca.mcmaster.island.distance;
@@ -31,6 +33,10 @@ public class islandGen {
                 return new Volcano();
             case "canyon":
                 return new Canyon();
+            case "arctic":
+                return new Arctic();
+            case "random":
+                return new RandomElevation();
             default:
                 throw new IllegalArgumentException("Invalid altitude profile: " + altitudeProfile);
         }
