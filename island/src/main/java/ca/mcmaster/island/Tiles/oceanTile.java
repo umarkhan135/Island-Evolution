@@ -6,7 +6,7 @@ import java.awt.*;
 
 public class oceanTile implements Tile {
 
-    private String color_code = "43,101,236";
+    private String color_code = "26,50,100";
 
     @Override
     public Property getColor() {

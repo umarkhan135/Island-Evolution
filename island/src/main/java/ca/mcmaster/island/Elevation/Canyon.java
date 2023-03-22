@@ -18,13 +18,12 @@ public class Canyon implements elevation {
     private double elevation;    
 
     @Override
-    public double getElevation(Polygon polygon, int radius, Structs.Mesh aMesh) {
+    public double getElevation(Polygon polygon, double radius, Structs.Mesh aMesh) {
 
         ColorProperty colorProperty = new ColorProperty();
-        Structs.Vertex meshSize = new MeshSize().findLargestXYVertex(aMesh);
 
-        double x = meshSize.getX();
-        double y = meshSize.getY();
+        double x = new MeshSize(aMesh).getMaxX();
+        double y = new MeshSize(aMesh).getMaxY();
         
         String oceanColorString = new oceanTile().getColor().getValue();
         Color oceanColor = colorProperty.toColor(oceanColorString);

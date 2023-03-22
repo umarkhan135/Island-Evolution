@@ -16,7 +16,7 @@ public class Arctic implements elevation {
     private int elevation;    
 
     @Override
-    public double getElevation(Polygon polygon, int radius, Mesh aMesh) {
+    public double getElevation(Polygon polygon, double radius, Mesh aMesh) {
 
 
         ColorProperty colorProperty = new ColorProperty();

@@ -18,15 +18,14 @@ public class Volcano implements elevation {
     private double elevation;    
 
     @Override
-    public double getElevation(Polygon polygon, int radius, Mesh aMesh) {
+    public double getElevation(Polygon polygon, double radius, Mesh aMesh) {
 
 
         ColorProperty colorProperty = new ColorProperty();
-        Structs.Vertex meshSize = new MeshSize().findLargestXYVertex(aMesh);
         
 
-        double x = meshSize.getX();
-        double y = meshSize.getY();
+        double x = new MeshSize(aMesh).getMaxX();
+        double y = new MeshSize(aMesh).getMaxY();
         
         String oceanColorString = new oceanTile().getColor().getValue();
         Color oceanColor = colorProperty.toColor(oceanColorString);
@@ -45,7 +44,7 @@ public class Volcano implements elevation {
             double distance = dis.centerDistance(centroid, x/2, y/2);
             double normalizedDistance = (radius - distance) / radius;
 
-            elevation = Math.pow(normalizedDistance, 2) * 1000;
+            elevation = Math.pow(normalizedDistance, 2) * 100;
             elevation = Math.round(elevation * 100) / 100.0;
 
         }
