@@ -1,21 +1,13 @@
 package ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen;
 
-public enum whittakerTemperatureType {
-    HOT("hot", 25), MILD("mild", 10), COLD("cold", -5);
-    String temperature;
-    int temp;
-    whittakerTemperatureType(String s, int temp){
-       this.temp = temp;
-       this.temperature = s;
-    }
-    public whittakerTemperatureType create(String s){
-        switch(s){
-            case "hot": return HOT;
-            case "cold": return COLD;
-            default: return MILD;
+public class whittakerTemperatureType {
+    public int tT(String temperature){
+        temperature = temperature.trim();
+        switch(temperature){
+            case "hot": return 25;
+            case "cold": return -5;
+            default: return 10;
         }
-    }
-    public int getTemperature() {
-        return temp;
+
     }
 }

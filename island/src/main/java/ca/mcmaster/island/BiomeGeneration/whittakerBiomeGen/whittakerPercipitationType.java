@@ -1,23 +1,12 @@
 package ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen;
 
-public enum whittakerPercipitationType{
-    TROPICAL("tropical", 300), TEMPERATE("temperate", 150), DRY("dry", 50);
-    private final String per;
-    private final int percipitation;
-    private whittakerPercipitationType(String per, int percipitation){
-        this.per = per;
-        this.percipitation = percipitation;
-    }
-
-    public whittakerPercipitationType create(String s){
-        switch(s){
-            case "tropical" : return TROPICAL;
-            case "dry" : return DRY;
-            default: return TEMPERATE;
+public class whittakerPercipitationType{
+    public int pT(String percipitation){
+        percipitation = percipitation.trim();
+        switch(percipitation){
+            case "dry": return 50;
+            case "tropical": return 250;
+            default: return 150;
         }
     }
-    public int getHumidity(){
-        return this.percipitation;
-    }
-
 }

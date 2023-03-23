@@ -13,8 +13,7 @@ public class CircleIsland implements ShapeGenerator{
     private double center_x;
     private double center_y;
     private double radius;
-    private double x;
-    private double y;
+    
     
 
     public CircleIsland(Structs.Mesh m){
@@ -30,15 +29,6 @@ public class CircleIsland implements ShapeGenerator{
         }
 
     }
-
-    public CircleIsland(double x, double y, double radius){
-
-        this.radius = radius;
-        this.x = x;
-        this.y = y;
-        
-    }
-
 
     public void generateShape(){
 
