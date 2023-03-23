@@ -3,7 +3,7 @@ package ca.mcmaster.island;
 import ca.mcmaster.island.Tiles.*;
 import ca.mcmaster.island.properties.TileProperty;
 import ca.mcmaster.island.neighborCheck;
-import ca.mcmaster.island.BiomeGeneration.randomBiomeGen;
+
 import ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen.whittakerGen;
 import ca.mcmaster.island.Configuration.Configuration;
 import ca.mcmaster.island.Elevation.Canyon;
@@ -57,7 +57,7 @@ public class IslandGenerator {
             poly.add(newPolygon);
         }
         Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
-        Structs.Mesh newMesh2 = whittakerGen.biomeGen(newMeshWithElevation);
+        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithElevation);
         return newMesh2;
 
     }
@@ -77,7 +77,7 @@ public class IslandGenerator {
         
 
         elevation elevate = createElevationProfile(config.getAltitude());
-        whittakerGen whitGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
+        whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
 
         MeshSize size = new MeshSize(m);
         Structs.Vertex maxSize = size.findLargestXYVertex(m);
@@ -89,7 +89,6 @@ public class IslandGenerator {
         distance dis = new distance();
         TileProperty tileProperty = new TileProperty();
         ColorProperty colorProperty = new ColorProperty();
-        randomBiomeGen landBiome = new randomBiomeGen();
        
 
         final double inner_radius = 125.0;
@@ -155,7 +154,7 @@ public class IslandGenerator {
         }
 
         Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(tilePolygons2).build();
-        Structs.Mesh newMesh3 = whittakerGen.biomeGen(newMesh2);
+        Structs.Mesh newMesh3 = wGen.biomeGen(newMesh2);
         return newMesh3;
     }
 

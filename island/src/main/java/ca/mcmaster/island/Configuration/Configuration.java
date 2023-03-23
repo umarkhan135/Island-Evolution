@@ -57,9 +57,9 @@ public class Configuration {
         options.addOption(new Option(OUTPUT, true, "Output file (MESH)"));
         options.addOption(new Option(MODE, "mode", true, "Island Generation Type"));
         options.addOption(new Option(ALTITUDE, true, "Altitude Profile"));
-        options.addOption(new Option(TEMPERATURE, true, "Whittaker Temperature Type"));
-        options.addOption(new Option(PERCIPITATION, true, "Whittaker Percipitation Type"));
-        options.addOption(new Option(SHAPE, "shape", true, "Shape of Island"));
+        options.addOption(new Option(TEMPERATURE, true, "Whittaker Temperature Type, enter \"hot\", \"mild\", or \"cold\""));
+        options.addOption(new Option(PERCIPITATION, true, "Whittaker Percipitation Type, enter \"tropical\", \"temperate\", or \"dry\""));
+        options.addOption(new Option(SHAPE, "shape", true, "Shape of Island, enter \"cirlce\", \"ellipse\", or \"star\""));
         return options;
     }
 
