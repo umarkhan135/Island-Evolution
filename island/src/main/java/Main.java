@@ -65,7 +65,7 @@ public class Main {
 
         switch (config.mode()) {
             case "lagoon":
-                exported = island.lagoon(aMesh);
+                exported = island.lagoon(aMesh,shape.getShape(), elevate);
                 break;
             case "basic":
                 exported = island.basic(aMesh, shape.getShape(),  elevate);

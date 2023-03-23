@@ -32,7 +32,7 @@ public class whittakerGen {
         this.per = WPT.pT(per);
     }
     
-    public Mesh biomeGen(Mesh m){
+    public Mesh biomeGen(Mesh m, double radius){
         Tile land = new landTile();
         Tile ocean = new oceanTile();
         Tile beach = new beachTile();
@@ -66,7 +66,7 @@ public class whittakerGen {
                             case "tropical": polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(rainforest.getColor(temperature)).build());break;
                             case "dry" : polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(field.getColor(temperature)).build());break; 
                             case "mountain":polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(mountain.getColor(temperature)).build());break;
-                            case "canyon":polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h,temperature)).build());break;
+                            case "canyon":polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h,temperature, radius)).build());break;
                             default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(forest.getColor(temperature)).build());break;
                         }
                     }

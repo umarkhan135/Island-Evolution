@@ -50,14 +50,12 @@ public class IslandGenerator {
         }
         Structs.Mesh newMesh = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(tilePolygons).build();
         for (Structs.Polygon p : tilePolygons) {
-
-            //elevation elevate = new Volcano();
             elevate.getElevation(p, 200, m,s);
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
             poly.add(newPolygon);
         }
         Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
-        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithElevation);
+        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithElevation, 200);
         return newMesh2;
 
     }
@@ -72,11 +70,7 @@ public class IslandGenerator {
         }
     }
 
-    public Structs.Mesh lagoon(Structs.Mesh m) {
-
-        
-
-        elevation elevate = createElevationProfile(config.getAltitude());
+    public Structs.Mesh lagoon(Structs.Mesh m, Path2D s,elevation elevate) {
         whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
 
         MeshSize size = new MeshSize(m);
@@ -87,7 +81,6 @@ public class IslandGenerator {
 
         neighborCheck n = new neighborCheck();
         distance dis = new distance();
-        TileProperty tileProperty = new TileProperty();
         ColorProperty colorProperty = new ColorProperty();
        
 
@@ -128,8 +121,6 @@ public class IslandGenerator {
         ArrayList<Structs.Polygon> poly = new ArrayList<Structs.Polygon>();
 
         for (Structs.Polygon p : tilePolygons1) {
-
-            //elevation elevate = new Volcano();
             elevate.getElevation(p, 200, m);
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
             poly.add(newPolygon);
@@ -154,7 +145,7 @@ public class IslandGenerator {
         }
 
         Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(tilePolygons2).build();
-        Structs.Mesh newMesh3 = wGen.biomeGen(newMesh2);
+        Structs.Mesh newMesh3 = wGen.biomeGen(newMesh2, 200);
         return newMesh3;
     }
 

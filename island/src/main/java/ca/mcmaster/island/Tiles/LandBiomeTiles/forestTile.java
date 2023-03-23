@@ -5,7 +5,7 @@ import ca.mcmaster.island.Tiles.landTile;
 
 public class forestTile extends landTile {
     private String mild_code = "79,140,67";
-    private String hot_code = "1113,140,67";
+    private String hot_code = "113,140,67";
     private String cold_code = "67,140,134";
     public Property getColor(double temp) {
         Property p;
