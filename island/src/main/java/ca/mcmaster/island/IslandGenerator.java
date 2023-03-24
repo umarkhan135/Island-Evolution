@@ -10,6 +10,7 @@ import ca.mcmaster.island.Elevation.Canyon;
 import ca.mcmaster.island.Elevation.Volcano;
 import ca.mcmaster.island.Elevation.elevation;
 import ca.mcmaster.island.distance;
+import ca.mcmaster.island.Rivers.MakeRiver;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
@@ -58,6 +59,10 @@ public class IslandGenerator {
         }
         Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
         Structs.Mesh newMesh2 = whittakerGen.biomeGen(newMeshWithElevation);
+
+        MakeRiver makeRiver = new MakeRiver();
+        makeRiver.PlayAround(m);
+
         return newMesh2;
 
     }

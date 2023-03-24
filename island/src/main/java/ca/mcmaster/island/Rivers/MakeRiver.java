@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.util.Arrays;
 import java.util.Optional;
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.island.Tiles.oceanTile;
@@ -12,7 +14,7 @@ import ca.mcmaster.island.properties.ElevationProperty;
 
 public class MakeRiver {
 
-    public void PlayAround(Structs.Mesh m){
+    public void PlayAround(Structs.Mesh m) {
         Structs.Polygon pol;
         Optional<Color> polygonColor;
         Random random = new Random();
@@ -22,29 +24,33 @@ public class MakeRiver {
         Color oceanColor = colorProperty.toColor(oceanColorString);
 
 
-        do{
+        do {
             rand = random.nextInt(m.getPolygonsCount());
             pol = m.getPolygons(rand);
             polygonColor = colorProperty.extract(pol.getPropertiesList());
-        }while (polygonColor.isPresent() && polygonColor.get().equals(oceanColor));
+        } while (polygonColor.isPresent() && polygonColor.get().equals(oceanColor));
 
 
         int z = pol.getSegmentIdxs(random.nextInt(pol.getSegmentIdxsCount()));
 
-        Structs.Polygon lowerPolygon = findLowerElevationPolygon(z, m);
+        //Structs.Polygon lowerPolygon = findLowerElevationPolygon(z, m);
 
         int listOfSegements[] = segmentNeighbors(z, m);
         System.out.println(Arrays.toString(listOfSegements));
 
+        Structs.Polygon lowerPolygon = findLowestElevationPolygon(listOfSegements, m);
+        System.out.println("here");
+        System.out.println(lowerPolygon);
+
     }
 
-    private int[] segmentNeighbors (int segment, Structs.Mesh mesh){
+    private int[] segmentNeighbors(int segment, Structs.Mesh mesh) {
         int segments[] = new int[4];
         int counter = 0;
 
         for (int i = 0; i < mesh.getSegmentsList().size(); i++) {
             Structs.Segment ss = mesh.getSegmentsList().get(i);
-            if ((ss.getV1Idx() == mesh.getSegments(segment).getV1Idx() || ss.getV2Idx() == mesh.getSegments(segment).getV1Idx() || ss.getV1Idx() == mesh.getSegments(segment).getV2Idx() || ss.getV2Idx() == mesh.getSegments(segment).getV2Idx()) && i != segment){
+            if ((ss.getV1Idx() == mesh.getSegments(segment).getV1Idx() || ss.getV2Idx() == mesh.getSegments(segment).getV1Idx() || ss.getV1Idx() == mesh.getSegments(segment).getV2Idx() || ss.getV2Idx() == mesh.getSegments(segment).getV2Idx()) && i != segment) {
                 System.out.println("Index of ss: " + i);
                 System.out.println(ss);
                 segments[counter] = i;
@@ -68,6 +74,39 @@ public class MakeRiver {
                         minElevation = elevation;
                         lowerElevationPolygon = polygon;
                     }
+                }
+            }
+        }
+        return lowerElevationPolygon;
+    }
+
+    private Structs.Polygon findLowestElevationPolygon(int[] segments, Structs.Mesh mesh) {
+        Structs.Polygon lowerElevationPolygon = null;
+        double minElevation = Double.MAX_VALUE;
+        ElevationProperty elevate = new ElevationProperty();
+
+        for (int segment : segments) {
+            Structs.Segment s = mesh.getSegments(segment);
+            int v1 = s.getV1Idx();
+            int v2 = s.getV2Idx();
+
+            for (Structs.Polygon p : mesh.getPolygonsList()) {
+                List<Integer> vertexIdxs = new ArrayList<>();
+                for (int segmentIdx : p.getSegmentIdxsList()) {
+                    Structs.Segment polygonSegment = mesh.getSegments(segmentIdx);
+                    vertexIdxs.add(polygonSegment.getV1Idx());
+                    vertexIdxs.add(polygonSegment.getV2Idx());
+                }
+                if (vertexIdxs.contains(v1) && vertexIdxs.contains(v2)) {
+                    Optional<String> elevationString = elevate.extract(p.getPropertiesList());
+                    if (elevationString.isPresent()) {
+                        double elevation = Double.parseDouble(elevationString.get());
+                        if (elevation < minElevation) {
+                            minElevation = elevation;
+                            lowerElevationPolygon = p;
+                        }
+                    }
+                    break;
                 }
             }
         }
