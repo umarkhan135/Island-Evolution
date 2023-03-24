@@ -44,41 +44,59 @@ public class whittakerGen {
     
         TileProperty tileProperty = new TileProperty();
         ElevationProperty elevationProperty = new ElevationProperty();
-        ArrayList<Polygon> polygons = new ArrayList<>();
+        ArrayList<Polygon> polygons1 = new ArrayList<>();
         percipitationCalculator pC = new percipitationCalculator();
         temperatureCalculator tP = new temperatureCalculator();
         neighborCheck nC = new neighborCheck();
         double temperature;
         double percipitation;
+
+        
+        ArrayList<Polygon> polygons2 = new ArrayList<>();
         for (Structs.Polygon p : m.getPolygonsList()) {
             Optional<String> tile = tileProperty.extract(p.getPropertiesList());
             Optional<String> hieght = elevationProperty.extract(p.getPropertiesList());
+
             if(tile.isPresent() && hieght.isPresent()){
                 int h = (int)Double.parseDouble(hieght.get());
                 temperature = tP.hieghtTemp(h, this.temp);
                 percipitation = pC.hieghtPercipitation(h, this.per);
-                
+
                 if(tile.get().equals(land.getTileProperty().getValue())){
-                    if(nC.checkNeighbors(p, m, ocean)){
-                        polygons.add(Structs.Polygon.newBuilder(p).addProperties(beach.getTileProperty()).addProperties(beach.getColor()).build());
-                    }else{
                         switch(compareP(percipitation, h)){
-                            case "tropical": polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(rainforest.getColor(temperature)).build());break;
-                            case "dry" : polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(field.getColor(temperature)).build());break; 
-                            case "mountain":polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(mountain.getColor(temperature)).build());break;
-                            case "canyon":polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h,temperature, radius)).build());break;
-                            default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(forest.getColor(temperature)).build());break;
+                            case "tropical": polygons2.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(rainforest.getColor(temperature)).build());break;
+                            case "dry" : polygons2.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(field.getColor(temperature)).build());break; 
+                            case "mountain":polygons2.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(mountain.getColor(temperature)).build());break;
+                            case "canyon":polygons2.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h,temperature, radius)).build());break;
+                            default:polygons2.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(forest.getColor(temperature)).build());break;
                         }
-                    }
                 }else{
-                    polygons.add(p);
+                    polygons2.add(p);
                 }
             }
         }
-        Structs.Mesh newMesh = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(polygons).build();
+        Structs.Mesh newMesh1 = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(polygons2).build();
+        for (Structs.Polygon p : newMesh1.getPolygonsList()){
+            Optional<String> tile = tileProperty.extract(p.getPropertiesList());
+            if(tile.get().equals(land.getTileProperty().getValue()) ){
+                if(nC.checkNeighbors(p, m, ocean)){
+                    for( Structs.Polygon poly : nC.neighborSet(p, m, land, beach, 0)){
+                        polygons1.add(poly);   
+                    }
+                }
+            }
+        }
+        for (Structs.Polygon p : polygons1){
+            polygons2.add(p);
+        }
 
-        return newMesh;
+        
+        Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMesh1).clearPolygons().addAllPolygons(polygons2).build();
+        return newMesh2;
     }
+
+
+
     private static String compareP(double percipitation, int h) {
         if (h>65){
             return "mountain";

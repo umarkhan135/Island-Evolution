@@ -11,7 +11,7 @@ public class beachTile implements Tile {
         Property p = Property.newBuilder().setKey("rgb_color").setValue(color_code).build();
         return p;
     }
-
+    @Override
     public Property getTileProperty() {
         Property c = Property.newBuilder().setKey("tile_type").setValue("beachTile").build();
         return c;
