@@ -2,11 +2,18 @@ package ca.mcmaster.island;
 
 import ca.mcmaster.island.Tiles.*;
 import ca.mcmaster.island.properties.TileProperty;
+import ca.mcmaster.island.shapes.CircleIsland;
+import ca.mcmaster.island.shapes.ShapeGenerator;
 import ca.mcmaster.island.neighborCheck;
-import ca.mcmaster.island.BiomeGeneration.randomBiomeGen;
+import ca.mcmaster.island.Aquifers.AquifersGen;
+import ca.mcmaster.island.Aquifers.CircleAquifier;
+
+
 import ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen.whittakerGen;
 import ca.mcmaster.island.Configuration.Configuration;
+import ca.mcmaster.island.Elevation.Arctic;
 import ca.mcmaster.island.Elevation.Canyon;
+import ca.mcmaster.island.Elevation.RandomElevation;
 import ca.mcmaster.island.Elevation.Volcano;
 import ca.mcmaster.island.Elevation.elevation;
 import ca.mcmaster.island.distance;
@@ -29,10 +36,12 @@ public class IslandGenerator {
     public IslandGenerator(Configuration config) {
         this.config = config;
     }
-    public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate){
+    public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate, int aquiferNum){
         whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
         ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
         ArrayList<Structs.Polygon> poly = new ArrayList<>();
+        AquifersGen aquifer = new CircleAquifier();
+        
         
 
 
@@ -51,17 +60,18 @@ public class IslandGenerator {
         }
         Structs.Mesh newMesh = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(tilePolygons).build();
         for (Structs.Polygon p : tilePolygons) {
-
-            //elevation elevate = new Volcano();
             elevate.getElevation(p, 200, m,s);
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
             poly.add(newPolygon);
         }
         Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
-        Structs.Mesh newMesh2 = whittakerGen.biomeGen(newMeshWithElevation);
 
         MakeRiver makeRiver = new MakeRiver();
         makeRiver.PlayAround(m);
+
+
+        Structs.Mesh newMeshWithAquifer = aquifer.meshWithAquifers(poly, aquiferNum, newMeshWithElevation);
+        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithAquifer, 200);
 
         return newMesh2;
 
@@ -72,17 +82,22 @@ public class IslandGenerator {
                 return new Volcano();
             case "canyon":
                 return new Canyon();
+            case "arctic":
+                return new Arctic();
+            case "random":
+                return new RandomElevation();
             default:
                 throw new IllegalArgumentException("Invalid altitude profile: " + altitudeProfile);
         }
     }
 
-    public Structs.Mesh lagoon(Structs.Mesh m) {
 
-        
+    public Structs.Mesh lagoon(Structs.Mesh m, int aquiferNum) {
 
         elevation elevate = createElevationProfile(config.getAltitude());
-        whittakerGen whitGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
+        
+        whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
+
 
         MeshSize size = new MeshSize(m);
         Structs.Vertex maxSize = size.findLargestXYVertex(m);
@@ -92,9 +107,7 @@ public class IslandGenerator {
 
         neighborCheck n = new neighborCheck();
         distance dis = new distance();
-        TileProperty tileProperty = new TileProperty();
         ColorProperty colorProperty = new ColorProperty();
-        randomBiomeGen landBiome = new randomBiomeGen();
        
 
         final double inner_radius = 125.0;
@@ -135,7 +148,6 @@ public class IslandGenerator {
 
         for (Structs.Polygon p : tilePolygons1) {
 
-            //elevation elevate = new Volcano();
             elevate.getElevation(p, 200, m);
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
             poly.add(newPolygon);
@@ -143,7 +155,7 @@ public class IslandGenerator {
         Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
 
         for (Structs.Polygon p : poly) {
-            //elevation elevate = new Volcano();
+            
             elevate.getElevation(p, 200, m);
             Optional<Color> tile = colorProperty.extract(p.getPropertiesList());
             if (tile.isPresent()) {
@@ -160,8 +172,14 @@ public class IslandGenerator {
         }
 
         Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(tilePolygons2).build();
-        Structs.Mesh newMesh3 = whittakerGen.biomeGen(newMesh2);
-        return newMesh3;
+
+        Structs.Mesh newMesh3 = new CircleAquifier().meshWithAquifers(tilePolygons2, aquiferNum, newMesh2);
+        
+        
+
+        Structs.Mesh newMesh4 = wGen.biomeGen(newMesh3, 200);
+        return newMesh4;
+
     }
 
 }

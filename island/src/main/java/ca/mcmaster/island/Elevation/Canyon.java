@@ -105,7 +105,7 @@ public class Canyon implements elevation {
             double e = 1/distanceToEllipse * 3500;
             
             elevation = e;
-            elevation = Math.round(elevation * 100) / 100.0;
+            elevation = Math.round(elevation * 100) / 100.0 - radius;
         }
         return elevation;
     }

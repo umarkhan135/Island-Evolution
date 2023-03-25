@@ -33,7 +33,7 @@ public class RandomElevation implements elevation {
         }else{
 
             Random random = new Random();
-            elevation = random.nextInt(201);
+            elevation = random.nextInt(201) - 100;
 
         }
         return elevation;
@@ -55,7 +55,7 @@ public class RandomElevation implements elevation {
         }else{
 
             Random random = new Random();
-            elevation = random.nextInt(201);
+            elevation = random.nextInt(201) -100;
 
         }
         return elevation;

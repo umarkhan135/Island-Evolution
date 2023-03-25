@@ -62,16 +62,18 @@ public class Main {
         }
 
         shape.generateShape();
+        String aquiferNumStr = config.getAquifer();
+        int aquiferNum = Integer.parseInt(aquiferNumStr);
 
         switch (config.mode()) {
             case "lagoon":
-                exported = island.lagoon(aMesh);
+                exported = island.lagoon(aMesh, aquiferNum);
                 break;
             case "basic":
-                exported = island.basic(aMesh, shape.getShape(),  elevate);
+                exported = island.basic(aMesh, shape.getShape(),  elevate, aquiferNum);
                 break;
             default:
-                exported = island.basic(aMesh, shape.getShape(), elevate);
+                exported = island.basic(aMesh, shape.getShape(), elevate, aquiferNum);
                 break;
         }
         
