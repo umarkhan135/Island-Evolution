@@ -5,6 +5,8 @@ import ca.mcmaster.island.Elevation.Canyon;
 import ca.mcmaster.island.Elevation.RandomElevation;
 import ca.mcmaster.island.Elevation.Volcano;
 import ca.mcmaster.island.Elevation.elevation;
+import ca.mcmaster.island.Rivers.MakeRiver;
+import ca.mcmaster.island.Rivers.RiverGen;
 import ca.mcmaster.island.shapes.*;
 import ca.mcmaster.cas.se2aa4.a2.io.*;
 
@@ -78,6 +80,6 @@ public class Main {
         }
         
         new MeshFactory().write(exported, config.output());
-        System.out.println(config.getAltitude());
+        
     }
 }

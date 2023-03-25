@@ -16,6 +16,7 @@ import ca.mcmaster.island.Elevation.Canyon;
 import ca.mcmaster.island.Elevation.RandomElevation;
 import ca.mcmaster.island.Elevation.Volcano;
 import ca.mcmaster.island.Elevation.elevation;
+import ca.mcmaster.island.Rivers.MakeRiver;
 import ca.mcmaster.island.distance;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
@@ -67,6 +68,8 @@ public class IslandGenerator {
 
         Structs.Mesh newMeshWithAquifer = aquifer.meshWithAquifers(poly, aquiferNum, newMeshWithElevation);
         Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithAquifer, 200);
+        MakeRiver ppp = new MakeRiver();
+        ppp.PlayAround(newMesh2);
         return newMesh2;
 
     }
