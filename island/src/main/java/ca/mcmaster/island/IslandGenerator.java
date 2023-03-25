@@ -7,6 +7,7 @@ import ca.mcmaster.island.shapes.ShapeGenerator;
 import ca.mcmaster.island.neighborCheck;
 import ca.mcmaster.island.Aquifers.AquifersGen;
 import ca.mcmaster.island.Aquifers.CircleAquifier;
+import ca.mcmaster.island.Lakes.LakeGen;
 
 
 import ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen.whittakerGen;
@@ -36,11 +37,12 @@ public class IslandGenerator {
     public IslandGenerator(Configuration config) {
         this.config = config;
     }
-    public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate, int aquiferNum){
+    public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate, int aquiferNum, int numLakes){
         whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
         ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
         ArrayList<Structs.Polygon> poly = new ArrayList<>();
         AquifersGen aquifer = new CircleAquifier();
+        LakeGen lakeGen = new LakeGen();
         
         
 
@@ -71,7 +73,8 @@ public class IslandGenerator {
 
 
         Structs.Mesh newMeshWithAquifer = aquifer.meshWithAquifers(poly, aquiferNum, newMeshWithElevation);
-        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithAquifer, 200);
+        Structs.Mesh newMeshWithLakes = lakeGen.generateLakes(newMeshWithAquifer, numLakes);
+        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithLakes, 200);
 
         return newMesh2;
 
@@ -92,7 +95,7 @@ public class IslandGenerator {
     }
 
 
-    public Structs.Mesh lagoon(Structs.Mesh m, int aquiferNum) {
+    public Structs.Mesh lagoon(Structs.Mesh m, int aquiferNum, int numLakes) {
 
         elevation elevate = createElevationProfile(config.getAltitude());
         
@@ -174,11 +177,13 @@ public class IslandGenerator {
         Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(tilePolygons2).build();
 
         Structs.Mesh newMesh3 = new CircleAquifier().meshWithAquifers(tilePolygons2, aquiferNum, newMesh2);
+
+        Structs.Mesh newMesh4 = new LakeGen().generateLakes(newMesh3, numLakes);
         
         
 
-        Structs.Mesh newMesh4 = wGen.biomeGen(newMesh3, 200);
-        return newMesh4;
+        Structs.Mesh newMesh5 = wGen.biomeGen(newMesh4, 200);
+        return newMesh5;
 
     }
 

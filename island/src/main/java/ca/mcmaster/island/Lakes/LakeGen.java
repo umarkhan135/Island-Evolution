@@ -44,6 +44,7 @@ public class LakeGen {
             }
         }
 
-        return Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(tilePolygons).build();
+        Structs.Mesh meshWithLakes = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(tilePolygons).build();
+        return meshWithLakes;
     }
 }

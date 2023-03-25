@@ -5,7 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 
 public class lakeTile implements Tile{
 
-    private String color_code = "135,206,235";
+    private String color_code = "0,141,151";
 
     @Override
     public Property getColor() {

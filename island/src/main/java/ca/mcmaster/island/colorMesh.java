@@ -21,6 +21,7 @@ public class colorMesh {
     Tile ocean = new oceanTile();
     Tile lagoon = new lagoonTile();
     Tile beach = new beachTile();
+    Tile lake = new lakeTile();
     TileProperty tileProperty = new TileProperty();
 
     public Mesh setpolygonColor(Mesh m) {
@@ -40,6 +41,8 @@ public class colorMesh {
                 } else if (tile.get().equals(land.getTileProperty().getValue())) {
                     tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(beach.getColor()).build());
 
+                } else if (tile.get().equals(land.getTileProperty().getValue())) {
+                    tilePolygons.add(Structs.Polygon.newBuilder(p).addProperties(lake.getColor()).build());
                 }
             }
         }
