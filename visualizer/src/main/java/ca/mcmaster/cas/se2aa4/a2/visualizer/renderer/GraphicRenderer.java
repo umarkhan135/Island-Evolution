@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.ColorProperty;
+import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.riverProperty;
 
 import java.awt.Graphics2D;
 import java.awt.Polygon;
@@ -29,8 +30,38 @@ public class GraphicRenderer implements Renderer {
         Stroke stroke = new BasicStroke(0.2f);
         canvas.setStroke(stroke);
         drawPolygons(aMesh, canvas);
+        riverSegments(aMesh, canvas);
 
     }
+
+
+    private void riverSegments(Mesh m, Graphics2D canvas){
+        riverProperty ifRiver = new riverProperty();
+        Color riverColor = Color.WHITE;
+
+        for (Structs.Segment ss : m.getSegmentsList()) {
+            if (ifRiver.extract(ss.getPropertiesList()).get().equals("true")) {
+                drawSegment(ss, m, canvas, riverColor);
+            }
+        }
+    }
+
+    private void drawSegment(Structs.Segment segment, Mesh m, Graphics2D canvas, Color color) {
+        Structs.Vertex v1 = m.getVertices(segment.getV1Idx());
+        Structs.Vertex v2 = m.getVertices(segment.getV2Idx());
+    
+        Color oldColor = canvas.getColor();
+        canvas.setColor(color);
+    
+        Stroke oldStroke = canvas.getStroke();
+        canvas.setStroke(new BasicStroke(THICKNESS/3));
+    
+        canvas.drawLine((int) v1.getX(), (int) v1.getY(), (int) v2.getX(), (int) v2.getY());
+    
+        canvas.setColor(oldColor);
+        canvas.setStroke(oldStroke);
+    }
+
 
     private void drawPolygons(Mesh aMesh, Graphics2D canvas) {
         for (Structs.Polygon p : aMesh.getPolygonsList()) {

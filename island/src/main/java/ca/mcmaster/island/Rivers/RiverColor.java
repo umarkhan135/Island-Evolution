@@ -9,5 +9,10 @@ public class RiverColor {
         Property p = Property.newBuilder().setKey("rgb_color").setValue(riverColor).build();
         return p;
     }
+
+    public Property noColor() {
+        Property p = Property.newBuilder().setKey("rgb_color").setValue("0,0,0").build();
+        return p;
+    }
     
 }

@@ -1,6 +1,7 @@
 package ca.mcmaster.island.Rivers;
 
 import java.awt.Color;
+import java.awt.geom.Path2D;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,17 +15,49 @@ import ca.mcmaster.island.Tiles.oceanTile;
 import ca.mcmaster.island.properties.ColorProperty;
 import ca.mcmaster.island.properties.ElevationProperty;
 import ca.mcmaster.island.properties.SegementElevationProperty;
+import ca.mcmaster.island.properties.riverProperty;
 
 public class MakeRiver {
 
-    private String lightBlueColorString = "255, 255, 255";
+    
 
-    public void PlayAround(Structs.Mesh m){
-
+    public Structs.Mesh PlayAround(Structs.Mesh m){
 
         SegmentElevation seg = new SegmentElevation();
         Structs.Mesh newMesh = seg.segmentElevationBuilder(m);
 
+        RiverColor riverColor = new RiverColor();
+        isRiver riverBool = new isRiver();
+
+        List<Structs.Segment> river = new ArrayList<>();
+        List<Structs.Segment> riverFlow = riverList(newMesh);
+        
+        for (Structs.Segment s : m.getSegmentsList()){
+            if (containsSegment(riverFlow,s)){
+                river.add(Structs.Segment.newBuilder(s).addProperties(riverColor.getSegmentSegmentColor()).addProperties(riverBool.isARiver()).build());
+            }
+            else{
+                river.add(Structs.Segment.newBuilder(s).addProperties(riverColor.noColor()).addProperties(riverBool.notRiver()).build());
+            }
+        }
+
+        return Structs.Mesh.newBuilder(newMesh).clearSegments().addAllPolygons(m.getPolygonsList()).addAllSegments(river).build();    
+    }
+
+    private boolean containsSegment(List<Structs.Segment> list, Structs.Segment segment) {
+        for (Structs.Segment s : list) {
+            if ((s.getV1Idx() == segment.getV1Idx() && s.getV2Idx() == segment.getV2Idx()) ||
+                (s.getV1Idx() == segment.getV2Idx() && s.getV2Idx() == segment.getV1Idx())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    
+
+    private List<Structs.Segment> riverList(Structs.Mesh newMesh){
+        
         Structs.Polygon pol;
         Optional<Color> polygonColor;
         
@@ -61,9 +94,9 @@ public class MakeRiver {
             }
             
         }while(run);
-        System.out.println(riverPath);
-        
-        
+        //System.out.println(riverPath);
+
+        return riverPath;
     }
 
     private int getSegmentIdx(Structs.Segment s, Structs.Mesh m){
