@@ -31,6 +31,7 @@ public class MakeRiver {
     
         List<Structs.Segment> riverSegments = new ArrayList<>();
         NumOfRiversProperty numRiversProperty = new NumOfRiversProperty();
+        List<Structs.Segment> previousRiverSegments = new ArrayList<>();
 
 
         for (int i = 0; i < numberOfRivers; i++) {
@@ -40,13 +41,26 @@ public class MakeRiver {
             
     
             List<Structs.Segment> currentRiverFlow = riverList(newMesh);
+            riverSegments.addAll(currentRiverFlow);
+
             List<Structs.Segment> moreThan1 = new ArrayList<>();
-            for (Structs.Segment segm : riverSegments){
-                if (currentRiverFlow.contains(segm)){
+            for (Structs.Segment segm : previousRiverSegments) {
+                if (containsSegment(currentRiverFlow, segm)) {
                     moreThan1.add(segm);
                 }
             }
-            riverSegments.addAll(currentRiverFlow);
+
+            previousRiverSegments.addAll(currentRiverFlow);
+
+
+
+            System.out.println(currentRiverFlow.size());
+            System.out.println(previousRiverSegments.size());
+            System.out.println(moreThan1.size());
+
+            System.out.println();
+            
+            
 
             int round = i+1;
     
@@ -55,17 +69,42 @@ public class MakeRiver {
             for (Structs.Segment s : newMesh.getSegmentsList()) {
                 
                 if (containsSegment(riverSegments, s)) {  
-                    if (round > 1 && Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()) > 0 && containsSegment(moreThan1, s)){
-                        updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverColor.getSegmentSegmentColor()).addProperties(riverBool.isARiver()).addProperties(riverNum.NumberOfRivers(Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()) + 1)).build());
+                    if (round > 1 && Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()) >= 1 && containsSegment(moreThan1, s)){
+                        updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverBool.isARiver()).addProperties(riverNum.NumberOfRivers(Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()) + 1)).build());
                     }else{
-                        updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverColor.getSegmentSegmentColor()).addProperties(riverBool.isARiver()).addProperties(riverNum.NumberOfRivers(1)).build());
+                        if (round > 1){
+                            if (Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()) >= 1){
+                                updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverBool.isARiver()).addProperties(riverNum.NumberOfRivers(Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()))).build());
+
+                            }else{
+                                updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverBool.isARiver()).addProperties(riverNum.NumberOfRivers(1)).build());
+
+                            }
+                        }else{
+                            updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverColor.getSegmentSegmentColor()).addProperties(riverBool.isARiver()).addProperties(riverNum.NumberOfRivers(1)).build());
+
+                        }
                     }
                 } else {
-                    updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverColor.noColor()).addProperties(riverBool.notRiver()).addProperties(riverNum.NumberOfRivers(0)).build());
+                    if(round > 1){
+                        updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverNum.NumberOfRivers(0)).build());
+
+                    }else{
+                        updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverColor.noColor()).addProperties(riverBool.notRiver()).addProperties(riverNum.NumberOfRivers(0)).build());
+
+                    }
                 }
             }
+
+            
     
             newMesh = Structs.Mesh.newBuilder(newMesh).clearSegments().addAllPolygons(newMesh.getPolygonsList()).addAllSegments(updatedSegments).build();
+        }
+
+        for (Structs.Segment s : newMesh.getSegmentsList()){
+            if (Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()) > 1){
+                System.out.println(s);
+            }
         }
     
         return newMesh;
@@ -123,7 +162,6 @@ public class MakeRiver {
             }
             
         }while(run);
-        //System.out.println(riverPath);
 
         return riverPath;
     }

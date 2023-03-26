@@ -57,8 +57,8 @@ public class GraphicRenderer implements Renderer {
         canvas.setColor(color);
     
         Stroke oldStroke = canvas.getStroke();
-        canvas.setStroke(new BasicStroke(1));
-        System.out.println(thickness);
+        canvas.setStroke(new BasicStroke(thickness));
+        //System.out.println(thickness);
     
         canvas.drawLine((int) v1.getX(), (int) v1.getY(), (int) v2.getX(), (int) v2.getY());
     
