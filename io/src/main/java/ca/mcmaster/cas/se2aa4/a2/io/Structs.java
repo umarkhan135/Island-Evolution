@@ -618,13 +618,13 @@ public final class Structs {
       }
       /**
        * <code>string value = 2;</code>
-       * @param value The value to set.
+       * @param string The value to set.
        * @return This builder for chaining.
        */
       public Builder setValue(
-          java.lang.String value) {
-        if (value == null) { throw new NullPointerException(); }
-        value_ = value;
+          String string) {
+        if (string == null) { throw new NullPointerException(); }
+        value_ = string;
         bitField0_ |= 0x00000002;
         onChanged();
         return this;

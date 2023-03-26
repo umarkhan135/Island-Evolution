@@ -12,9 +12,9 @@ public class CanyonTile extends landTile{
         if(temp<0){
             p = Property.newBuilder().setKey("rgb_color").setValue(snow_code).build();
         }else{
-            if(hieght<-radius/1.35){
+            if(hieght<=-radius/1.35){
                 p = Property.newBuilder().setKey("rgb_color").setValue(color_code).build();
-            }else if(hieght<-radius/1.75){
+            }else if(hieght<=-radius/1.75){
                 p = Property.newBuilder().setKey("rgb_color").setValue(color_code2).build();
             }else{
                 p = Property.newBuilder().setKey("rgb_color").setValue(color_code3).build();
