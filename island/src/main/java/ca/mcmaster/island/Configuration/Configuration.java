@@ -13,6 +13,7 @@ public class Configuration {
     public static final String PERCIPITATION = "percipitation";
     public static final String AQUIFERNUMBER = "numOfAquifer";
     public static final String RIVERNUMBER = "numOfRivers";
+    public static final String BEACHWIDTH = "beachWidth";
 
     private CommandLine cli;
 
@@ -61,6 +62,9 @@ public class Configuration {
     public String getRiver(){
         return this.cli.getOptionValue(RIVERNUMBER,"0");
     }
+    public String getBeachWidth(){
+        return this.cli.getOptionValue(BEACHWIDTH, "0");
+    }
 
     private Options options() {
         Options options = new Options();
@@ -72,7 +76,8 @@ public class Configuration {
         options.addOption(new Option(RIVERNUMBER, true, "Number of Rivers"));
         options.addOption(new Option(TEMPERATURE, true, "Whittaker Temperature Type, enter \"hot\", \"mild\", or \"cold\""));
         options.addOption(new Option(PERCIPITATION, true, "Whittaker Percipitation Type, enter \"tropical\", \"temperate\", or \"dry\""));
-        options.addOption(new Option(SHAPE, "shape", true, "Shape of Island, enter \"cirlce\", \"ellipse\", or \"star\""));
+        options.addOption(new Option(SHAPE, "shape", true, "Shape of Island, enter \"circle\", \"ellipse\", or \"star\""));
+        options.addOption(new Option(BEACHWIDTH, true, "input the thickness of the beaches"));
 
         return options;
     }

@@ -7,8 +7,7 @@ import ca.mcmaster.island.shapes.ShapeGenerator;
 import ca.mcmaster.island.neighborCheck;
 import ca.mcmaster.island.Aquifers.AquifersGen;
 import ca.mcmaster.island.Aquifers.CircleAquifier;
-
-
+import ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen.beachGen;
 import ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen.whittakerGen;
 import ca.mcmaster.island.Configuration.Configuration;
 import ca.mcmaster.island.Elevation.Arctic;
@@ -71,7 +70,8 @@ public class IslandGenerator {
         Structs.Mesh lastMesh = riverGen.RiverGen(newMeshWithElevation,rivers);
 
         Structs.Mesh newMeshWithAquifer = aquifer.meshWithAquifers(poly, aquiferNum, lastMesh);
-        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithAquifer, 200);
+        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithAquifer, 200, Integer.parseInt(config.getBeachWidth()));
+
         
         return newMesh2;
 
@@ -177,7 +177,7 @@ public class IslandGenerator {
         
         
 
-        Structs.Mesh newMesh4 = wGen.biomeGen(newMesh3, 200);
+        Structs.Mesh newMesh4 = wGen.biomeGen(newMesh3, 200, Integer.parseInt(config.getBeachWidth()));
         return newMesh4;
 
     }

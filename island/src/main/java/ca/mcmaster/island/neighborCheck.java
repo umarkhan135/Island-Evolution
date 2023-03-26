@@ -40,16 +40,14 @@ public class neighborCheck {
 
         Structs.Property props = TileType.getTileProperty();
         String property = props.getValue();
-
+        
         List<Integer> n = poly.getNeighborIdxsList();
         List<Integer> nt = n;
 
         List<Structs.Polygon> polyNieghbor = m.getPolygonsList();
         TileProperty tileProp = new TileProperty();
         Optional<String> tile = tileProp.extract(poly.getPropertiesList());
-
         polygons.add(Structs.Polygon.newBuilder(poly).addProperties(newTileType.getTileProperty()).addProperties(newTileType.getColor()).build());
-        
         while (num>0){
             for(Integer i : n){
                 nt = polyNieghbor.get(i).getNeighborIdxsList();
