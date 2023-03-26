@@ -32,6 +32,9 @@ public class MakeRiver {
         List<Structs.Segment> riverSegments = new ArrayList<>();
         NumOfRiversProperty numRiversProperty = new NumOfRiversProperty();
         List<Structs.Segment> previousRiverSegments = new ArrayList<>();
+        List<Structs.Segment> lastRiverSeg = new ArrayList<>();
+        List<Structs.Segment> lastriverSegments = new ArrayList<>();
+
 
 
         for (int i = 0; i < numberOfRivers; i++) {
@@ -41,6 +44,7 @@ public class MakeRiver {
             
     
             List<Structs.Segment> currentRiverFlow = riverList(newMesh);
+            lastRiverSeg.add(currentRiverFlow.get(currentRiverFlow.size() - 1));
             riverSegments.addAll(currentRiverFlow);
 
             List<Structs.Segment> moreThan1 = new ArrayList<>();
@@ -85,10 +89,69 @@ public class MakeRiver {
                     }
                 }
             }
-            newMesh = Structs.Mesh.newBuilder(newMesh).clearSegments().addAllPolygons(newMesh.getPolygonsList()).addAllSegments(updatedSegments).build();
+            lastriverSegments = updatedSegments;
+            newMesh = Structs.Mesh.newBuilder(newMesh).clearSegments().clearPolygons().addAllPolygons(newMesh.getPolygonsList()).addAllSegments(updatedSegments).build();
         }
-        return newMesh;
+        
+        
+        List<Structs.Polygon> lakes = getPolygonWithSegments(lastRiverSeg, newMesh);
+        List<Structs.Polygon> last = new ArrayList<>();
+
+        for (Structs.Polygon pols : newMesh.getPolygonsList()){
+            last.add(pols);
+        }
+        System.out.println(last.size());
+
+        for (Structs.Polygon poly : lakes){
+            Structs.Polygon newPolygon = Structs.Polygon.newBuilder(poly).addProperties(lakeType()).addProperties(lakeColor()).build();
+            System.out.println(newPolygon);
+            last.add(newPolygon);
+        }
+        System.out.println(last.size());
+
+        Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMesh).clearPolygons().clearSegments().addAllPolygons(last).addAllSegments(lastriverSegments).build();
+
+        return newMesh2;
     }
+
+
+    public Property lakeType() {
+        Property c = Property.newBuilder().setKey("tile_type").setValue("Lake").build();
+        return c; 
+    }
+
+    public Property lakeColor() {
+
+        Property c = Property.newBuilder().setKey("rgb_color").setValue("0,141,151").build();
+        return c;
+        
+    }
+    private List<Structs.Polygon> getPolygonWithSegments(List<Structs.Segment> segments, Structs.Mesh m){
+        List<Structs.Polygon> polygonsWithSegments = new ArrayList<>();
+        ColorProperty colorProperty = new ColorProperty();
+        String oceanColorString = new oceanTile().getColor().getValue();
+        Color oceanColor = colorProperty.toColor(oceanColorString);
+
+        for (Structs.Segment s : segments) {
+            int segmentIndex = getSegmentIdx(s, m);
+            if (segmentIndex != -1) {
+                for (Structs.Polygon poly : m.getPolygonsList()) {
+                    Optional<Color> polygonColor = colorProperty.extract(poly.getPropertiesList());
+                    if (poly.getSegmentIdxsList().contains(segmentIndex)) {
+                        if (!polygonsWithSegments.contains(poly)) {
+                            if (polygonColor.isPresent() && !polygonColor.get().equals(oceanColor)){
+                                polygonsWithSegments.add(poly);
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+        }
+        return polygonsWithSegments;
+    }
+    
+    
 
 
     private boolean containsSegment(List<Structs.Segment> list, Structs.Segment segment) {
