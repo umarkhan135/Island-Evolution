@@ -11,6 +11,7 @@ public class Configuration {
     public static final String ALTITUDE = "altitude";
     public static final String TEMPERATURE = "temperature";
     public static final String PERCIPITATION = "percipitation";
+    public static final String LAKENUMBER = "numOfLakes";
     public static final String AQUIFERNUMBER = "numOfAquifer";
     public static final String RIVERNUMBER = "numOfRivers";
     public static final String BEACHWIDTH = "beachWidth";
@@ -56,7 +57,9 @@ public class Configuration {
     public String getPrecipitation(){
         return this.cli.getOptionValue(PERCIPITATION, "temperate");
     }
-
+    public String getLake(){
+        return this.cli.getOptionValue(LAKENUMBER,"0");
+    }
     public String getAquifer(){
         return this.cli.getOptionValue(AQUIFERNUMBER,"0");
     }
@@ -82,6 +85,10 @@ public class Configuration {
         options.addOption(new Option(OUTPUT, true, "Output file (MESH)"));
         options.addOption(new Option(MODE, "mode", true, "Island Generation Type"));
         options.addOption(new Option(ALTITUDE, true, "Altitude Profile"));
+        options.addOption(new Option(TEMPERATURE, true, "Whittaker Temperature Type"));
+        options.addOption(new Option(PERCIPITATION, true, "Whittaker Percipitation Type"));
+        options.addOption(new Option(SHAPE, "shape", true, "Shape of Island"));
+        options.addOption(new Option(LAKENUMBER, true, "Number of Lakes"));
         options.addOption(new Option(AQUIFERNUMBER, true, "Number of Aquifers"));
         options.addOption(new Option(RIVERNUMBER, true, "Number of Rivers"));
         options.addOption(new Option(TEMPERATURE, true, "Whittaker Temperature Type, enter \"hot\", \"mild\", or \"cold\""));

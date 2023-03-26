@@ -7,7 +7,9 @@ import ca.mcmaster.island.shapes.ShapeGenerator;
 import ca.mcmaster.island.neighborCheck;
 import ca.mcmaster.island.Aquifers.AquifersGen;
 import ca.mcmaster.island.Aquifers.CircleAquifier;
+import ca.mcmaster.island.Lakes.LakeGen;
 import ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen.beachGen;
+
 import ca.mcmaster.island.BiomeGeneration.whittakerBiomeGen.whittakerGen;
 import ca.mcmaster.island.Configuration.Configuration;
 import ca.mcmaster.island.Elevation.Arctic;
@@ -17,6 +19,7 @@ import ca.mcmaster.island.Elevation.Volcano;
 import ca.mcmaster.island.Elevation.elevation;
 import ca.mcmaster.island.Rivers.MakeRiver;
 import ca.mcmaster.island.distance;
+import ca.mcmaster.island.Rivers.MakeRiver;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
@@ -35,11 +38,14 @@ public class IslandGenerator {
     public IslandGenerator(Configuration config) {
         this.config = config;
     }
-    public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate, int aquiferNum, int rivers){
+
+    public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate, int aquiferNum, int numLakes, int rivers){
+
         whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
         ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
         ArrayList<Structs.Polygon> poly = new ArrayList<>();
         AquifersGen aquifer = new CircleAquifier();
+        LakeGen lakeGen = new LakeGen();
         
         
 
@@ -77,9 +83,11 @@ public class IslandGenerator {
         Structs.Mesh newMeshWithAquifer = aquifer.meshWithAquifers(lastMesh.getPolygonsList(), aquiferNum, lastMesh);
         Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithAquifer, 200, Integer.parseInt(config.getBeachWidth()));
 
-        
-        
-        return newMesh2;
+        Structs.Mesh newMeshWithLakesV2 = lakeGen.meshWithLakes(newMesh2.getPolygonsList(), numLakes, newMesh2);
+
+
+        return newMeshWithLakesV2;
+
 
     }
     private elevation createElevationProfile(String altitudeProfile) {
@@ -98,7 +106,7 @@ public class IslandGenerator {
     }
 
 
-    public Structs.Mesh lagoon(Structs.Mesh m, int aquiferNum) {
+    public Structs.Mesh lagoon(Structs.Mesh m, int aquiferNum, int numLakes) {
 
         elevation elevate = createElevationProfile(config.getAltitude());
         
@@ -180,11 +188,14 @@ public class IslandGenerator {
         Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(tilePolygons2).build();
 
         Structs.Mesh newMesh3 = new CircleAquifier().meshWithAquifers(tilePolygons2, aquiferNum, newMesh2);
-        
-        
 
-        Structs.Mesh newMesh4 = wGen.biomeGen(newMesh3, 200, Integer.parseInt(config.getBeachWidth()));
-        return newMesh4;
+        Structs.Mesh newMesh4 = new LakeGen().meshWithLakes(newMesh3.getPolygonsList(), numLakes, newMesh3);
+
+        Structs.Mesh newMesh5 = wGen.biomeGen(newMesh4, 200, Integer.parseInt(config.getBeachWidth()));
+
+        Structs.Mesh finalMesh = new LakeGen().meshWithLakes(newMesh5.getPolygonsList(), numLakes, newMesh5);
+
+        return finalMesh;
 
     }
 

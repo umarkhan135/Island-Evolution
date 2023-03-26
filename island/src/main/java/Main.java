@@ -77,15 +77,19 @@ public class Main {
         String riverNum = config.getRiver();
         int rivers = Integer.parseInt(riverNum);
 
+        String numLakesStr = config.getLake();
+        int numLakes = Integer.parseInt(numLakesStr);
+
         switch (config.mode()) {
             case "lagoon":
-                exported = island.lagoon(aMesh, aquiferNum);
+                exported = island.lagoon(aMesh, aquiferNum, numLakes);
                 break;
             case "basic":
-                exported = island.basic(aMesh, shape.getShape(),  elevate, aquiferNum, rivers);
+                exported = island.basic(aMesh, shape.getShape(),  elevate, aquiferNum, numLakes, rivers);
                 break;
             default:
-                exported = island.basic(aMesh, shape.getShape(), elevate, aquiferNum, rivers);
+                exported = island.basic(aMesh, shape.getShape(), elevate, aquiferNum, numLakes, rivers);
+
                 break;
         }
         

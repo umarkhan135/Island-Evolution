@@ -179,11 +179,12 @@ public class MakeRiver {
         
         Structs.Polygon pol;
         Optional<Color> polygonColor;
-        
+
         int rand;
         ColorProperty colorProperty = new ColorProperty();
         String oceanColorString = new oceanTile().getColor().getValue();
         Color oceanColor = colorProperty.toColor(oceanColorString);
+
         neighborCheck neighbors = new neighborCheck();
         Tile ocean = new oceanTile();
 
@@ -231,12 +232,15 @@ public class MakeRiver {
     }
 
     private int[] segmentNeighbors (int segment, Structs.Mesh mesh){
+
         int segments[] = new int[4];
         int counter = 0;
 
         for (int i = 0; i < mesh.getSegmentsList().size(); i++) {
             Structs.Segment ss = mesh.getSegmentsList().get(i);
+
             if ((ss.getV1Idx() == mesh.getSegments(segment).getV1Idx() || ss.getV2Idx() == mesh.getSegments(segment).getV1Idx() || ss.getV1Idx() == mesh.getSegments(segment).getV2Idx() || ss.getV2Idx() == mesh.getSegments(segment).getV2Idx()) && i != segment){
+
                 segments[counter] = i;
                 counter++;
             }
@@ -296,3 +300,4 @@ public class MakeRiver {
 
     
 }
+
