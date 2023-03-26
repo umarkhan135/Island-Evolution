@@ -46,6 +46,7 @@ public class IslandGenerator {
         ArrayList<Structs.Polygon> poly = new ArrayList<>();
         AquifersGen aquifer = new CircleAquifier();
         LakeGen lakeGen = new LakeGen();
+        MakeRiver riverGen =  new MakeRiver();
         
         
 
