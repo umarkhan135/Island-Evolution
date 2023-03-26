@@ -80,24 +80,19 @@ public class LakeGen {
 
     public Mesh meshWithLakes(List<Structs.Polygon> polygons, int amount, Mesh m) {
         ArrayList<Structs.Polygon> poly = new ArrayList<>();
-
+        lakeTile lake = new lakeTile();
 
         makeLakes(amount, m);
         for (Structs.Polygon p : polygons) {
             boolean isLake = lakeNeighbor.contains(p);
-            Property lakeProperty = Property.newBuilder()
-                    .setKey("lake")
-                    .setValue(String.valueOf(isLake))
-                    .build();
             if (isLake){
-                Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(lakeProperty).addProperties(Lakes()).build();
+                Property lakeColorProperty = lake.getColor();
+                Property lakeTileProperty = lake.getTileProperty();
+                Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(lakeColorProperty).addProperties(lakeTileProperty).build();
                 poly.add(newPolygon);
             } else {
-                Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(lakeProperty).build();
-                poly.add(newPolygon);
+                poly.add(p);
             }
-
-
         }
 
         Structs.Mesh newMeshWithLake = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(poly).build();
