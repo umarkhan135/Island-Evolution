@@ -1,0 +1,3 @@
+Tasked assigned to Mason Azzopardi (azzoaparm@mcmaster.ca)
+soil absorption and the integration of it into biomes, whittaker generation, and reproducibility
+also all questions on the report to do with class diagrams and sequence diagrams
