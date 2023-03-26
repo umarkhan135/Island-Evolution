@@ -82,8 +82,7 @@ public class Configuration {
         options.addOption(new Option(RIVERNUMBER, true, "Number of Rivers"));
         options.addOption(new Option(TEMPERATURE, true, "Whittaker Temperature Type, enter \"hot\", \"mild\", or \"cold\""));
         options.addOption(new Option(PERCIPITATION, true, "Whittaker Percipitation Type, enter \"tropical\", \"temperate\", or \"dry\""));
-        options.addOption(new Option(SHAPE, "shape", true, "Shape of Island, enter \"cirlce\", \"ellipse\", or \"star\""));
-        options.addOption(new Option(SHAPE, "shape", true, "Shape of Island"));
+        options.addOption(new Option(SHAPE, "shape", true, "Shape of Island, enter \"cirlce\", \"ellipse\", \"star\" or \"random\""));
         options.addOption(new Option(SEED, "seed", true, "Seed for Island Generation"));
         return options;
     }

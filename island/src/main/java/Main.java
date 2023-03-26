@@ -61,6 +61,9 @@ public class Main {
                 elevate = new Arctic();
                 break;
             case "random":
+            if(config.hasSeed())
+                elevate = new RandomElevation(Long.parseLong(config.seed()));
+            else
                 elevate = new RandomElevation();
                 break;
             default:
