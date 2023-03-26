@@ -36,7 +36,7 @@ public class IslandGenerator {
     public IslandGenerator(Configuration config) {
         this.config = config;
     }
-    public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate, int aquiferNum){
+    public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate, int aquiferNum, int rivers){
         whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
         ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
         ArrayList<Structs.Polygon> poly = new ArrayList<>();
@@ -67,8 +67,8 @@ public class IslandGenerator {
         Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
 
         MakeRiver ppp = new MakeRiver();
-        int bbbb = 10;
-        Structs.Mesh lastMesh = ppp.PlayAround(newMeshWithElevation,bbbb);
+        
+        Structs.Mesh lastMesh = ppp.PlayAround(newMeshWithElevation,rivers);
 
         Structs.Mesh newMeshWithAquifer = aquifer.meshWithAquifers(poly, aquiferNum, lastMesh);
         Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithAquifer, 200);

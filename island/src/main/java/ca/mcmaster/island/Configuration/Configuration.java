@@ -12,6 +12,8 @@ public class Configuration {
     public static final String TEMPERATURE = "temperature";
     public static final String PERCIPITATION = "percipitation";
     public static final String AQUIFERNUMBER = "numOfAquifer";
+    public static final String RIVERNUMBER = "numOfRivers";
+
     private CommandLine cli;
 
     public Configuration(String[] args) {
@@ -56,6 +58,10 @@ public class Configuration {
         return this.cli.getOptionValue(AQUIFERNUMBER,"0");
     }
 
+    public String getRiver(){
+        return this.cli.getOptionValue(RIVERNUMBER,"0");
+    }
+
     private Options options() {
         Options options = new Options();
         options.addOption(new Option(INPUT, true, "Input file (SVG)"));
@@ -63,6 +69,7 @@ public class Configuration {
         options.addOption(new Option(MODE, "mode", true, "Island Generation Type"));
         options.addOption(new Option(ALTITUDE, true, "Altitude Profile"));
         options.addOption(new Option(AQUIFERNUMBER, true, "Number of Aquifers"));
+        options.addOption(new Option(RIVERNUMBER, true, "Number of Rivers"));
         options.addOption(new Option(TEMPERATURE, true, "Whittaker Temperature Type, enter \"hot\", \"mild\", or \"cold\""));
         options.addOption(new Option(PERCIPITATION, true, "Whittaker Percipitation Type, enter \"tropical\", \"temperate\", or \"dry\""));
         options.addOption(new Option(SHAPE, "shape", true, "Shape of Island, enter \"cirlce\", \"ellipse\", or \"star\""));

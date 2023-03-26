@@ -52,16 +52,6 @@ public class MakeRiver {
 
             previousRiverSegments.addAll(currentRiverFlow);
 
-
-
-            System.out.println(currentRiverFlow.size());
-            System.out.println(previousRiverSegments.size());
-            System.out.println(moreThan1.size());
-
-            System.out.println();
-            
-            
-
             int round = i+1;
     
             List<Structs.Segment> updatedSegments = new ArrayList<>();
@@ -99,12 +89,6 @@ public class MakeRiver {
             
     
             newMesh = Structs.Mesh.newBuilder(newMesh).clearSegments().addAllPolygons(newMesh.getPolygonsList()).addAllSegments(updatedSegments).build();
-        }
-
-        for (Structs.Segment s : newMesh.getSegmentsList()){
-            if (Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()) > 1){
-                System.out.println(s);
-            }
         }
     
         return newMesh;
