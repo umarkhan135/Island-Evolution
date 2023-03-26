@@ -93,7 +93,7 @@ public class CircleAquifier implements AquifersGen {
     }
 
     @Override
-    public Mesh meshWithAquifers(ArrayList<Structs.Polygon> polygons, int amount,  Mesh m){
+    public Mesh meshWithAquifers(List<Structs.Polygon> polygons, int amount,  Mesh m){
         ArrayList<Structs.Polygon> poly = new ArrayList<>();
         
 

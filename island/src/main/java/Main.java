@@ -11,6 +11,8 @@ import ca.mcmaster.island.shapes.*;
 import ca.mcmaster.cas.se2aa4.a2.io.*;
 
 import java.io.IOException;
+import java.util.Random;
+
 import ca.mcmaster.island.colorMesh;
 
 public class Main {
@@ -32,7 +34,10 @@ public class Main {
                 shape = new StarIsland(aMesh);
                 break;
             case "random":
-                shape = new RandomIsland(aMesh);
+                if(config.hasSeed())
+                    shape = new RandomIsland(aMesh, Long.parseLong(config.seed()));
+                else
+                    shape = new RandomIsland(aMesh);
                 break;
             case "ellipse":
                 shape = new EllipseIsland(aMesh);
@@ -56,6 +61,9 @@ public class Main {
                 elevate = new Arctic();
                 break;
             case "random":
+            if(config.hasSeed())
+                elevate = new RandomElevation(Long.parseLong(config.seed()));
+            else
                 elevate = new RandomElevation();
                 break;
             default:

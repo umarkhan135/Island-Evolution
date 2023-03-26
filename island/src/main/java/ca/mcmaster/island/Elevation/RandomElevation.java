@@ -14,7 +14,15 @@ import ca.mcmaster.island.properties.ColorProperty;
 
 public class RandomElevation implements elevation {
 
-    private int elevation;    
+    private int elevation;
+    private Random rand;
+    
+    public RandomElevation(){
+        rand = new Random();
+    }
+    public RandomElevation(Long seed){
+        rand = new Random(seed);
+    }
 
     @Override
     public double getElevation(Polygon polygon, double radius, Mesh aMesh) {
@@ -31,9 +39,7 @@ public class RandomElevation implements elevation {
             this.elevation = 0;
 
         }else{
-
-            Random random = new Random();
-            elevation = random.nextInt(201) - 100;
+            elevation = rand.nextInt(201) - 100;
 
         }
         return elevation;
@@ -53,9 +59,7 @@ public class RandomElevation implements elevation {
             this.elevation = 0;
 
         }else{
-
-            Random random = new Random();
-            elevation = random.nextInt(201) -100;
+            elevation = rand.nextInt(201) -100;
 
         }
         return elevation;
