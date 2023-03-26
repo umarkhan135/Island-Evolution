@@ -24,7 +24,7 @@ public class MakeRiver {
 
     
 
-    public Structs.Mesh PlayAround(Structs.Mesh m, int numberOfRivers) {
+    public Structs.Mesh RiverGen(Structs.Mesh m, int numberOfRivers) {
 
         SegmentElevation seg = new SegmentElevation();
         Structs.Mesh newMesh = seg.segmentElevationBuilder(m);
@@ -85,12 +85,8 @@ public class MakeRiver {
                     }
                 }
             }
-
-            
-    
             newMesh = Structs.Mesh.newBuilder(newMesh).clearSegments().addAllPolygons(newMesh.getPolygonsList()).addAllSegments(updatedSegments).build();
         }
-    
         return newMesh;
     }
 
@@ -107,7 +103,7 @@ public class MakeRiver {
 
     
 
-    private List<Structs.Segment> riverList(Structs.Mesh newMesh){
+    public List<Structs.Segment> riverList(Structs.Mesh newMesh){
         
         Structs.Polygon pol;
         Optional<Color> polygonColor;
