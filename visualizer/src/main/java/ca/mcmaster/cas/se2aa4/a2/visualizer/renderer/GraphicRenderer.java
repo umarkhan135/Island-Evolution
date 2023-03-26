@@ -38,7 +38,9 @@ public class GraphicRenderer implements Renderer {
     
     private void riverSegments(Mesh m, Graphics2D canvas){
         riverProperty ifRiver = new riverProperty();
-        Color riverColor = Color.BLUE;
+
+        Color riverColor = new Color(0,141,151);
+
         NumOfRiversProperty numRivers = new NumOfRiversProperty();
         
         for (Structs.Segment ss : m.getSegmentsList()) {
