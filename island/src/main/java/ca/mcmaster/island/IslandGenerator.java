@@ -66,7 +66,13 @@ public class IslandGenerator {
         }
         Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
 
-        MakeRiver riverGen = new MakeRiver();
+        MakeRiver ppp;
+        if(config.hasSeed()){
+            ppp = new MakeRiver(Long.parseLong(config.seed()));
+        }else{
+            ppp = new MakeRiver();
+        }
+
         
         Structs.Mesh lastMesh = riverGen.RiverGen(newMeshWithElevation,rivers);        
         Structs.Mesh newMeshWithAquifer = aquifer.meshWithAquifers(lastMesh.getPolygonsList(), aquiferNum, lastMesh);

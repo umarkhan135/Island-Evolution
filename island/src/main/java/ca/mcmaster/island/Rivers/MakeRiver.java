@@ -22,6 +22,15 @@ import ca.mcmaster.island.properties.riverProperty;
 
 public class MakeRiver {
 
+    private Random random;
+
+    public MakeRiver(){
+        random = new Random();
+    }
+    public MakeRiver(Long seed){
+        random = new Random(seed);
+    }
+
     
 
     public Structs.Mesh RiverGen(Structs.Mesh m, int numberOfRivers) {
@@ -171,7 +180,6 @@ public class MakeRiver {
         Structs.Polygon pol;
         Optional<Color> polygonColor;
         
-        Random random = new Random();
         int rand;
         ColorProperty colorProperty = new ColorProperty();
         String oceanColorString = new oceanTile().getColor().getValue();
@@ -249,7 +257,6 @@ public class MakeRiver {
             double elevation1 = Double.parseDouble(currentLowest.get());
             double elevation2 = Double.parseDouble(current.get());
             
-            Random random = new Random();
             int ran = random.nextInt(3);
 
             if (elevation2 < elevation1){
