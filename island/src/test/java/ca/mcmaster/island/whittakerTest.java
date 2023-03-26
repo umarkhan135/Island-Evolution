@@ -46,17 +46,8 @@ public class whittakerTest {
     public void temperatureTest(){
         Integer positiveTemperature;
         Integer negativeTemperature;
-        if (positiveHeight < 0){
-            positiveTemperature = mild;
-        }else{
-            positiveTemperature = mild - positiveHeight/8;
-        }
-        if (negativeHeight < 0){
+            positiveTemperature = mild - positiveHeight/10;
             negativeTemperature = mild;
-        }else{
-            negativeTemperature = mild - negativeHeight/8;
-        }
-        
         assertTrue(TC.hieghtTemp(positiveHeight, mild) == positiveTemperature);
         assertTrue(TC.hieghtTemp(negativeHeight, mild) == negativeTemperature);
     }

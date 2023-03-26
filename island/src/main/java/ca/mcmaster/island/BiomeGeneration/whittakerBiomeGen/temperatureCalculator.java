@@ -5,7 +5,7 @@ public class temperatureCalculator {
         if(hieght<0){
             return temp;
         }
-        int Temperature = temp - hieght/8;
+        int Temperature = temp - hieght/10;
         return Temperature;
     }
 }

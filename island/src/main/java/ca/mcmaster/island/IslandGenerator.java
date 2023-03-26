@@ -41,7 +41,7 @@ public class IslandGenerator {
 
     public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate, int aquiferNum, int numLakes, int rivers){
 
-        whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
+        whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation(), config);
         ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
         ArrayList<Structs.Polygon> poly = new ArrayList<>();
         AquifersGen aquifer = new CircleAquifier();
@@ -111,7 +111,7 @@ public class IslandGenerator {
 
         elevation elevate = createElevationProfile(config.getAltitude());
         
-        whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation());
+        whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation(), config);
 
 
         MeshSize size = new MeshSize(m);

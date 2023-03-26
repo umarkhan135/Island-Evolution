@@ -42,7 +42,7 @@ public class beachGen {
         }
         return polygons2;
     }
-    public List<Structs.Polygon> createbeach(Mesh m, List<Polygon> polygons, Integer num, int seed){
+    public List<Structs.Polygon> createbeach(Mesh m, Integer num, int seed){
         random.setSeed(seed);
         ArrayList<Structs.Polygon> polygons2 = new ArrayList<>();
         num--;

@@ -25,14 +25,14 @@ import ca.mcmaster.island.properties.TileProperty;
 public class whittakerGen {
     private static int temp; 
     private static int per;
+    private static Configuration config;
     whittakerPercipitationType WPT = new whittakerPercipitationType();
     whittakerTemperatureType WTT = new whittakerTemperatureType();
 
-    public whittakerGen(String temp, String per){
+    public whittakerGen(String temp, String per, Configuration config){
         this.temp = WTT.tT(temp);
         this.per = WPT.pT(per);
-        
-
+        this.config = config;
     }
     
     public Mesh biomeGen(Mesh m, double radius, int thickness){
@@ -78,10 +78,21 @@ public class whittakerGen {
             }
             
         }
-
-        for(Polygon p : beachGen.createbeach(m, thickness)){
-            polygons.add(p);
+        if(config.hasSeed()){
+            if(thickness > 0){
+                for(Polygon p : beachGen.createbeach(m, thickness, Integer.parseInt(config.seed()))){
+                    polygons.add(p);
+                }
+            }
+            
+        }else{
+            if(thickness > 0){
+                for(Polygon p : beachGen.createbeach(m, thickness, Integer.parseInt(config.seed()))){
+                    polygons.add(p);
+                }
+            }
         }
+        
 
         Structs.Mesh newMesh1 = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(polygons).build();
         return newMesh1;
@@ -90,13 +101,12 @@ public class whittakerGen {
 
 
     private static String compareP(double percipitation, int h) {
-        if (h>65){
+        if (h>85){
             return "mountain";
         }
         if(h<-85){
             return "canyon";
         }
-        
         if (percipitation< 100){
                 return "dry";
         }
