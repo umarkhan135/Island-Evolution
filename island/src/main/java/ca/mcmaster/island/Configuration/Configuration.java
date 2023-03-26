@@ -55,7 +55,6 @@ public class Configuration {
     public String getLake(){
         return this.cli.getOptionValue(LAKENUMBER,"0");
     }
-
     public String getAquifer(){
         return this.cli.getOptionValue(AQUIFERNUMBER,"0");
     }

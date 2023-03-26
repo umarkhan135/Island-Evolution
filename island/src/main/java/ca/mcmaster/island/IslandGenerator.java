@@ -71,12 +71,14 @@ public class IslandGenerator {
         MakeRiver makeRiver = new MakeRiver();
         makeRiver.PlayAround(m);
 
-
         Structs.Mesh newMeshWithAquifer = aquifer.meshWithAquifers(poly, aquiferNum, newMeshWithElevation);
-        Structs.Mesh newMeshWithLakes = lakeGen.generateLakes(newMeshWithAquifer, numLakes);
+        Structs.Mesh newMeshWithLakes = lakeGen.meshWithLakes(newMeshWithAquifer.getPolygonsList(), numLakes, newMeshWithAquifer);
         Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithLakes, 200);
 
-        return newMesh2;
+        Structs.Mesh newMeshWithLakesV2 = lakeGen.meshWithLakes(newMesh2.getPolygonsList(), numLakes, newMesh2);
+
+
+        return newMeshWithLakesV2;
 
     }
     private elevation createElevationProfile(String altitudeProfile) {
@@ -178,12 +180,13 @@ public class IslandGenerator {
 
         Structs.Mesh newMesh3 = new CircleAquifier().meshWithAquifers(tilePolygons2, aquiferNum, newMesh2);
 
-        Structs.Mesh newMesh4 = new LakeGen().generateLakes(newMesh3, numLakes);
-        
-        
+        Structs.Mesh newMesh4 = new LakeGen().meshWithLakes(newMesh3.getPolygonsList(), numLakes, newMesh3);
 
         Structs.Mesh newMesh5 = wGen.biomeGen(newMesh4, 200);
-        return newMesh5;
+
+        Structs.Mesh finalMesh = new LakeGen().meshWithLakes(newMesh5.getPolygonsList(), numLakes, newMesh5);
+
+        return finalMesh;
 
     }
 
