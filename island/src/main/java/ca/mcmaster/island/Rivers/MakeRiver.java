@@ -40,6 +40,12 @@ public class MakeRiver {
             
     
             List<Structs.Segment> currentRiverFlow = riverList(newMesh);
+            List<Structs.Segment> moreThan1 = new ArrayList<>();
+            for (Structs.Segment segm : riverSegments){
+                if (currentRiverFlow.contains(segm)){
+                    moreThan1.add(segm);
+                }
+            }
             riverSegments.addAll(currentRiverFlow);
 
             int round = i+1;
@@ -47,9 +53,9 @@ public class MakeRiver {
             List<Structs.Segment> updatedSegments = new ArrayList<>();
     
             for (Structs.Segment s : newMesh.getSegmentsList()) {
+                
                 if (containsSegment(riverSegments, s)) {  
-                    if (round > 1 && Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()) > 0){
-                        System.out.println(round + " " + numRiversProperty.extract(s.getPropertiesList()).get());
+                    if (round > 1 && Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()) > 0 && containsSegment(moreThan1, s)){
                         updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverColor.getSegmentSegmentColor()).addProperties(riverBool.isARiver()).addProperties(riverNum.NumberOfRivers(Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()) + 1)).build());
                     }else{
                         updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverColor.getSegmentSegmentColor()).addProperties(riverBool.isARiver()).addProperties(riverNum.NumberOfRivers(1)).build());
