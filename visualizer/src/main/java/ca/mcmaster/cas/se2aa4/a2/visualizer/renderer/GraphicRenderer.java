@@ -5,6 +5,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.ColorProperty;
+import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.NumOfRiversProperty;
 import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.riverProperty;
 
 import java.awt.Graphics2D;
@@ -38,15 +39,17 @@ public class GraphicRenderer implements Renderer {
     private void riverSegments(Mesh m, Graphics2D canvas){
         riverProperty ifRiver = new riverProperty();
         Color riverColor = Color.WHITE;
+        NumOfRiversProperty numRivers = new NumOfRiversProperty();
 
         for (Structs.Segment ss : m.getSegmentsList()) {
             if (ifRiver.extract(ss.getPropertiesList()).get().equals("true")) {
-                drawSegment(ss, m, canvas, riverColor);
+                int thickness = Integer.parseInt(numRivers.extract(ss.getPropertiesList()).get());
+                drawSegment(ss, m, canvas, riverColor, thickness);
             }
         }
     }
 
-    private void drawSegment(Structs.Segment segment, Mesh m, Graphics2D canvas, Color color) {
+    private void drawSegment(Structs.Segment segment, Mesh m, Graphics2D canvas, Color color, int thickness) {
         Structs.Vertex v1 = m.getVertices(segment.getV1Idx());
         Structs.Vertex v2 = m.getVertices(segment.getV2Idx());
     
@@ -54,7 +57,8 @@ public class GraphicRenderer implements Renderer {
         canvas.setColor(color);
     
         Stroke oldStroke = canvas.getStroke();
-        canvas.setStroke(new BasicStroke(THICKNESS/3));
+        canvas.setStroke(new BasicStroke(1));
+        System.out.println(thickness);
     
         canvas.drawLine((int) v1.getX(), (int) v1.getY(), (int) v2.getX(), (int) v2.getY());
     

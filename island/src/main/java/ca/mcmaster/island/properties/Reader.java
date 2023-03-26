@@ -21,4 +21,9 @@ public class Reader {
         return this.contents.get(key);
     }
 
+    public Integer getInt(String key) {
+        String value = this.contents.get(key);
+        return value != null ? Integer.parseInt(value) : null;
+    }
+
 }

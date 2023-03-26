@@ -67,7 +67,8 @@ public class IslandGenerator {
         Structs.Mesh newMeshWithElevation = Structs.Mesh.newBuilder(newMesh).clearPolygons().addAllPolygons(poly).build();
 
         MakeRiver ppp = new MakeRiver();
-        Structs.Mesh lastMesh = ppp.PlayAround(newMeshWithElevation);
+        int bbbb = 8;
+        Structs.Mesh lastMesh = ppp.PlayAround(newMeshWithElevation,bbbb);
 
         Structs.Mesh newMeshWithAquifer = aquifer.meshWithAquifers(poly, aquiferNum, lastMesh);
         Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithAquifer, 200);

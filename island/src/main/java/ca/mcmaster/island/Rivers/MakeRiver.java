@@ -11,9 +11,12 @@ import java.util.Random;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
+import ca.mcmaster.island.neighborCheck;
+import ca.mcmaster.island.Tiles.Tile;
 import ca.mcmaster.island.Tiles.oceanTile;
 import ca.mcmaster.island.properties.ColorProperty;
 import ca.mcmaster.island.properties.ElevationProperty;
+import ca.mcmaster.island.properties.NumOfRiversProperty;
 import ca.mcmaster.island.properties.SegementElevationProperty;
 import ca.mcmaster.island.properties.riverProperty;
 
@@ -21,28 +24,47 @@ public class MakeRiver {
 
     
 
-    public Structs.Mesh PlayAround(Structs.Mesh m){
+    public Structs.Mesh PlayAround(Structs.Mesh m, int numberOfRivers) {
 
         SegmentElevation seg = new SegmentElevation();
         Structs.Mesh newMesh = seg.segmentElevationBuilder(m);
+    
+        List<Structs.Segment> riverSegments = new ArrayList<>();
+        NumOfRiversProperty numRiversProperty = new NumOfRiversProperty();
 
-        RiverColor riverColor = new RiverColor();
-        isRiver riverBool = new isRiver();
 
-        List<Structs.Segment> river = new ArrayList<>();
-        List<Structs.Segment> riverFlow = riverList(newMesh);
-        
-        for (Structs.Segment s : m.getSegmentsList()){
-            if (containsSegment(riverFlow,s)){
-                river.add(Structs.Segment.newBuilder(s).addProperties(riverColor.getSegmentSegmentColor()).addProperties(riverBool.isARiver()).build());
+        for (int i = 0; i < numberOfRivers; i++) {
+            RiverColor riverColor = new RiverColor();
+            isRiver riverBool = new isRiver();
+            numRiver riverNum = new numRiver();
+            
+    
+            List<Structs.Segment> currentRiverFlow = riverList(newMesh);
+            riverSegments.addAll(currentRiverFlow);
+
+            int round = i+1;
+    
+            List<Structs.Segment> updatedSegments = new ArrayList<>();
+    
+            for (Structs.Segment s : newMesh.getSegmentsList()) {
+                if (containsSegment(riverSegments, s)) {  
+                    if (round > 1 && Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()) > 0){
+                        System.out.println(round + " " + numRiversProperty.extract(s.getPropertiesList()).get());
+                        updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverColor.getSegmentSegmentColor()).addProperties(riverBool.isARiver()).addProperties(riverNum.NumberOfRivers(Integer.parseInt(numRiversProperty.extract(s.getPropertiesList()).get()) + 1)).build());
+                    }else{
+                        updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverColor.getSegmentSegmentColor()).addProperties(riverBool.isARiver()).addProperties(riverNum.NumberOfRivers(1)).build());
+                    }
+                } else {
+                    updatedSegments.add(Structs.Segment.newBuilder(s).addProperties(riverColor.noColor()).addProperties(riverBool.notRiver()).addProperties(riverNum.NumberOfRivers(0)).build());
+                }
             }
-            else{
-                river.add(Structs.Segment.newBuilder(s).addProperties(riverColor.noColor()).addProperties(riverBool.notRiver()).build());
-            }
+    
+            newMesh = Structs.Mesh.newBuilder(newMesh).clearSegments().addAllPolygons(newMesh.getPolygonsList()).addAllSegments(updatedSegments).build();
         }
-
-        return Structs.Mesh.newBuilder(newMesh).clearSegments().addAllPolygons(m.getPolygonsList()).addAllSegments(river).build();    
+    
+        return newMesh;
     }
+
 
     private boolean containsSegment(List<Structs.Segment> list, Structs.Segment segment) {
         for (Structs.Segment s : list) {
@@ -66,19 +88,20 @@ public class MakeRiver {
         ColorProperty colorProperty = new ColorProperty();
         String oceanColorString = new oceanTile().getColor().getValue();
         Color oceanColor = colorProperty.toColor(oceanColorString);
-        
+        neighborCheck neighbors = new neighborCheck();
+        Tile ocean = new oceanTile();
 
         do{
             rand = random.nextInt(newMesh.getPolygonsCount());
             pol = newMesh.getPolygons(rand);
             polygonColor = colorProperty.extract(pol.getPropertiesList());
-        }while (polygonColor.isPresent() && polygonColor.get().equals(oceanColor));
+        }while (polygonColor.isPresent() && polygonColor.get().equals(oceanColor) || neighbors.checkNeighbors(pol, newMesh, ocean));
 
         List<Structs.Segment> riverPath = new ArrayList<>();
 
         int currentLowestSegmentIdx = pol.getSegmentIdxs(random.nextInt(pol.getSegmentIdxsCount()));
         Structs.Segment currentLowestSegment = newMesh.getSegments(currentLowestSegmentIdx);
-        //System.out.println(currentLowestSegment);
+        
         Structs.Segment currentSegment;
         riverPath.add(currentLowestSegment);
         boolean run = true;
@@ -98,6 +121,8 @@ public class MakeRiver {
 
         return riverPath;
     }
+
+    
 
     private int getSegmentIdx(Structs.Segment s, Structs.Mesh m){
         for (int i = 0; i < m.getSegmentsCount(); i++) {
