@@ -14,6 +14,7 @@ public class CircleIsland implements ShapeGenerator{
     private double center_y;
     private double radius;
     
+    
 
     public CircleIsland(Structs.Mesh m){
         MeshSize size = new MeshSize(m);
@@ -22,9 +23,9 @@ public class CircleIsland implements ShapeGenerator{
         center_x = max_x/2;
         center_y = max_y/2;
         if(max_x < max_y){
-            radius = (max_x/5) * 1.5;
+            this.radius = (max_x/5) * 1.5;
         }else{
-            radius = (max_y/5) * 1.5;
+            this.radius = (max_y/5) * 1.5;
         }
 
     }
@@ -35,6 +36,7 @@ public class CircleIsland implements ShapeGenerator{
         shape.append(e, false);
     
     }
+
 
     public Path2D getShape(){
         return shape;

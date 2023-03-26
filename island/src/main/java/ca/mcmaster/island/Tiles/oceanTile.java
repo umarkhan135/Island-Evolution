@@ -1,6 +1,8 @@
-package ca.mcmaster.island.tiles;
+package ca.mcmaster.island.Tiles;
 
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
+import java.awt.*;
+
 
 public class oceanTile implements Tile {
 
@@ -11,14 +13,18 @@ public class oceanTile implements Tile {
         Property p = Property.newBuilder().setKey("rgb_color").setValue(color_code).build();
         return p;
     }
-
-    public Property getTileProperty(){
+    @Override
+    public Property getTileProperty() {
         Property c = Property.newBuilder().setKey("tile_type").setValue("oceanTile").build();
         return c;
     }
 
-    public String getColorCode(){
+    public String getColorCode() {
         return color_code;
+    }
+
+    public Color getColorColor(){
+        return new Color(43,101,236);
     }
 
 }

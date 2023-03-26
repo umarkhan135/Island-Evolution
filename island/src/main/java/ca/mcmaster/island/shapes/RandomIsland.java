@@ -2,6 +2,7 @@ package ca.mcmaster.island.shapes;
 
 import java.awt.geom.*;
 import java.util.Random;
+import java.lang.Math;
 import java.util.Arrays;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.island.MeshSize;
@@ -49,6 +50,7 @@ public class RandomIsland implements ShapeGenerator{
         min_radius = max_radius/3;
     } 
     
+
     public void generateShape(){
         num_points = rand.nextInt(15, 40);
         double[] angles = new double[num_points];
@@ -72,6 +74,7 @@ public class RandomIsland implements ShapeGenerator{
         shape.moveTo(points[0].x, points[0].y);
         for (int i = 1; i < num_points; i++) {
             shape.lineTo(points[i].x, points[i].y);
+
         }
         shape.closePath();
     }

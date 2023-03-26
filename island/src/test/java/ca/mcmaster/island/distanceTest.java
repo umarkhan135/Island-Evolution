@@ -18,7 +18,7 @@ public class distanceTest {
         double c = Math.sqrt(z);
 
         Structs.Vertex v = Structs.Vertex.newBuilder().setX(3).setY(4).build();
-        Distance d = new Distance();
+        distance d = new distance();
         assertEquals(c, d.centerDistance(v,0,0));
     }
 }

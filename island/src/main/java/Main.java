@@ -1,5 +1,12 @@
 import ca.mcmaster.island.IslandGenerator;
-import ca.mcmaster.island.configuration.Configuration;
+import ca.mcmaster.island.Configuration.Configuration;
+import ca.mcmaster.island.Elevation.Arctic;
+import ca.mcmaster.island.Elevation.Canyon;
+import ca.mcmaster.island.Elevation.RandomElevation;
+import ca.mcmaster.island.Elevation.Volcano;
+import ca.mcmaster.island.Elevation.elevation;
+import ca.mcmaster.island.Rivers.MakeRiver;
+import ca.mcmaster.island.Rivers.RiverGen;
 import ca.mcmaster.island.shapes.*;
 import ca.mcmaster.cas.se2aa4.a2.io.*;
 
@@ -14,10 +21,13 @@ public class Main {
 
         Configuration config = new Configuration(args);
         Structs.Mesh aMesh = new MeshFactory().read(config.input());
-        IslandGenerator island = new IslandGenerator();
+
+        IslandGenerator island = new IslandGenerator(config);
         Structs.Mesh exported = Structs.Mesh.newBuilder().build();
+
         colorMesh cm = new colorMesh();
         ShapeGenerator shape;
+        elevation elevate;
 
         switch (config.shape()){
             case "star":
@@ -40,21 +50,43 @@ public class Main {
                 break;
         }
 
+        switch (config.getAltitude()){
+            case "volcano":
+                elevate = new Volcano();
+                break;
+            case "canyon":
+                elevate = new Canyon();
+                break;
+            case "arctic":
+                elevate = new Arctic();
+                break;
+            case "random":
+                elevate = new RandomElevation();
+                break;
+            default:
+                elevate = new Volcano();
+                break;
+        }
+
         shape.generateShape();
+        String aquiferNumStr = config.getAquifer();
+        int aquiferNum = Integer.parseInt(aquiferNumStr);
+        String riverNum = config.getRiver();
+        int rivers = Integer.parseInt(riverNum);
 
         switch (config.mode()) {
             case "lagoon":
-                exported = island.lagoon(aMesh);
+                exported = island.lagoon(aMesh, aquiferNum);
                 break;
             case "basic":
-                exported = island.basic(aMesh, shape.getShape());
+                exported = island.basic(aMesh, shape.getShape(),  elevate, aquiferNum, rivers);
                 break;
             default:
-                exported = island.basic(aMesh, shape.getShape());
+                exported = island.basic(aMesh, shape.getShape(), elevate, aquiferNum, rivers);
                 break;
         }
         
         new MeshFactory().write(exported, config.output());
+        
     }
 }
-

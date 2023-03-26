@@ -1,7 +1,6 @@
-package ca.mcmaster.island.configuration;
+package ca.mcmaster.island.Configuration;
 
 import org.apache.commons.cli.*;
-
 
 public class Configuration {
 
@@ -9,9 +8,15 @@ public class Configuration {
     public static final String INPUT = "i";
     public static final String MODE = "m";
     public static final String SHAPE = "s";
+    public static final String ALTITUDE = "altitude";
+    public static final String TEMPERATURE = "temperature";
+    public static final String PERCIPITATION = "percipitation";
+    public static final String AQUIFERNUMBER = "numOfAquifer";
+    public static final String RIVERNUMBER = "numOfRivers";
     public static final String SEED = "seed";
 
     private CommandLine cli;
+
     public Configuration(String[] args) {
         try {
             this.cli = parser().parse(options(), args);
@@ -40,6 +45,25 @@ public class Configuration {
         return this.cli.getOptionValue(SHAPE, "circle");
     }
 
+
+    public String getAltitude() {
+        return this.cli.getOptionValue(ALTITUDE, "volcano");
+    }
+    public String getTemperature(){
+        return this.cli.getOptionValue(TEMPERATURE, "mild");
+    }
+    public String getPrecipitation(){
+        return this.cli.getOptionValue(PERCIPITATION, "temperate");
+    }
+
+    public String getAquifer(){
+        return this.cli.getOptionValue(AQUIFERNUMBER,"0");
+    }
+
+    public String getRiver(){
+        return this.cli.getOptionValue(RIVERNUMBER,"0");
+    }
+
     public String seed(){
         return this.cli.getOptionValue(SEED, "0");
     }
@@ -53,9 +77,16 @@ public class Configuration {
         options.addOption(new Option(INPUT, true, "Input file (SVG)"));
         options.addOption(new Option(OUTPUT, true, "Output file (MESH)"));
         options.addOption(new Option(MODE, "mode", true, "Island Generation Type"));
+        options.addOption(new Option(ALTITUDE, true, "Altitude Profile"));
+        options.addOption(new Option(AQUIFERNUMBER, true, "Number of Aquifers"));
+        options.addOption(new Option(RIVERNUMBER, true, "Number of Rivers"));
+        options.addOption(new Option(TEMPERATURE, true, "Whittaker Temperature Type, enter \"hot\", \"mild\", or \"cold\""));
+        options.addOption(new Option(PERCIPITATION, true, "Whittaker Percipitation Type, enter \"tropical\", \"temperate\", or \"dry\""));
+        options.addOption(new Option(SHAPE, "shape", true, "Shape of Island, enter \"cirlce\", \"ellipse\", or \"star\""));
         options.addOption(new Option(SHAPE, "shape", true, "Shape of Island"));
         options.addOption(new Option(SEED, "seed", true, "Seed for Island Generation"));
         return options;
     }
+
 
 }

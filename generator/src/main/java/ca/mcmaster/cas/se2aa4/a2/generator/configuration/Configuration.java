@@ -5,6 +5,7 @@ import org.apache.commons.cli.*;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class Configuration {
 
     public static final String WIDTH = "w";
@@ -69,6 +70,16 @@ public class Configuration {
         // Global help
         options.addOption(new Option(HELP, false, "print help message"));
         return options;
+    }
+
+    public int getWidth() {
+        String widthStr = cli.getOptionValue(WIDTH);
+        return widthStr != null ? Integer.parseInt(widthStr) : -1;
+    }
+
+    public int getHeight() {
+        String heightStr = cli.getOptionValue(HEIGHT);
+        return heightStr != null ? Integer.parseInt(heightStr) : -1;
     }
 
 }
