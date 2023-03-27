@@ -16,6 +16,7 @@ public class tileTest {
     private static final String landColorCode = "155,118,83";
     private static final String beachColorCode = "194,178,128";
     private static final String lagoonColorCode = "0,150,200";
+    private static final String lakeColorCode = "0,141,151";
     double x = 3;
     double y = 4;
 
@@ -42,7 +43,10 @@ public class tileTest {
         assertTrue(new lagoonTile().getColor().getValue().equals(lagoonColorCode));
     }
 
-    
+    @Test
+    public void lakeTest() throws IOException {
+        assertTrue(new lakeTile().getColor().getValue().equals(lakeColorCode));
+    }
 
 }
 

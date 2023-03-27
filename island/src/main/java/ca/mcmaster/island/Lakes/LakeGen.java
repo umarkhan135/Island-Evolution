@@ -15,7 +15,7 @@ import java.awt.geom.Ellipse2D;
 import java.util.*;
 public class LakeGen {
     private boolean lake;
-    private List<Structs.Polygon> lakeNeighbor = new ArrayList<>();
+    public List<Structs.Polygon> lakeNeighbor = new ArrayList<>();
 
     public boolean makeLakes(int numLakes, Mesh m){
         List<Integer> neighbors = new ArrayList<>();
