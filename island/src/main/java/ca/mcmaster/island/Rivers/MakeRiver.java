@@ -109,14 +109,11 @@ public class MakeRiver {
         for (Structs.Polygon pols : newMesh.getPolygonsList()){
             last.add(pols);
         }
-        System.out.println(last.size());
-
+        
         for (Structs.Polygon poly : lakes){
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(poly).addProperties(lakeType()).addProperties(lakeColor()).build();
-            System.out.println(newPolygon);
             last.add(newPolygon);
         }
-        System.out.println(last.size());
 
         Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMesh).clearPolygons().clearSegments().addAllPolygons(last).addAllSegments(lastriverSegments).build();
 

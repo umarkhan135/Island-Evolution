@@ -34,6 +34,11 @@ import ca.mcmaster.island.properties.*;
 public class IslandGenerator {
    
     private Configuration config;
+    private double max_x;
+    private double max_y;
+    private double center_x;
+    private double center_y;
+    private double radius;
 
     public IslandGenerator(Configuration config) {
         this.config = config;
@@ -41,14 +46,30 @@ public class IslandGenerator {
 
     public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate, int aquiferNum, int numLakes, int rivers){
 
+        MeshSize size = new MeshSize(m);
+        max_x = size.getMaxX();
+        max_y = size.getMaxY();
+        center_x = max_x/2;
+        center_y = max_y/2;
+        if(max_x < max_y){
+            this.radius = (max_x/5) * 2;
+        }else{
+            this.radius = (max_y/5) * 2;
+        }
+        radius = radius/2;
+
         whittakerGen wGen = new whittakerGen(config.getTemperature(), config.getPrecipitation(), config);
         ArrayList<Structs.Polygon> tilePolygons = new ArrayList<Structs.Polygon>();
         ArrayList<Structs.Polygon> poly = new ArrayList<>();
         AquifersGen aquifer = new CircleAquifier();
-        LakeGen lakeGen = new LakeGen();
+        LakeGen lakeGen;
         MakeRiver riverGen =  new MakeRiver();
         
-        
+        if(config.hasSeed()){
+            lakeGen = new LakeGen(Long.parseLong(config.seed()));
+        }else{
+            lakeGen = new LakeGen();
+        }
 
 
         Tile land = new landTile();
@@ -66,7 +87,7 @@ public class IslandGenerator {
         }
         Structs.Mesh newMesh = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(tilePolygons).build();
         for (Structs.Polygon p : tilePolygons) {
-            elevate.getElevation(p, 200, m,s);
+            elevate.getElevation(p, radius, m,s);
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
             poly.add(newPolygon);
         }
@@ -82,7 +103,7 @@ public class IslandGenerator {
    
         Structs.Mesh lastMesh = riverGen.RiverGen(newMeshWithElevation,rivers);        
         Structs.Mesh newMeshWithAquifer = aquifer.meshWithAquifers(lastMesh.getPolygonsList(), aquiferNum, lastMesh);
-        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithAquifer, 200, Integer.parseInt(config.getBeachWidth()));
+        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithAquifer, radius, Integer.parseInt(config.getBeachWidth()));
 
         Structs.Mesh newMeshWithLakesV2 = lakeGen.meshWithLakes(newMesh2.getPolygonsList(), numLakes, newMesh2);
 
@@ -163,7 +184,7 @@ public class IslandGenerator {
 
         for (Structs.Polygon p : tilePolygons1) {
 
-            elevate.getElevation(p, 200, m);
+            elevate.getElevation(p, radius, m);
             Structs.Polygon newPolygon = Structs.Polygon.newBuilder(p).addProperties(elevate.tileElevation()).build();
             poly.add(newPolygon);
         }
@@ -171,7 +192,7 @@ public class IslandGenerator {
 
         for (Structs.Polygon p : poly) {
             
-            elevate.getElevation(p, 200, m);
+            elevate.getElevation(p, radius, m);
             Optional<Color> tile = colorProperty.extract(p.getPropertiesList());
             if (tile.isPresent()) {
                 if (tile.get().equals(colorProperty.toColor(land.getColorCode()))) {
@@ -192,7 +213,7 @@ public class IslandGenerator {
 
         Structs.Mesh newMesh4 = new LakeGen().meshWithLakes(newMesh3.getPolygonsList(), numLakes, newMesh3);
 
-        Structs.Mesh newMesh5 = wGen.biomeGen(newMesh4, 200, Integer.parseInt(config.getBeachWidth()));
+        Structs.Mesh newMesh5 = wGen.biomeGen(newMesh4, radius, Integer.parseInt(config.getBeachWidth()));
 
         Structs.Mesh finalMesh = new LakeGen().meshWithLakes(newMesh5.getPolygonsList(), numLakes, newMesh5);
 

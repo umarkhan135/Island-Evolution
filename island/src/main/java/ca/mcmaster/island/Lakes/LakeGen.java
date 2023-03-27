@@ -13,13 +13,23 @@ import ca.mcmaster.island.properties.TileProperty;
 import java.awt.geom.Area;
 import java.awt.geom.Ellipse2D;
 import java.util.*;
+
 public class LakeGen {
     private boolean lake;
+    private Random random;
     public List<Structs.Polygon> lakeNeighbor = new ArrayList<>();
+
+
+    public LakeGen() {
+        random = new Random();
+    }
+
+    public LakeGen(long seed) {
+        random = new Random(seed);
+    }
 
     public boolean makeLakes(int numLakes, Mesh m){
         List<Integer> neighbors = new ArrayList<>();
-        Random random = new Random();
         TileProperty tileProperty = new TileProperty();
         ColorProperty colorProperty = new ColorProperty();
         String oceanColorString = new oceanTile().getColor().getValue();
@@ -48,7 +58,6 @@ public class LakeGen {
                 lakeNeighbor.add(aP);
             }
             lakeNeighbor.add(p);
-            System.out.println("lake neighbour here:"+ lakeNeighborList);
         }
         this.lake = found;
         return this.lake;

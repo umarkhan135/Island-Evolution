@@ -65,14 +65,30 @@ java -jar visualizer/visualizer.jar -i img/test2.mesh -o img/test3.svg
 ## Backlog
 Called after java -jar island/island.jar:
   Shapes:
-    input `-s` as a command line argument followed by `circle`, `ellipse`, `star`, or r`andom` to select your island shape. The default shape is `circle`
+    input `-s` as a command line argument followed by `circle`, `ellipse`, `star`, or `random` to select your island shape. The default shape is `circle`
   
   Mode:
-    input `-m` as a command line argument followed by `basic` or `lagoon`. The default mode is `basic`
+    input `-m` as a command line argument followed by `basic` or `lagoon`. The default mode is `basic`, basic builds to the rest of the modifiers
   
   Biomes/Whittaker Diagrams:
     input `-temperature` to select average temperature type followed `cold`, `mild`, or `hot` afterwards. The default is `mild`
-    input `-percipitation` to select average percipitation type followed by `dry`, `temperate`, or `tropical`. the defaul is `temperate`
+    input `-percipitation` to select average percipitation type followed by `dry`, `temperate`, or `tropical`. the default is `temperate`
+
+  Altitude:
+    input -altitude sets the type of altitude the user wants (for example canyon, volcano)
+
+  Rivers:
+    input -numOfRiver sets the number of rivers
+
+  Lakes:
+    input -numOfLakes sets the number of lakes
+
+  Aquifers:
+    input -numOfAquifers sets the number of aquifers
+  
+  Beaches:
+    input -beachWidth and enter a integer to represent the width that is larger than or equal to 0. the default is 0
+  
 
 ### Definition of Done
 
@@ -110,17 +126,17 @@ Add conditions for the feature have been met.
 | F21 | Assign Tile Types/Colors | Pedro | 03/08/2023 | 03/11/2023 | D |
 | F22 | Fill polygons with the appropriate colour based on type | Mason and Pedro | 03/08/2023 |  03/11/2023 | D |
 | F23 | MVP Nieghbors | Pedro | 03/11/2023 | 03/13/2023 | D |
-| F24 | MVP/Step 1 unit testing | Mason, Umar and Omar | 03/13/2023 | 03/14/2023 | D |
+| F24 | MVP/Step 1 | Pedro, Mason, Umar and Omar | 03/13/2023 | 03/14/2023 | D |
 | F25 | Nieghbors | Mason and Pedro | 03/14/2023 | 03/17/2023 | D |
-| F26 | Shapes | Pedro | 03/15/2023 |  | S |
-| F27 | Elevation | Omar | 03/15/2023 |  | S |
-| F28 | Lakes | |  |  | P |
-| F29 | Rivers |  |  |  | P |
-| F30 | River Flow| |  |  | P |
-| F31 | Aquifiers | Omar |  |  | P |
-| F32 | Soil Absorption | Mason | 03/20/2023 |  | S |
-| F33 | Biomes | Mason | 03/20/2023 | 03/23/2023 | F |
-| F34 | Whittaker Diagrams | Mason | 03/21/2023 | 03/23/2023  | F |
-| F35 | Reproducability |  |  |  | P |
+| F26 | Shapes | Pedro | 03/15/2023 | 03/25/2023 | D |
+| F27 | Elevation | Omar | 03/15/2023 | 03/23/2023 | D |
+| F28 | Lakes | Umar | 03/25/2023 | 03/26/2023 | D |
+| F29 | Rivers | Omar and Umar | 03/23/2023 | 03/26/2023 | D |
+| F30 | River Flow | Omar | 03/25/2023 | 03/26/2023 | D |
+| F31 | Aquifiers | Omar | 03/23/2023 | 03/24/2023 | D |
+| F32 | Soil Absorption | Mason | 03/25/2023 |  | S |
+| F33 | Biomes | Mason | 03/20/2023 |  | S |
+| F34 | Whittaker Diagrams | Mason | 03/21/2023 | 03/23/2023  | D |
+| F35 | Reproducability | Pedro | 03/22/2023 | 03/25/2023 | D |
 
 

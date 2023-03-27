@@ -22,13 +22,13 @@ public class SegmentElevation {
             segmentList.add(Structs.Segment.newBuilder(m.getSegments(i)).addProperties(getSegmentElevation()).build());
         }
 
-        //System.out.println(segmentList);
+        
         SegementElevationProperty elevate = new SegementElevationProperty();
         for (Structs.Segment s : segmentList){
             Optional<String> elevationString = elevate.extract(s.getPropertiesList());
             double elevation = Double.parseDouble(elevationString.get());
             if (elevation != 0){
-                //System.out.println(s);
+                
             }
 
         }
