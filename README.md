@@ -63,6 +63,16 @@ java -jar island/island.jar -o img/test2.mesh -i img/test.mesh
 java -jar visualizer/visualizer.jar -i img/test2.mesh -o img/test3.svg 
 
 ## Backlog
+Called after java -jar island/island.jar:
+  Shapes:
+    input `-s` as a command line argument followed by `circle`, `ellipse`, `star`, or r`andom` to select your island shape. The default shape is `circle`
+  
+  Mode:
+    input `-m` as a command line argument followed by `basic` or `lagoon`. The default mode is `basic`
+  
+  Biomes/Whittaker Diagrams:
+    input `-temperature` to select average temperature type followed `cold`, `mild`, or `hot` afterwards. The default is `mild`
+    input `-percipitation` to select average percipitation type followed by `dry`, `temperate`, or `tropical`. the defaul is `temperate`
 
 ### Definition of Done
 
@@ -108,8 +118,9 @@ Add conditions for the feature have been met.
 | F29 | Rivers |  |  |  | P |
 | F30 | River Flow| |  |  | P |
 | F31 | Aquifiers | Omar |  |  | P |
-| F32 | Biomes | Mason | 03/20/2023 |  | S |
-| F33 | Whittaker Diagrams | Mason | 03/21/2023 |  | S |
-| F34 | Reproducability |  |  |  | P |
+| F32 | Soil Absorption | Mason | 03/20/2023 |  | S |
+| F33 | Biomes | Mason | 03/20/2023 | 03/23/2023 | F |
+| F34 | Whittaker Diagrams | Mason | 03/21/2023 | 03/23/2023  | F |
+| F35 | Reproducability |  |  |  | P |
 
 

@@ -10,6 +10,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.island.neighborCheck;
 import ca.mcmaster.island.Tiles.beachTile;
+import ca.mcmaster.island.Tiles.lagoonTile;
 import ca.mcmaster.island.Tiles.landTile;
 import ca.mcmaster.island.Tiles.oceanTile;
 import ca.mcmaster.island.properties.TileProperty;
@@ -22,13 +23,14 @@ public class beachGen {
         landTile land = new landTile();
         beachTile beach = new beachTile();
         oceanTile ocean = new oceanTile();
+        lagoonTile lagoon = new lagoonTile();
         neighborCheck nC = new neighborCheck();
         TileProperty tileProperty = new TileProperty();
         for (Structs.Polygon p : m.getPolygonsList()){
             
             Optional<String> tile = tileProperty.extract(p.getPropertiesList());
             if(tile.get().equals(land.getTileProperty().getValue()) ){
-                if(nC.checkNeighbors(p, m, ocean)){
+                if(nC.checkNeighbors(p, m, ocean)|| nC.checkNeighbors(p, m, lagoon)){
                     if(random.nextBoolean() && random.nextBoolean()){
                         for( Structs.Polygon poly : nC.neighborSet(p, m, land, beach, num)){
                             if(random.nextBoolean()){
@@ -49,13 +51,14 @@ public class beachGen {
         landTile land = new landTile();
         beachTile beach = new beachTile();
         oceanTile ocean = new oceanTile();
+        lagoonTile lagoon = new lagoonTile();
         neighborCheck nC = new neighborCheck();
         TileProperty tileProperty = new TileProperty();
         for (Structs.Polygon p : m.getPolygonsList()){
             
             Optional<String> tile = tileProperty.extract(p.getPropertiesList());
             if(tile.get().equals(land.getTileProperty().getValue()) ){
-                if(nC.checkNeighbors(p, m, ocean)){
+                if(nC.checkNeighbors(p, m, ocean) || nC.checkNeighbors(p, m, lagoon)){
                     if(random.nextBoolean() && random.nextBoolean()){
                         for( Structs.Polygon poly : nC.neighborSet(p, m, land, beach, num)){
                             if(random.nextBoolean()){
