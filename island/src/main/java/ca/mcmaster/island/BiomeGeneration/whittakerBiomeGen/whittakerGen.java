@@ -64,7 +64,7 @@ public class whittakerGen {
                 percipitation = pC.hieghtPercipitation(h, this.per);
 
                 if(tile.get().equals(land.getTileProperty().getValue())){
-                        switch(compareP(percipitation, h)){
+                        switch(compareP(percipitation, h, radius)){
                             case "tropical": polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(rainforest.getColor(temperature)).build());break;
                             case "dry" : polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(field.getColor(temperature)).build());break; 
                             case "mountain":polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(mountain.getColor(temperature)).build());break;
@@ -100,11 +100,11 @@ public class whittakerGen {
 
 
 
-    private static String compareP(double percipitation, int h) {
-        if (h>85){
+    private static String compareP(double percipitation, int h, double radius) {
+        if (h>radius/2){
             return "mountain";
         }
-        if(h<-85){
+        if(h<-radius/2){
             return "canyon";
         }
         if (percipitation< 100){
