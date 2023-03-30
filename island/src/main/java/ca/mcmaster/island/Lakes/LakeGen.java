@@ -60,8 +60,8 @@ public class LakeGen {
                     filteredNeighbors.add(neighborIdx);
                 }
             }
-            List<Structs.Polygon> lakeNeighborList = markLake(neighbors, m);
-
+            List<Structs.Polygon> lakeNeighborList = markLake(filteredNeighbors, m);
+            
             for (Structs.Polygon aP : lakeNeighborList) {
                 lakeNeighbor.add(aP);
             }
