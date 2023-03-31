@@ -103,12 +103,13 @@ public class IslandGenerator {
    
         Structs.Mesh lastMesh = riverGen.RiverGen(newMeshWithElevation,rivers);        
         Structs.Mesh newMeshWithAquifer = aquifer.meshWithAquifers(lastMesh.getPolygonsList(), aquiferNum, lastMesh);
-        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithAquifer, radius, Integer.parseInt(config.getBeachWidth()));
+        Structs.Mesh newMeshWithLakesV2 = lakeGen.meshWithLakes(newMeshWithAquifer.getPolygonsList(), numLakes, newMeshWithAquifer);
+        Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithLakesV2, radius, Integer.parseInt(config.getBeachWidth()));
 
-        Structs.Mesh newMeshWithLakesV2 = lakeGen.meshWithLakes(newMesh2.getPolygonsList(), numLakes, newMesh2);
+        
 
 
-        return newMeshWithLakesV2;
+        return newMesh2;
 
 
     }

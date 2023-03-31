@@ -52,9 +52,10 @@ public class LakeGen {
             }while (polygonColor.isPresent() && polygonColor.get().equals(oceanColor));
 
             neighbors = p.getNeighborIdxsList();
+            List<Polygon> polygons = m.getPolygonsList();
             List<Integer> filteredNeighbors = new ArrayList<>();
             for (Integer neighborIdx : neighbors) {
-                Structs.Polygon neighbor = m.getPolygons(neighborIdx);
+                Structs.Polygon neighbor = polygons.get(neighborIdx);
                 Optional<Color> neighborColor = colorProperty.extract(neighbor.getPropertiesList());
                 if (neighborColor.isPresent() && !neighborColor.get().equals(oceanColor)) {
                     filteredNeighbors.add(neighborIdx);

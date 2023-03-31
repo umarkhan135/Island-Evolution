@@ -8,4 +8,5 @@ public interface Tile {
     public Property getTileProperty();
 
     public String getColorCode();
+
 }

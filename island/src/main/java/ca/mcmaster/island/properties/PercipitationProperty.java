@@ -11,7 +11,15 @@ public class PercipitationProperty implements PropertyAccess<Double>{
 
     @Override
     public Optional<Double> extract(List<Property> props){
-        Double value = Double.parseDouble(new Reader(props).get(PERCIPITATION));
+        Double value;
+        try{
+            value = Double.parseDouble(new Reader(props).get(PERCIPITATION));
+        }catch(Exception exception){
+            return Optional.empty();
+        }
+        
+            
+
         return Optional.of(value);
     }
 }
