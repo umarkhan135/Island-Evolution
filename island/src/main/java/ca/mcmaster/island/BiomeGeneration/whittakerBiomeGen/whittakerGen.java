@@ -95,7 +95,7 @@ public class whittakerGen {
             
         }else{
             if(thickness > 0){
-                for(Polygon p : beachGen.createbeach(newMesh, thickness, Integer.parseInt(config.seed()))){
+                for(Polygon p : beachGen.createbeach(newMesh, thickness)){
                     polygons.add(p);
                 }
             }

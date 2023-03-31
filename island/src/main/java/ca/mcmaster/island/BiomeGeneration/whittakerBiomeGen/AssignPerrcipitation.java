@@ -41,7 +41,8 @@ public class AssignPerrcipitation implements propertyAssignment{
             Optional<String> hieght = elevationProperty.extract(p.getPropertiesList());
             Optional<String> tile = tileProperty.extract(p.getPropertiesList());
             Optional<String> aquifer = aquiferProperty.extract(p.getPropertiesList());
-            System.out.printf("Aquifer:"+aquifer.get()+"\n\n");
+            
+            
             if(hieght.isPresent() && tile.isPresent()){
                 int h = (int)Double.parseDouble(hieght.get());
                 percipitation = pC.hieghtPercipitation(h, avgPercipitation);

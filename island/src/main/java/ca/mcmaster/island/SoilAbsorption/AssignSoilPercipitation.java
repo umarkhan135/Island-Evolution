@@ -8,6 +8,8 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.island.properties.propertyAssignment;
+import ca.mcmaster.island.Tiles.Tile;
+import ca.mcmaster.island.Tiles.lakeTile;
 import ca.mcmaster.island.properties.AquiferProperty;
 import ca.mcmaster.island.properties.ElevationProperty;
 import ca.mcmaster.island.properties.PercipitationProperty;
@@ -22,6 +24,7 @@ public class AssignSoilPercipitation implements propertyAssignment{
 
     @Override
     public Mesh assignProperty(Mesh m){
+        AquiferProperty aquiferProperty = new AquiferProperty();
         ElevationProperty elevationProperty = new ElevationProperty();
         TileProperty tileProperty = new TileProperty();
         PercipitationProperty percipitationProperty = new PercipitationProperty();
@@ -30,18 +33,18 @@ public class AssignSoilPercipitation implements propertyAssignment{
         Property propTile;
         List<Polygon> polygons = m.getPolygonsList();
         
-        Integer distance;
+        Integer nearby;
         Double finaltemp;
         ArrayList<Polygon> newPolygons = new ArrayList<>();
         for(Polygon p : polygons){
             Optional<String> hieght = elevationProperty.extract(p.getPropertiesList());
             Optional<String> tile = tileProperty.extract(p.getPropertiesList());
             Optional<Double> tempProp = percipitationProperty.extract(p.getPropertiesList());
-            distance = aquiferCheck(m, p);
+            Optional<String> aquifer = aquiferProperty.extract(p.getPropertiesList());
+            nearby = aquiferCheck(m, p);
+            nearby += lakeCheck(m, p);
             if(tempProp.isPresent()){
-                //System.out.printf("Distance:%d\n",distance);
-                finaltemp = tempProp.get();
-                //System.out.printf("percipitation after :%f\n\n",finaltemp);
+                finaltemp = tempProp.get() + 7*nearby;  
                 propPer = Property.newBuilder().setKey(PERCIPITATION).setValue(finaltemp.toString()).build();
                 propHieght = Property.newBuilder().setKey(ELEVATION).setValue(hieght.get()).build();
                 propTile = Property.newBuilder().setKey(TILE).setValue(tile.get()).build();
@@ -56,37 +59,40 @@ public class AssignSoilPercipitation implements propertyAssignment{
 
     public static Integer aquiferCheck(Mesh m , Polygon poly){
         AquiferProperty aquiferProperty = new AquiferProperty();
-        Integer maxDistance = 3;
-        Integer distance = 0;
+        Integer nearby = 0;
         List<Polygon> polygons = m.getPolygonsList();
         List<Integer> polyNieghborsID = poly.getNeighborIdxsList();
-        List<Integer> nieghborsID = polyNieghborsID;
-        ArrayList<Integer> tempNieghbors = new ArrayList<>();
-        Integer i = maxDistance;
-        Boolean T = true;
-        if(aquiferProperty.extract(poly.getPropertiesList()).get().equals(T.toString())){
-            distance+=maxDistance;
+        if(aquiferProperty.extract(poly.getPropertiesList()).get().equals("true")){
+            nearby += 3;
         }
-        while (i > 1){
-            i--;
-            tempNieghbors = new ArrayList<>();
-            for(Integer j : polyNieghborsID){
-                Optional<String> property1 = aquiferProperty.extract(polygons.get(j).getPropertiesList());
-                if(property1.isPresent() && property1.get().equals(T.toString())){
-                    distance += i;
-                }
-                nieghborsID = polygons.get(i).getNeighborIdxsList();
-                for(Integer k : nieghborsID){
-                    tempNieghbors.add(i);
-                    Optional<String> property2 = aquiferProperty.extract(polygons.get(k).getPropertiesList());
-                    if(property2.isPresent() && property2.get().equals(T.toString())){
-                        distance += (i + 1);
-                        System.out.printf("Distance:%d\n",distance);
-                    }
-                }
+        for(Integer i : polyNieghborsID){
+            if(aquiferProperty.extract(polygons.get(i).getPropertiesList()).get().equals("true")){
+                nearby += 2;
+            }  
+            for(Integer j : polygons.get(i).getNeighborIdxsList()){
+                if(aquiferProperty.extract(polygons.get(j).getPropertiesList()).get().equals("true")){
+                    nearby += 1;
+                } 
             }
-            polyNieghborsID = tempNieghbors;
         }
-        return distance;
+        return nearby;
+    }
+    public static Integer lakeCheck(Mesh m , Polygon poly){
+        TileProperty tileProperty = new TileProperty();
+        Tile lake = new lakeTile();
+        Integer nearby = 0;
+        List<Polygon> polygons = m.getPolygonsList();
+        List<Integer> polyNieghborsID = poly.getNeighborIdxsList();
+        for(Integer i : polyNieghborsID){
+            if(tileProperty.extract(polygons.get(i).getPropertiesList()).get().equals(lake.getTileProperty().getValue())){
+                nearby += 2;
+            }  
+            for(Integer j : polygons.get(i).getNeighborIdxsList()){
+                if(tileProperty.extract(polygons.get(j).getPropertiesList()).get().equals(lake.getTileProperty().getValue())){
+                    nearby += 1;
+                } 
+            }
+        }
+        return nearby;
     }
 }
