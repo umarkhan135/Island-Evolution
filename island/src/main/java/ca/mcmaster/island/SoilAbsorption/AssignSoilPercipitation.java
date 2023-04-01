@@ -10,6 +10,8 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
 import ca.mcmaster.island.properties.propertyAssignment;
+import ca.mcmaster.island.properties.riverProperty;
+import ca.mcmaster.island.Rivers.MakeRiver;
 import ca.mcmaster.island.Rivers.RiverColor;
 import ca.mcmaster.island.Rivers.isRiver;
 import ca.mcmaster.island.Tiles.Tile;
@@ -56,7 +58,7 @@ public class AssignSoilPercipitation implements propertyAssignment{
             nearby += lagoonCheck(m, p);
             nearby += riverCheck(m, p);
             if(tile.get().equals(land.getTileProperty().getValue())){
-                finaltemp = tempProp.get() + 3*nearby;  
+                finaltemp = tempProp.get() + 7*nearby;  
                 propPer = Property.newBuilder().setKey(PERCIPITATION).setValue(finaltemp.toString()).build();
                 propHieght = Property.newBuilder().setKey(ELEVATION).setValue(hieght.get()).build();
                 propTile = Property.newBuilder().setKey(TILE).setValue(tile.get()).build();
@@ -149,38 +151,31 @@ public class AssignSoilPercipitation implements propertyAssignment{
     public static Integer riverCheck(Mesh m , Polygon poly){
         List<Segment> segmentList= m.getSegmentsList();
         List<Vertex> vertexList = m.getVerticesList();
-        List<Integer> polysegment = poly.getSegmentIdxsList();
-        ColorProperty colorProperty = new ColorProperty();
-        RiverColor river = new RiverColor();
+        List<Integer> polysegmentId = poly.getSegmentIdxsList();
+        List<Segment> polysegment = new ArrayList<>();
+        riverProperty riverProperty =  new riverProperty();
+        MakeRiver river =  new MakeRiver();
         Integer nearby = 0;
-        Double rx1;
-        Double ry1;
-        Double rx2;
-        Double ry2;
-        Double px1;
-        Double py1;
-        Double px2;
-        Double py2;
+            for(Integer i : polysegmentId){
+                polysegment.add(segmentList.get(i));
+            }
             for(Segment s : segmentList){
-                if(river.getSegmentSegmentColor().getValue().equals(colorProperty.extract(s.getPropertiesList()).get().toString())){
-                    rx1 = vertexList.get(s.getV1Idx()).getX();
-                    ry1 = vertexList.get(s.getV1Idx()).getX();
-                    rx2 = vertexList.get(s.getV2Idx()).getX();
-                    ry2 = vertexList.get(s.getV2Idx()).getX();
-                    System.out.println("river");
-                    for(Integer i : polysegment){
-                        px1 = vertexList.get(segmentList.get(i).getV1Idx()).getX();
-                        py1 = vertexList.get(segmentList.get(i).getV1Idx()).getX();
-                        px2 = vertexList.get(segmentList.get(i).getV2Idx()).getX();
-                        py2 = vertexList.get(segmentList.get(i).getV2Idx()).getX();
-                        if(rx1==px1 && rx2==px2 && ry1==py1 && ry2==py2){
-                            nearby +=2;
-                        }
-                    }
+                if(riverProperty.extract(s.getPropertiesList()).get().equals("true")){
+                    if(containsSegment(polysegment, s)){
+                        nearby +=5;
+                    } 
                 }
             }
             return nearby;
         }
-        
+    private static boolean containsSegment(List<Structs.Segment> list, Structs.Segment segment) {
+        for (Structs.Segment s : list) {
+            if ((s.getV1Idx() == segment.getV1Idx() && s.getV2Idx() == segment.getV2Idx()) ||
+                (s.getV1Idx() == segment.getV2Idx() && s.getV2Idx() == segment.getV1Idx())) {
+                return true;
+            }
+        }
+        return false;
+    }
     
 }
