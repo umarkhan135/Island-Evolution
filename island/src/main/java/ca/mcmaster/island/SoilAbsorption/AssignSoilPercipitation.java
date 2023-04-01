@@ -7,10 +7,17 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Polygon;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
+import ca.mcmaster.cas.se2aa4.a2.io.Structs.Segment;
 import ca.mcmaster.island.properties.propertyAssignment;
+import ca.mcmaster.island.Rivers.RiverColor;
+import ca.mcmaster.island.Rivers.isRiver;
 import ca.mcmaster.island.Tiles.Tile;
+import ca.mcmaster.island.Tiles.lagoonTile;
 import ca.mcmaster.island.Tiles.lakeTile;
+import ca.mcmaster.island.Tiles.landTile;
+import ca.mcmaster.island.Tiles.oceanTile;
 import ca.mcmaster.island.properties.AquiferProperty;
+import ca.mcmaster.island.properties.ColorProperty;
 import ca.mcmaster.island.properties.ElevationProperty;
 import ca.mcmaster.island.properties.PercipitationProperty;
 import ca.mcmaster.island.properties.TemperatureProperty;
@@ -31,8 +38,9 @@ public class AssignSoilPercipitation implements propertyAssignment{
         Property propPer;
         Property propHieght;
         Property propTile;
+        Property propAquifer;
         List<Polygon> polygons = m.getPolygonsList();
-        
+        Tile land = new landTile();
         Integer nearby;
         Double finaltemp;
         ArrayList<Polygon> newPolygons = new ArrayList<>();
@@ -43,12 +51,16 @@ public class AssignSoilPercipitation implements propertyAssignment{
             Optional<String> aquifer = aquiferProperty.extract(p.getPropertiesList());
             nearby = aquiferCheck(m, p);
             nearby += lakeCheck(m, p);
-            if(tempProp.isPresent()){
+            nearby += oceanCheck(m, p);
+            nearby += lagoonCheck(m, p);
+            nearby += riverCheck(m, p);
+            if(tile.get().equals(land.getTileProperty().getValue())){
                 finaltemp = tempProp.get() + 7*nearby;  
                 propPer = Property.newBuilder().setKey(PERCIPITATION).setValue(finaltemp.toString()).build();
                 propHieght = Property.newBuilder().setKey(ELEVATION).setValue(hieght.get()).build();
                 propTile = Property.newBuilder().setKey(TILE).setValue(tile.get()).build();
-                newPolygons.add(Polygon.newBuilder(p).addProperties(propPer).addProperties(propHieght).addProperties(propTile).build());
+                propAquifer = Property.newBuilder().setKey(AQUIFER).setValue(aquifer.get()).build();
+                newPolygons.add(Polygon.newBuilder(p).addProperties(propPer).addProperties(propHieght).addProperties(propTile).addProperties(propAquifer).build());
             }else{
                 newPolygons.add(p);
             }
@@ -95,4 +107,56 @@ public class AssignSoilPercipitation implements propertyAssignment{
         }
         return nearby;
     }
+    public static Integer oceanCheck(Mesh m , Polygon poly){
+        TileProperty tileProperty = new TileProperty();
+        Tile ocean = new oceanTile();
+        
+        Integer nearby = 0;
+        List<Polygon> polygons = m.getPolygonsList();
+        List<Integer> polyNieghborsID = poly.getNeighborIdxsList();
+        for(Integer i : polyNieghborsID){
+            if(tileProperty.extract(polygons.get(i).getPropertiesList()).get().equals(ocean.getTileProperty().getValue())){
+                nearby += 2;
+            }  
+            for(Integer j : polygons.get(i).getNeighborIdxsList()){
+                if(tileProperty.extract(polygons.get(j).getPropertiesList()).get().equals(ocean.getTileProperty().getValue())){
+                    nearby += 1;
+                } 
+            }
+        }
+        return nearby;
+    }
+    public static Integer lagoonCheck(Mesh m , Polygon poly){
+        TileProperty tileProperty = new TileProperty();
+        Tile lagoon = new lagoonTile();
+        
+        Integer nearby = 0;
+        List<Polygon> polygons = m.getPolygonsList();
+        List<Integer> polyNieghborsID = poly.getNeighborIdxsList();
+        for(Integer i : polyNieghborsID){
+            if(tileProperty.extract(polygons.get(i).getPropertiesList()).get().equals(lagoon.getTileProperty().getValue())){
+                nearby += 2;
+            }  
+            for(Integer j : polygons.get(i).getNeighborIdxsList()){
+                if(tileProperty.extract(polygons.get(j).getPropertiesList()).get().equals(lagoon.getTileProperty().getValue())){
+                    nearby += 1;
+                } 
+            }
+        }
+        return nearby;
+    }
+    public static Integer riverCheck(Mesh m , Polygon poly){
+        List<Segment> segmentList= m.getSegmentsList();
+        ColorProperty colorProperty = new ColorProperty();
+        RiverColor river = new RiverColor();
+        Integer nearby = 0;
+            for(Integer i : poly.getSegmentIdxsList()){
+                if(river.getSegmentSegmentColor().getValue().equals(colorProperty.extract(segmentList.get(i).getPropertiesList()).get().toString())){
+                    nearby += 2;
+                }
+            }
+            return nearby;
+        }
+        
+    
 }
