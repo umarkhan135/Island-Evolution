@@ -160,7 +160,7 @@ public class AssignSoilPercipitation implements propertyAssignment{
                 polysegment.add(segmentList.get(i));
             }
             for(Segment s : segmentList){
-                if(riverProperty.extract(s.getPropertiesList()).get().equals("true")){
+                if(riverProperty.extract(s.getPropertiesList()).isPresent() && riverProperty.extract(s.getPropertiesList()).get().equals("true")){
                     if(containsSegment(polysegment, s)){
                         nearby +=5;
                     } 

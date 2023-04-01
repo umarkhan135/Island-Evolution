@@ -75,19 +75,19 @@ Called after java -jar island/island.jar:
     input `-percipitation` to select average percipitation type followed by `dry`, `temperate`, or `tropical`. the default is `temperate`
 
   Altitude:
-    input -altitude sets the type of altitude the user wants (for example canyon, volcano)
+    input `-altitude` sets the type of altitude the user wants (for example `canyon`, `volcano`, `arctic`, `random`)
 
   Rivers:
-    input -numOfRiver sets the number of rivers
+    input `-numOfRiver`s sets the number of rivers
 
   Lakes:
-    input -numOfLakes sets the number of lakes
+    input `-numOfLakes` sets the number of lakes
 
   Aquifers:
-    input -numOfAquifers sets the number of aquifers
+    input `-numOfAquifer` sets the number of aquifers
   
   Beaches:
-    input -beachWidth and enter a integer to represent the width that is larger than or equal to 0. the default is 0
+    input `-beachWidth` and enter a integer to represent the width that is larger than or equal to `0`. the default is `0`
   
 
 ### Definition of Done
@@ -134,8 +134,8 @@ Add conditions for the feature have been met.
 | F29 | Rivers | Omar and Umar | 03/23/2023 | 03/26/2023 | D |
 | F30 | River Flow | Omar | 03/25/2023 | 03/26/2023 | D |
 | F31 | Aquifiers | Omar | 03/23/2023 | 03/24/2023 | D |
-| F32 | Soil Absorption | Mason | 03/25/2023 |  | S |
-| F33 | Biomes | Mason | 03/20/2023 |  | S |
+| F32 | Soil Absorption | Mason | 03/25/2023 | 04/01/2023 | D |
+| F33 | Biomes | Mason | 03/20/2023 | 04/01/2023 | D |
 | F34 | Whittaker Diagrams | Mason | 03/21/2023 | 03/23/2023  | D |
 | F35 | Reproducability | Pedro | 03/22/2023 | 03/25/2023 | D |
 
