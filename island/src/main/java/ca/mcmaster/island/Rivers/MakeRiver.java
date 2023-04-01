@@ -34,6 +34,7 @@ public class MakeRiver {
     
 
     public Structs.Mesh RiverGen(Structs.Mesh m, int numberOfRivers) {
+        neighborCheck neighbors = new neighborCheck();
         if(numberOfRivers == 0){
             return m;
         }
@@ -114,8 +115,10 @@ public class MakeRiver {
         }
         
         for (Structs.Polygon poly : lakes){
-            Structs.Polygon newPolygon = Structs.Polygon.newBuilder(poly).addProperties(lakeType()).addProperties(lakeColor()).build();
+            if(!neighbors.checkNeighbors(poly, m, new oceanTile())){
+                Structs.Polygon newPolygon = Structs.Polygon.newBuilder(poly).addProperties(lakeType()).addProperties(lakeColor()).build();
             last.add(newPolygon);
+            }
         }
 
         Structs.Mesh newMesh2 = Structs.Mesh.newBuilder(newMesh).clearPolygons().clearSegments().addAllPolygons(last).addAllSegments(lastriverSegments).build();

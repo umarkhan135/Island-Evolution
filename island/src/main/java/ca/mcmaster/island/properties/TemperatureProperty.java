@@ -10,7 +10,12 @@ public class TemperatureProperty implements PropertyAccess<Double>{
 
     @Override
     public Optional<Double> extract(List<Property> props){
-        Double value = Double.parseDouble(new Reader(props).get(TEMPERATURE));
+        Double value;
+        try{
+            value = Double.parseDouble(new Reader(props).get(TEMPERATURE));
+        }catch(Exception exception){
+            return Optional.empty();
+        }
         return Optional.of(value);
     }
 }

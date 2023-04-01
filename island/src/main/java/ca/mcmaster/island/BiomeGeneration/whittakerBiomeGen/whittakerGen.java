@@ -22,6 +22,7 @@ import ca.mcmaster.island.Tiles.LandBiomeTiles.rainForest;
 
 import ca.mcmaster.island.properties.ElevationProperty;
 import ca.mcmaster.island.properties.PercipitationProperty;
+import ca.mcmaster.island.properties.TemperatureProperty;
 import ca.mcmaster.island.properties.TileProperty;
 
 public class whittakerGen {
@@ -46,41 +47,40 @@ public class whittakerGen {
         CanyonTile canyon = new CanyonTile();
         AssignPerrcipitation assignPerrcipitation = new AssignPerrcipitation(per);
         AssignSoilPercipitation assignSoilPercipitation = new AssignSoilPercipitation();
+        AssignTemperature assignTemperature = new AssignTemperature(temp);
     
         TileProperty tileProperty = new TileProperty();
         ElevationProperty elevationProperty = new ElevationProperty();
         PercipitationProperty percipitationProperty = new PercipitationProperty();
-        
-
-        temperatureCalculator tP = new temperatureCalculator();
+        TemperatureProperty temperatureProperty = new TemperatureProperty();
         beachGen beachGen = new beachGen();
         double temperature;
         double percipitation;
-        Mesh newMesh = assignSoilPercipitation.assignProperty(assignPerrcipitation.assignProperty(m));
+        Mesh newMesh1 = assignSoilPercipitation.assignProperty(assignPerrcipitation.assignProperty(m));
+        Mesh newMesh2 = assignTemperature.assignProperty(newMesh1);
 
         
         ArrayList<Polygon> polygons = new ArrayList<>();
-        for (Structs.Polygon p : newMesh.getPolygonsList()) {
+        for (Structs.Polygon p : newMesh2.getPolygonsList()) {
             Optional<String> tile = tileProperty.extract(p.getPropertiesList());
             Optional<String> hieght = elevationProperty.extract(p.getPropertiesList());
             Optional<Double> percipitationProp = percipitationProperty.extract(p.getPropertiesList());
-            //System.out.printf("Tile:"+tile.get()+"\nElevation:%b\nPercipitation:%b\n\n",tile.isPresent(), hieght.isPresent(), percipitationProp.isPresent());
-            if(tile.isPresent() && hieght.isPresent() && percipitationProp.isPresent()){
+            Optional<Double> temperatureProp = temperatureProperty.extract(p.getPropertiesList());
+            if(tile.isPresent() && hieght.isPresent() && percipitationProp.isPresent() && temperatureProp.isPresent()){
                 int h = (int)Double.parseDouble(hieght.get());
-                temperature = tP.hieghtTemp(h, this.temp);
+                temperature = temperatureProp.get();
                 percipitation = percipitationProp.get();
                 if(tile.get().equals(land.getTileProperty().getValue())){
-                        switch(compareP(percipitation, h, radius)){
-                            case "tropical": polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(rainforest.getColor(temperature)).build());break;
-                            case "dry" : polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(field.getColor(temperature)).build());break; 
-                            case "mountain":polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(mountain.getColor(temperature)).build());break;
-                            case "canyon":polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h,temperature, radius)).build());break;
-                            default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(forest.getColor(temperature)).build());break;
-                        }
+                    switch(compareP(percipitation, h, radius)){
+                        case "tropical": polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(rainforest.getColor(temperature)).build());break;
+                        case "dry" : polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(field.getColor(temperature)).build());break; 
+                        case "mountain":polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(mountain.getColor(temperature)).build());break;
+                        case "canyon":polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(canyon.getColor(h,temperature, radius)).build());break;
+                        default:polygons.add(Structs.Polygon.newBuilder(p).addProperties(land.getTileProperty()).addProperties(forest.getColor(temperature)).build());break;
+                    } 
                 }else{
                     polygons.add(p);
-                }
-                
+                }  
             }else{
                 polygons.add(p);
             }
@@ -88,22 +88,22 @@ public class whittakerGen {
         }
         if(config.hasSeed()){
             if(thickness > 0){
-                for(Polygon p : beachGen.createbeach(newMesh, thickness, Integer.parseInt(config.seed()))){
+                for(Polygon p : beachGen.createbeach(newMesh2, thickness, Integer.parseInt(config.seed()))){
                     polygons.add(p);
                 }
             }
             
         }else{
             if(thickness > 0){
-                for(Polygon p : beachGen.createbeach(newMesh, thickness)){
+                for(Polygon p : beachGen.createbeach(newMesh2, thickness)){
                     polygons.add(p);
                 }
             }
         }
         
 
-        Structs.Mesh newMesh1 = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(polygons).build();
-        return newMesh1;
+        Structs.Mesh newMesh3 = Structs.Mesh.newBuilder(m).clearPolygons().addAllPolygons(polygons).build();
+        return newMesh3;
     }
 
 

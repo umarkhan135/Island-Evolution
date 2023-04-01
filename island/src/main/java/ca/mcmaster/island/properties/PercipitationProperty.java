@@ -17,9 +17,6 @@ public class PercipitationProperty implements PropertyAccess<Double>{
         }catch(Exception exception){
             return Optional.empty();
         }
-        
-            
-
         return Optional.of(value);
     }
 }
