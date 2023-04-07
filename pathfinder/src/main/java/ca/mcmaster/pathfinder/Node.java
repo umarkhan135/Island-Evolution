@@ -1,47 +1,30 @@
 package ca.mcmaster.pathfinder;
 
-public class Node {
-    private int id;
-    private String name;
-    private double elevation;
+import java.util.HashMap;
+import java.util.Map;
 
-    public Node(int id, String name, double elevation){
+class Node implements INode {
+    private final int id;
+    private final Map<String, Object> attributes;
+
+    public Node(int id) {
         this.id = id;
-        this.name = name;
-        this.elevation = elevation;
+        this.attributes = new HashMap<>();
     }
 
-    public int getId(){
+    public int getId() {
         return id;
     }
 
-    public void setId(int id){
-        this.id = id;
+    public void addAttribute(String name, Object value) {
+        attributes.put(name, value);
     }
 
-    public String getName(){
-        return name;
+    public Object getAttribute(String name) {
+        return attributes.get(name);
     }
 
-    public void setName(String name){
-        this.name = name;
+    public Map<String, Object> getAttributes() {
+        return attributes;
     }
-
-    public double getElevation(){
-        return elevation;
-    }
-
-    public void setElevation(double elevation){
-        this.elevation = elevation;
-    }
-
-    @Override
-    public String toString() {
-        return "Node{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", elevation=" + elevation +
-                '}';
-    }
-
 }
