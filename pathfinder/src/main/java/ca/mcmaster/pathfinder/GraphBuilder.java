@@ -33,6 +33,12 @@ class GraphBuilder implements IGraphBuilder {
         return this;
     }
 
+    public IGraphBuilder addUndirectedEdge(int id, int nodeId1, int nodeId2) {
+        addEdge(id, nodeId1, nodeId2);
+        addEdge(id + 1, nodeId2, nodeId1);
+        return this;
+    }
+
     public Graph build() {
         return graph;
     }

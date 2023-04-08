@@ -6,7 +6,7 @@ import java.util.Map;
 public class Main {
     public static void main(String[] args) {
         int numOfNodes = 10;
-        int numOfEdges = 17;
+        int numOfEdges = 23;
 
         int sourceNodeId = 5;
         int destinationOfNodeId = 10;
