@@ -4,94 +4,90 @@ import java.util.*;
 
 class DijkstraPathFinder implements IPathFinder {
     private final Map<Integer, Double> distances;
-    private final Set<Integer> visited;
-    private final PriorityQueue<NodeDistance> unvisited;
+    private final Map<Integer, IEdge> previousEdges;
 
     public DijkstraPathFinder() {
-        this.distances = new HashMap<>();
-        this.visited = new HashSet<>();
-        this.unvisited = new PriorityQueue<>(Comparator.comparingDouble(NodeDistance::getDistance));
+        distances = new HashMap<>();
+        previousEdges = new HashMap<>();
     }
 
     @Override
     public List<IEdge> findPath(Graph graph, int sourceNodeId, int destinationNodeId) {
-        initializeDistances(graph, sourceNodeId);
+        INode sourceNode = graph.getNode(sourceNodeId);
+        INode destinationNode = graph.getNode(destinationNodeId);
 
-        while (!unvisited.isEmpty()) {
-            NodeDistance currentNodeDistance = unvisited.poll();
-            INode currentNode = currentNodeDistance.getNode();
-            double currentDistance = currentNodeDistance.getDistance();
+        if (sourceNode == null || destinationNode == null) {
+            return Collections.emptyList();
+        }
+
+        initializeDistances(graph.getNodes(), sourceNode);
+
+        PriorityQueue<INode> queue = new PriorityQueue<>(Comparator.comparingDouble(node -> distances.get(node.getId())));
+        queue.add(sourceNode);
+
+        while (!queue.isEmpty()) {
+            INode currentNode = queue.poll();
 
             if (currentNode.getId() == destinationNodeId) {
-                return reconstructPath(graph, sourceNodeId, destinationNodeId);
+                break;
             }
 
-            if (visited.contains(currentNode.getId())) {
-                continue;
-            }
+            for (IEdge edge : getNeighborEdges(graph, currentNode)) {
+                INode neighbor = edge.getTarget();
+                double currentDistance = distances.get(currentNode.getId()) + getEdgeWeight(edge);
 
-            visited.add(currentNode.getId());
-
-            for (IEdge edge : graph.getEdges()) {
-                if (edge.getSource().getId() == currentNode.getId()) {
-                    INode neighbor = edge.getTarget();
-                    double newDistance = currentDistance + (double) edge.getAttribute("weight");
-
-                    if (newDistance < distances.get(neighbor.getId())) {
-                        distances.put(neighbor.getId(), newDistance);
-                        neighbor.addAttribute("previous", edge);
-                        unvisited.offer(new NodeDistance(neighbor, newDistance));
-                    }
+                if (currentDistance < distances.get(neighbor.getId())) {
+                    distances.put(neighbor.getId(), currentDistance);
+                    previousEdges.put(neighbor.getId(), edge);
+                    queue.add(neighbor);
                 }
             }
         }
 
-        return Collections.emptyList();
+        return reconstructPath(sourceNodeId, destinationNodeId);
     }
 
-    private void initializeDistances(Graph graph, int sourceNodeId) {
-        for (INode node : graph.getNodes()) {
-            if (node.getId() == sourceNodeId) {
-                distances.put(node.getId(), 0.0);
-                unvisited.offer(new NodeDistance(node, 0.0));
-            } else {
-                distances.put(node.getId(), Double.MAX_VALUE);
+    private void initializeDistances(Collection<INode> nodes, INode sourceNode) {
+        for (INode node : nodes) {
+            distances.put(node.getId(), Double.MAX_VALUE);
+        }
+        distances.put(sourceNode.getId(), 0.0);
+    }
+
+    private List<IEdge> getNeighborEdges(Graph graph, INode node) {
+        List<IEdge> neighborEdges = new ArrayList<>();
+        for (IEdge edge : graph.getEdges()) {
+            if (edge.getSource().getId() == node.getId()) {
+                neighborEdges.add(edge);
+            } else if (edge.getTarget().getId() == node.getId()) {
+                neighborEdges.add(new Edge(edge.getId(), edge.getTarget(), edge.getSource()));
             }
+        }
+        return neighborEdges;
+    }
+
+    private double getEdgeWeight(IEdge edge) {
+        Object weight = edge.getAttribute("weight");
+        if (weight instanceof Number) {
+            return ((Number) weight).doubleValue();
+        } else {
+            return 1.0;
         }
     }
 
-    private List<IEdge> reconstructPath(Graph graph, int sourceNodeId, int destinationNodeId) {
-        List<IEdge> path = new ArrayList<>();
-        INode currentNode = graph.getNode(destinationNodeId);
+    private List<IEdge> reconstructPath(int sourceNodeId, int destinationNodeId) {
+        List<IEdge> path = new LinkedList<>();
+        IEdge currentEdge = previousEdges.get(destinationNodeId);
 
-        while (currentNode != null && currentNode.getId() != sourceNodeId) {
-            IEdge previousEdge = (IEdge) currentNode.getAttribute("previous");
-            if (previousEdge != null) {
-                path.add(0, previousEdge);
-                currentNode = previousEdge.getSource();
-            } else {
-                currentNode = null;
-            }
+        while (currentEdge != null && currentEdge.getSource().getId() != sourceNodeId) {
+            path.add(0, currentEdge);
+            currentEdge = previousEdges.get(currentEdge.getSource().getId());
+        }
+
+        if (currentEdge != null) {
+            path.add(0, currentEdge);
         }
 
         return path;
-    }
-
-    private static class NodeDistance {
-        private final INode node;
-        private final double distance;
-
-        public NodeDistance(INode node, double distance) {
-            this.node = node;
-            this.distance = distance;
-        }
-
-        public INode getNode() {
-            return node;
-        }
-
-        public double getDistance() {
-            return distance;
-        }
     }
 }
