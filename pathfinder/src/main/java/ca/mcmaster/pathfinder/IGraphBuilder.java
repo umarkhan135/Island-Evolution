@@ -1,6 +1,6 @@
 package ca.mcmaster.pathfinder;
 
-interface IGraphBuilder {
+public interface IGraphBuilder {
     IGraphBuilder addNode(int id);
     IGraphBuilder addNodeAttribute(int nodeId, String name, Object value);
     IGraphBuilder addEdge(int id, int sourceId, int destinationId);

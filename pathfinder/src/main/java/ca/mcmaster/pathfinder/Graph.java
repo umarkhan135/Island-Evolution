@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-class Graph {
+public class Graph {
     private final Map<Integer, INode> nodes;
     private final Map<Integer, IEdge> edges;
 

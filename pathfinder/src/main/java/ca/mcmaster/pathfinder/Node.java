@@ -3,7 +3,7 @@ package ca.mcmaster.pathfinder;
 import java.util.HashMap;
 import java.util.Map;
 
-class Node implements INode {
+public class Node implements INode {
     private final int id;
     private final Map<String, Object> attributes;
 

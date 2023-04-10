@@ -2,7 +2,7 @@ package ca.mcmaster.pathfinder;
 
 import java.util.*;
 
-class GraphBuilder implements IGraphBuilder {
+public class GraphBuilder implements IGraphBuilder {
     private final Graph graph;
 
     public GraphBuilder() {

@@ -1,5 +1,5 @@
 package ca.mcmaster.pathfinder;
 
-interface IRandomGraphGenerator {
+public interface IRandomGraphGenerator {
     Graph generateRandomGraph(int numNodes, int numEdges);
 }

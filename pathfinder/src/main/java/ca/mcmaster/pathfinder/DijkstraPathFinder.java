@@ -2,7 +2,7 @@ package ca.mcmaster.pathfinder;
 
 import java.util.*;
 
-class DijkstraPathFinder implements IPathFinder {
+public class DijkstraPathFinder implements IPathFinder {
     private final Map<Integer, Double> distances;
     private final Map<Integer, IEdge> previousEdges;
 

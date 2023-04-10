@@ -3,7 +3,7 @@ package ca.mcmaster.pathfinder;
 import java.util.HashMap;
 import java.util.Map;
 
-class Edge implements IEdge {
+public class Edge implements IEdge {
     private final int id;
     private final INode source;
     private final INode target;

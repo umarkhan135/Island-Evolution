@@ -2,7 +2,7 @@ package ca.mcmaster.pathfinder;
 
 import java.util.Map;
 
-interface IEdge {
+public interface IEdge {
     int getId();
     INode getSource();
     INode getTarget();

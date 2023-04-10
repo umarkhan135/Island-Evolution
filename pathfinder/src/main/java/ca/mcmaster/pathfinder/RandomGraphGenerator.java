@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-class RandomGraphGenerator implements IRandomGraphGenerator {
+public class RandomGraphGenerator implements IRandomGraphGenerator {
     public Graph generateRandomGraph(int numNodes, int numEdges) {
         GraphBuilder builder = new GraphBuilder();
         Random rand = new Random();
