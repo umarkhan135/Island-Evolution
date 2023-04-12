@@ -1,0 +1,77 @@
+@startuml
+!define ICONURL https://raw.githubusercontent.com/rrobbes/plantuml-styles/master/icons
+
+class DijkstraPathFinder {
+    -distances: Map<Integer, Double>
+    -previousEdges: Map<Integer, IEdge>
+    +findPath(graph: Graph, sourceNodeId: int, destinationNodeId: int): List<IEdge>
+}
+
+class Edge {
+    -id: int
+    -source: INode
+    -target: INode
+    -attributes: Map<String, Object>
+}
+
+class Graph {
+    -nodes: Map<Integer, INode>
+    -edges: Map<Integer, IEdge>
+}
+
+class GraphBuilder {
+    -graph: Graph
+}
+
+class Node {
+    -id: int
+    -attributes: Map<String, Object>
+}
+
+class RandomGraphGenerator {
+}
+
+interface IEdge {
+    +getId(): int
+    +getSource(): INode
+    +getTarget(): INode
+    +addAttribute(name: String, value: Object): void
+    +getAttribute(name: String): Object
+    +getAttributes(): Map<String, Object>
+}
+
+interface IGraphBuilder {
+    +addNode(id: int): IGraphBuilder
+    +addNodeAttribute(nodeId: int, name: String, value: Object): IGraphBuilder
+    +addEdge(id: int, sourceId: int, destinationId: int): IGraphBuilder
+    +addEdgeAttribute(edgeId: int, name: String, value: Object): IGraphBuilder
+    +addUndirectedEdge(id: int, nodeId1: int, nodeId2: int): IGraphBuilder
+    +build(): Graph
+}
+
+interface INode {
+    +getId(): int
+    +addAttribute(name: String, value: Object): void
+    +getAttribute(name: String): Object
+    +getAttributes(): Map<String, Object>
+}
+
+interface IPathFinder {
+    +findPath(graph: Graph, sourceNodeId: int, destinationNodeId: int): List<IEdge>
+}
+
+interface IRandomGraphGenerator {
+    +generateRandomGraph(numNodes: int, numEdges: int): Graph
+}
+
+DijkstraPathFinder .up.|> IPathFinder
+Edge .up.|> IEdge
+GraphBuilder .up.|> IGraphBuilder
+Node .up.|> INode
+RandomGraphGenerator .up.|> IRandomGraphGenerator
+Graph "1" *-- "many" Node : contains
+Graph "1" *-- "many" Edge : contains
+GraphBuilder "1" -- "1" Graph : builds
+GraphBuilder "1" -- "1" Graph : builds
+RandomGraphGenerator "1" -- "1" GraphBuilder : uses
+@enduml
