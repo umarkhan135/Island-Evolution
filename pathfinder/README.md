@@ -52,7 +52,7 @@ List<IEdge> shortestPath = pathFinder.findPath(graph, 1, 2); // Path from node 1
 
 To extend the library by implementing a new algorithm, follow these steps:
 
-	1. Create a new class for your algorithm that implements the IPathFinder interface. This interface has a single method: List<IEdge> findPath(Graph graph, int sourceNodeId, int destinationNodeId)
+  1. Create a new class for your algorithm that implements the IPathFinder interface. This interface has a single method: List<IEdge> findPath(Graph graph, int sourceNodeId, int destinationNodeId)
 
 ```
 package ca.mcmaster.pathfinder;
@@ -67,9 +67,9 @@ public class YourAlgorithm implements IPathFinder {
 }
 ```
 
-	2. Implement your algorithm in the findPath() method. This method should take a Graph object, source node ID, and destination node ID as input and return a list of IEdge objects representing the shortest path between the source and destination nodes.
+  2. Implement your algorithm in the findPath() method. This method should take a Graph object, source node ID, and destination node ID as input and return a list of IEdge objects representing the shortest path between the source and destination nodes.
 
-	3. In your main application, instantiate your new algorithm class and use it to find the shortest path:
+  3. In your main application, instantiate your new algorithm class and use it to find the shortest path:
 
 ```
 YourAlgorithm pathFinder = new YourAlgorithm();
