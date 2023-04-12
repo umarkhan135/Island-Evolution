@@ -45,7 +45,7 @@ public class IslandGenerator {
         this.config = config;
     }
 
-    public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate, int aquiferNum, int numLakes, int rivers){
+    public Structs.Mesh basic(Structs.Mesh m, Path2D s,elevation elevate, int aquiferNum, int numLakes, int rivers, int numCities){
 
         MeshSize size = new MeshSize(m);
         max_x = size.getMaxX();
@@ -65,6 +65,7 @@ public class IslandGenerator {
         AquifersGen aquifer = new CircleAquifier();
         LakeGen lakeGen;
         MakeRiver riverGen =  new MakeRiver();
+        CityGen cityGen = new CityGen();
         
         if(config.hasSeed()){
             lakeGen = new LakeGen(Long.parseLong(config.seed()));
@@ -107,9 +108,6 @@ public class IslandGenerator {
         Structs.Mesh newMeshWithLakesV2 = lakeGen.meshWithLakes(newMeshWithAquifer.getPolygonsList(), numLakes, newMeshWithAquifer);
         Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithLakesV2, radius, Integer.parseInt(config.getBeachWidth()));
 
-        int numCities = 100;
-
-        CityGen cityGen = new CityGen();
 
         List<Integer> cityList = cityGen.generateCityList(newMesh2, numCities);
         Structs.Mesh meshWithCityNodes = cityGen.addCityVertices(newMesh2, cityList);
@@ -136,7 +134,7 @@ public class IslandGenerator {
     }
 
 
-    public Structs.Mesh lagoon(Structs.Mesh m, int aquiferNum, int numLakes) {
+    public Structs.Mesh lagoon(Structs.Mesh m, int aquiferNum, int numLakes, int numCities) {
 
         elevation elevate = createElevationProfile(config.getAltitude());
         
@@ -165,6 +163,8 @@ public class IslandGenerator {
         Tile ocean = new oceanTile();
         Tile lagoon = new lagoonTile();
         Tile beach = new beachTile();
+
+        CityGen cityGen = new CityGen();
 
 
         
@@ -225,7 +225,11 @@ public class IslandGenerator {
 
         Structs.Mesh finalMesh = new LakeGen().meshWithLakes(newMesh5.getPolygonsList(), numLakes, newMesh5);
 
-        return finalMesh;
+        List<Integer> cityList = cityGen.generateCityList(finalMesh, numCities);
+        Structs.Mesh meshWithCityNodes = cityGen.addCityVertices(finalMesh, cityList);
+        Structs.Mesh meshWithRoads = cityGen.buildCityRoads(meshWithCityNodes, cityList);
+
+        return meshWithRoads;
 
     }
 

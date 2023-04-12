@@ -14,6 +14,7 @@ public class Configuration {
     public static final String LAKENUMBER = "numOfLakes";
     public static final String AQUIFERNUMBER = "numOfAquifer";
     public static final String RIVERNUMBER = "numOfRivers";
+    public static final String CITYNUMBER = "numOfCities";
     public static final String BEACHWIDTH = "beachWidth";
     public static final String SEED = "seed";
 
@@ -63,6 +64,7 @@ public class Configuration {
     public String getAquifer(){
         return this.cli.getOptionValue(AQUIFERNUMBER,"0");
     }
+    public String getCity() { return this.cli.getOptionValue(CITYNUMBER,"0");}
 
     public String getRiver(){
         return this.cli.getOptionValue(RIVERNUMBER,"0");
@@ -90,6 +92,7 @@ public class Configuration {
         options.addOption(new Option(SHAPE, "shape", true, "Shape of Island"));
         options.addOption(new Option(LAKENUMBER, true, "Number of Lakes"));
         options.addOption(new Option(AQUIFERNUMBER, true, "Number of Aquifers"));
+        options.addOption(new Option(CITYNUMBER, true, "Number of Cities"));
         options.addOption(new Option(RIVERNUMBER, true, "Number of Rivers"));
         options.addOption(new Option(TEMPERATURE, true, "Whittaker Temperature Type, enter \"hot\", \"mild\", or \"cold\""));
         options.addOption(new Option(PERCIPITATION, true, "Whittaker Percipitation Type, enter \"tropical\", \"temperate\", or \"dry\""));
