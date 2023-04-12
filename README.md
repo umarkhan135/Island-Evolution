@@ -85,10 +85,21 @@ Called after java -jar island/island.jar:
 
   Aquifers:
     input `-numOfAquifer` sets the number of aquifers
+
+  Cities: 
+    input `-numOfCities` sets the number of cities
   
   Beaches:
     input `-beachWidth` and enter a integer to represent the width that is larger than or equal to `0`. the default is `0`
   
+# Sample code to run:
+
+```
+mvn install
+java -jar generator/generator.jar -k irregular -h 500 -w 500 -p 1500 -s 30 -o img/test.mesh
+java -jar island/island.jar -altitude canyon -numOfCities 100 -s circle -beachWidth 2 -numOfAquifer 1 -numOfRivers 2 -numOfLakes 1 -temperature mild -percipitation tropical -o img/test2.mesh -i img/test.mesh
+java -jar visualizer/visualizer.jar -i img/test2.mesh -o img/test3.svg
+```
 
 ### Definition of Done
 
