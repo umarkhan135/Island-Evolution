@@ -107,13 +107,13 @@ public class IslandGenerator {
         Structs.Mesh newMeshWithLakesV2 = lakeGen.meshWithLakes(newMeshWithAquifer.getPolygonsList(), numLakes, newMeshWithAquifer);
         Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithLakesV2, radius, Integer.parseInt(config.getBeachWidth()));
 
-        int numCities = 20;
+        int numCities = 100;
 
         CityGen cityGen = new CityGen();
 
-        List<Integer> cityList = cityGen.addCities(newMesh2, numCities);
-        Structs.Mesh meshWithCityNodes = cityGen.cityVertices(newMesh2, cityList);
-        Structs.Mesh meshWithRoads = cityGen.buildCityMesh(meshWithCityNodes, numCities,cityList);
+        List<Integer> cityList = cityGen.generateCityList(newMesh2, numCities);
+        Structs.Mesh meshWithCityNodes = cityGen.addCityVertices(newMesh2, cityList);
+        Structs.Mesh meshWithRoads = cityGen.buildCityRoads(meshWithCityNodes, cityList);
 
 
         return meshWithRoads;
