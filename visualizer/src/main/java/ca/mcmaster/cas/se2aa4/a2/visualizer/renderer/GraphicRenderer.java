@@ -4,10 +4,7 @@ import ca.mcmaster.cas.se2aa4.a2.io.Structs;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Mesh;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Property;
 import ca.mcmaster.cas.se2aa4.a2.io.Structs.Vertex;
-import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.ColorProperty;
-import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.NumOfRiversProperty;
-import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.riverProperty;
-import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.RoadEdgeProperty;
+import ca.mcmaster.cas.se2aa4.a2.visualizer.renderer.properties.*;
 
 
 import java.awt.Graphics2D;
@@ -15,6 +12,7 @@ import java.awt.Polygon;
 import java.awt.Stroke;
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.geom.Ellipse2D;
 import java.awt.geom.Path2D;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -35,6 +33,7 @@ public class GraphicRenderer implements Renderer {
         drawPolygons(aMesh, canvas);
         riverSegments(aMesh, canvas);
         roadEdge(aMesh, canvas);
+        cityNode(aMesh, canvas);
         
     }
     
@@ -65,8 +64,37 @@ public class GraphicRenderer implements Renderer {
         for (Structs.Segment s : mesh.getSegmentsList()){
             if(road.extract(s.getPropertiesList()).isPresent()){
                 if (road.extract(s.getPropertiesList()).get().equals("road")){
-                    int thickness = 2;
+                    int thickness = 1;
                     drawSegment(s, mesh, canvas,roadColor, thickness);
+                }
+            }
+        }
+    }
+
+    private void cityNode(Mesh mesh, Graphics2D canvas){
+        CityTypeProperty cityType = new CityTypeProperty();
+
+        Color node = new Color(0, 0, 0);
+        canvas.setColor(node);
+
+        for (Structs.Vertex v : mesh.getVerticesList()){
+            if (cityType.extract(v.getPropertiesList()).isPresent()){
+                if (cityType.extract(v.getPropertiesList()).get().equals("HAMLET")){
+                    Ellipse2D circle = new Ellipse2D.Float((float) v.getX()-0.5f, (float) v.getY()-0.5f,
+                            1, 1);
+                    canvas.fill(circle);
+                } else if (cityType.extract(v.getPropertiesList()).get().equals("TOWN")) {
+                    Ellipse2D circle = new Ellipse2D.Float((float) v.getX()-1.5f, (float) v.getY()-1.5f,
+                            3, 3);
+                    canvas.fill(circle);
+                } else if (cityType.extract(v.getPropertiesList()).get().equals("CITY")) {
+                    Ellipse2D circle = new Ellipse2D.Float((float) v.getX()-3f, (float) v.getY()-3f,
+                            6, 6);
+                    canvas.fill(circle);
+                } else if (cityType.extract(v.getPropertiesList()).get().equals("CAPITAL")) {
+                    Ellipse2D circle = new Ellipse2D.Float((float) v.getX()-4.5f, (float) v.getY()-4.5f,
+                            9, 9);
+                    canvas.fill(circle);
                 }
             }
         }

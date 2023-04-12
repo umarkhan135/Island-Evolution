@@ -1,5 +1,6 @@
 package ca.mcmaster.island;
 
+import ca.mcmaster.island.Pathfinder.CityGen;
 import ca.mcmaster.island.Tiles.*;
 import ca.mcmaster.island.properties.TileProperty;
 import ca.mcmaster.island.shapes.CircleIsland;
@@ -106,10 +107,16 @@ public class IslandGenerator {
         Structs.Mesh newMeshWithLakesV2 = lakeGen.meshWithLakes(newMeshWithAquifer.getPolygonsList(), numLakes, newMeshWithAquifer);
         Structs.Mesh newMesh2 = wGen.biomeGen(newMeshWithLakesV2, radius, Integer.parseInt(config.getBeachWidth()));
 
-        
+        int numCities = 20;
+
+        CityGen cityGen = new CityGen();
+
+        List<Integer> cityList = cityGen.addCities(newMesh2, numCities);
+        Structs.Mesh meshWithCityNodes = cityGen.cityVertices(newMesh2, cityList);
+        Structs.Mesh meshWithRoads = cityGen.buildCityMesh(meshWithCityNodes, numCities,cityList);
 
 
-        return newMesh2;
+        return meshWithRoads;
 
 
     }
