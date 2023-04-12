@@ -62,7 +62,7 @@ public class CityGen {
             List<IEdge> path = new DijkstraPathFinder().findPath(graphV, sourcePolyIdx, targetPolyIdx);
 
             for (IEdge edge : path) {
-                Structs.Property roadProperty = Structs.Property.newBuilder().setKey("road").setValue("road").build();
+                Structs.Property roadProperty = Structs.Property.newBuilder().setKey("roadEdge").setValue("road").build();
                 Structs.Segment segment = Structs.Segment.newBuilder().setV1Idx(edge.getSource().getId()).setV2Idx(edge.getTarget().getId()).addProperties(roadProperty).build();
                 newSegments.add(segment);
             }
