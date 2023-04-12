@@ -56,50 +56,53 @@ public class GraphicRenderer implements Renderer {
         
     }
 
-    private void roadEdge(Mesh mesh, Graphics2D canvas){
+    private void roadEdge(Mesh mesh, Graphics2D canvas) {
         RoadEdgeProperty road = new RoadEdgeProperty();
 
         Color roadColor = new Color(255, 140, 0);
 
-        for (Structs.Segment s : mesh.getSegmentsList()){
-            if(road.extract(s.getPropertiesList()).isPresent()){
-                if (road.extract(s.getPropertiesList()).get().equals("road")){
+        for (Structs.Segment s : mesh.getSegmentsList()) {
+            road.extract(s.getPropertiesList()).ifPresent(value -> {
+                if (value.equals("road")) {
                     int thickness = 1;
-                    drawSegment(s, mesh, canvas,roadColor, thickness);
+                    drawSegment(s, mesh, canvas, roadColor, thickness);
                 }
-            }
+            });
         }
     }
 
-    private void cityNode(Mesh mesh, Graphics2D canvas){
+    private void cityNode(Mesh mesh, Graphics2D canvas) {
         CityTypeProperty cityType = new CityTypeProperty();
 
         Color node = new Color(0, 0, 0);
         canvas.setColor(node);
 
-        for (Structs.Vertex v : mesh.getVerticesList()){
-            if (cityType.extract(v.getPropertiesList()).isPresent()){
-                if (cityType.extract(v.getPropertiesList()).get().equals("HAMLET")){
-                    Ellipse2D circle = new Ellipse2D.Float((float) v.getX()-0.5f, (float) v.getY()-0.5f,
-                            1, 1);
-                    canvas.fill(circle);
-                } else if (cityType.extract(v.getPropertiesList()).get().equals("TOWN")) {
-                    Ellipse2D circle = new Ellipse2D.Float((float) v.getX()-1.5f, (float) v.getY()-1.5f,
-                            3, 3);
-                    canvas.fill(circle);
-                } else if (cityType.extract(v.getPropertiesList()).get().equals("CITY")) {
-                    Ellipse2D circle = new Ellipse2D.Float((float) v.getX()-3f, (float) v.getY()-3f,
-                            6, 6);
-                    canvas.fill(circle);
-                } else if (cityType.extract(v.getPropertiesList()).get().equals("CAPITAL")) {
-                    Ellipse2D circle = new Ellipse2D.Float((float) v.getX()-4.5f, (float) v.getY()-4.5f,
-                            9, 9);
-                    canvas.fill(circle);
+        for (Structs.Vertex v : mesh.getVerticesList()) {
+            cityType.extract(v.getPropertiesList()).ifPresent(value -> {
+                float radius;
+                switch (value) {
+                    case "HAMLET":
+                        radius = 0.5f;
+                        break;
+                    case "TOWN":
+                        radius = 1.5f;
+                        break;
+                    case "CITY":
+                        radius = 3f;
+                        break;
+                    case "CAPITAL":
+                        radius = 4.5f;
+                        break;
+                    default:
+                        return;
                 }
-            }
+                Ellipse2D circle = new Ellipse2D.Float((float) (v.getX() - radius), (float) (v.getY() - radius), 2 * radius, 2 * radius);
+                canvas.fill(circle);
+            });
         }
     }
-    
+
+
     private void drawSegment(Structs.Segment segment, Mesh m, Graphics2D canvas, Color color, int thickness) {
         Structs.Vertex v1 = m.getVertices(segment.getV1Idx());
         Structs.Vertex v2 = m.getVertices(segment.getV2Idx());
