@@ -1,13 +1,9 @@
-# Assignment A2: Mesh Generator
+# Mesh Generator
 
   - Pedro Henrique Azevedo [azevedp@mcmaster.ca]
   - Muhammad Umar Khan [khanm417@mcmaster.ca]
   - Omar El Aref [elarefo@mcmaster.ca]
   - Mason Azzopardi [azzoparm@mcmaster.ca]
-
-## How to run the product
-
-_This section needs to be edited to reflect how the user can interact with thefeature released in your project_
 
 ### Installation instructions
 
